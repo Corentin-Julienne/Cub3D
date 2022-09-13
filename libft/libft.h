@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 13:23:50 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/12 13:18:00 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/13 11:31:18 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int			ft_isalpha(int c);
 int			ft_isascii(int c);
 int			ft_isdigit(int c);
 int			ft_isprint(int c);
+int			ft_isspace(int c);
 char		*ft_itoa(int n);
 char		*ft_lltoa(long long n);
 void		*ft_memccpy(void *dst, const void *src, int c, size_t n);

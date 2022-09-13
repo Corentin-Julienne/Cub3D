@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/12 18:13:06 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/13 12:56:27 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,29 @@ typedef struct s_map_data
 	char			*so_text;
 	char			*ea_text;
 	char			*we_text;
-	int				floor_col[3];
-	int				ceil_col[3];
+	int				*floor_col;
+	int				*ceil_col;
 }				t_map_data;
 
-/* check_map */
-/* errors */
+/* CHECK_MAP */
+
+/* ERRORS */
+
+/* err_msgs.c */
 void		print_err_msg(char *msg);
-/* init_structs */
+
+/* INIT STRUCTS */
+
+/* init_map_data.c */
 void		init_map_data(t_map_data *map_data, char *map);
-/* main */
+
+/* PARSING */
+
+/* parse_infos.c */
+void		parse_infos(t_map_data *map_data);
+/* parse_map.c */
+void		parse_map(t_map_data *map_data, int i);
+
+/* MAIN */
 
 #endif

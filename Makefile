@@ -6,7 +6,7 @@
 #    By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/11 13:50:36 by cjulienn          #+#    #+#              #
-#    Updated: 2022/09/12 14:34:53 by cjulienn         ###   ########.fr        #
+#    Updated: 2022/09/13 12:53:05 by cjulienn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ INCLUDES := -I includes
 
 SRC_DIR := srcs
 OBJ_DIR := objs
-SUB_DIRS := main check_map init_structs errors # update this when adding new subdir
+SUB_DIRS := main check_map init_structs errors parsing # update this when adding new subdir
 SOURCEDIRS := $(foreach dir, $(SUB_DIRS), $(addprefix $(SRC_DIR)/, $(dir)))
 
 SRC_FILES := $(foreach dir,$(SOURCEDIRS),$(wildcard $(dir)/*.c))
@@ -78,6 +78,6 @@ fclean: clean
 	$(RM) $(LIB)
 	@printf "$(GREEN)All clean!\n\n$(END)"
 
-re: fclean all # OK
+re: fclean all
 
-.PHONY: clean fclean all re # OK
+.PHONY: clean fclean all re

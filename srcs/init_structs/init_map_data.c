@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:42:10 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/12 18:45:05 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/13 12:51:24 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,49 +64,22 @@ static char	*get_all_lines(int fd) // to test
 	return (all_lines);
 }
 
-/* check if format */
-
-void	parse_card_points(t_map_data *map_data, char *line)
-{
-	
-}
-
-void	parse_up_and_down(t_map_data *map_data, char *line)
-{
-	
-}
-
-void	parse_infos(t_map_data *map_data)
-{
-	int		i;
-	char	*line;
-
-	i = 0;
-	while (map_data->cub && map_data->cub[i] && map_data->nb_infos < 6)
-	{
-		line = map_data->cub[i];
-		while (ft_isspace(line)) // create ft_isspace
-			line++;
-		if (!ft_strncmp("NO ", line, 3) || !ft_strncmp("SO ", line, 3)
-			|| !ft_strncmp("EA ", line, 3) || !ft_strncmp("WE ", line, 3))
-			parse_card_points(map_data, line);
-		else if (!ft_strncmp("F ", line, 2) || !ft_strncmp("C ", line, 2))
-			parse_up_and_down(map_data, line);
-		else
-			; // handle wrong format of info
-		map_data->nb_infos++;
-		i++;
-	}
-}
-
 void	init_map_data(t_map_data *map_data, char *map) // to test
 {
 	open_map(map, map_data);
 	map_data->lines = get_all_lines(map_data->fd);
+	close(map_data->fd);
 	if (!map_data->lines)
 		; // handle this
 	map_data->cub = ft_split(map_data->lines, '\n');
 	if (!map_data->cub)
 		; // handle this
 	map_data->nb_infos = 0;
+	map_data->no_text = NULL;
+	map_data->so_text = NULL;
+	map_data->ea_text = NULL;
+	map_data->we_text = NULL;
+	map_data->ceil_col = NULL;
+	map_data->floor_col = NULL;
+	parse_infos(map_data);
 }
