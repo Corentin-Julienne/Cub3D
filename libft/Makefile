@@ -6,7 +6,7 @@
 #    By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/13 12:18:50 by cjulienn          #+#    #+#              #
-#    Updated: 2022/09/12 13:22:46 by cjulienn         ###   ########.fr        #
+#    Updated: 2022/09/12 14:31:10 by cjulienn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,18 +40,22 @@ all: $(NAME)
 
 $(OBJ_DIR)/%.o : %.c libft.h
 	@mkdir -p $(OBJ_DIR)
-	@echo "Compiling: $<"
+	@echo " Compiling: $< "
 	@$(CC) $(CC_FLAGS) -c $< -o $@
 
 $(NAME): $(OBJECTS_PREFIXED)
 	@ar r $(NAME) $(OBJECTS_PREFIXED)
-	@echo "$(NAME), created!"
+	@echo "$(NAME) has been created!\n"
 
 clean:
+	@printf "$(YELLOW)Removing object files...\n$(END)"
 	@rm -rf $(OBJ_DIR)
+	@printf "$(GREEN)Objects files have been removed\n$(END)"
 
 fclean: clean
+	@printf "$(YELLOW)Removing executable file...\n$(END)"
 	@rm -f $(NAME)
+	@printf "$(GREEN)Executable has been deleted\n$(END)"
 
 re: fclean all
 

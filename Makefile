@@ -6,10 +6,11 @@
 #    By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/11 13:50:36 by cjulienn          #+#    #+#              #
-#    Updated: 2022/09/11 23:06:20 by cjulienn         ###   ########.fr        #
+#    Updated: 2022/09/12 14:34:53 by cjulienn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# colors set
 RED			= \033[1;31m
 GREEN		= \033[1;32m
 YELLOW		= \033[1;33m
@@ -31,7 +32,7 @@ INCLUDES := -I includes
 
 SRC_DIR := srcs
 OBJ_DIR := objs
-SUB_DIRS := main check_map init_struct # update this when adding new subdir
+SUB_DIRS := main check_map init_structs errors # update this when adding new subdir
 SOURCEDIRS := $(foreach dir, $(SUB_DIRS), $(addprefix $(SRC_DIR)/, $(dir)))
 
 SRC_FILES := $(foreach dir,$(SOURCEDIRS),$(wildcard $(dir)/*.c))
@@ -42,7 +43,6 @@ MKDIR = mkdir -p
 
 LIB_DIR := libft
 LIB_OBJ_DIR := libft/obj
-LIB_OBJ_DIR_BONUS := libft/obj_bonus
 LIB := libft.a
 
 VPATH = $(SOURCEDIRS)
@@ -70,7 +70,6 @@ clean:
 	@printf "$(YELLOW)Removing objects...\n$(END)"
 	$(RM) $(OBJ_DIR)
 	$(RM) $(LIB_OBJ_DIR)
-	$(RM) $(LIB_OBJ_DIR_BONUS)
 	@printf "$(GREEN)Objects removed!\n\n$(END)"
 
 fclean: clean
