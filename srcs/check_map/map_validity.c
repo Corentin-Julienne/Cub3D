@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map_validity.c                               :+:      :+:    :+:   */
+/*   map_validity.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 18:03:18 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/13 18:41:37 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/14 17:43:25 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,35 +33,53 @@ static void	check_invalid_nl(t_map_data *map_data)
 	map_data->lines = NULL;
 }
 
+static void	check_invalid_char(t_map_data *map_data)
+{
+	int		x;
+	int		y;
+
+	y = 0;
+	while (map_data->map[y])
+	{
+		x = 0;
+		while (map_data->map[y][x])
+		{
+			if (!ft_isspace(map_data->map[y][x])
+				&& !ft_strchr(map_data->map[y][x], "01NSEW"))
+				; // handle error (invalid character)
+			x++;
+		}
+		y++;
+	}
+}
+
 /* when verifying that a 0 is not actually close to a free space,
 check wether the direction checked is in the map or not,
 in order to avoid segfaults */
 
 static int	is_out_of_map(t_map_data *map_data, int x, int y)
 {
+	int		size_line;
+	
+	size_line = ft_strlen(map_data->map[y]);
+	if (y < 0 || y >= map_data->size_y)
+		return (1);
+	if (x < 0 || x >= size_line)
+		return (1);
 	return (0);
 }
 
 static int	is_pos_valid(t_map_data *map_data, int x, int y)
 {
-	if (is_out_of_map(map_data, x + 1, y) || )
-		return (1);
-	else if (is_out_of_map(map_data, x - 1, y) || )
-		return (1);
-	else if (is_out_of_map(map_data, x, y + 1) || )
-		return (1);
-	else if (is_out_of_map(map_data, x, y - 1) || )
-		return (1);
-	return (0);
-}
-
-static int	is_verif_needed(t_map_data *map_data, int x, int y)
-{
-	if (map_data->map[y][x] == '0' || map_data->map[y][x] == 'N'
-		|| map_data->map[y][x] == 'S' || map_data->map[y][x] == 'E'
-		|| map_data->map[y][x] == 'W')
-		return (1);
-	return (0);
+	if (is_out_of_map(map_data, x + 1, y) || ft_isspace(map_data->map[y][x + 1]))
+		return (0);
+	else if (is_out_of_map(map_data, x - 1, y) || ft_isspace(map_data->map[y][x - 1]))
+		return (0);
+	else if (is_out_of_map(map_data, x, y + 1) || ft_isspace(map_data->map[y + 1][x]))
+		return (0);
+	else if (is_out_of_map(map_data, x, y - 1) || ft_isspace(map_data->map[y - 1][x]))
+		return (0);
+	return (1);
 }
 
 void	check_map_validity(t_map_data *map_data)
@@ -70,6 +88,7 @@ void	check_map_validity(t_map_data *map_data)
 	int			y;
 	
 	check_invalid_nl(map_data);
+	check_invalid_char(map_data);
 	x = 0;
 	y = 0;
 	while (map_data->map[y])
@@ -77,13 +96,13 @@ void	check_map_validity(t_map_data *map_data)
 		x = 0;
 		while (map_data->map[y][x])
 		{
-			if (is_verif_needed(map_data, x, y) == 1) // change that
+			if (ft_strchr("0NSEW", map_data->map[y][x]))
 			{
-				if (is_pos_valid(map_data, x, y) == 1)
+				if (!is_pos_valid(map_data, x, y))
 					; // handle error : unvalid map 				
 			}
 			x++;
 		}
-		y++;	
+		y++;
 	}
 }
