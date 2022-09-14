@@ -6,34 +6,44 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:42:10 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/13 12:51:24 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/14 18:05:58 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-/* get_y_size allow to check the size of the y-axis of the map */
+/* check wether the map provided is in .cub format
+return 1 if it is the case, 0 otherwise */
 
-// static size_t	get_y_size(char	**map)
-// {
-// 	size_t		y_size;
+static int	is_format_cub(char *map, t_map_data *map_data)
+{
+	int		length;
 
-// 	y_size = 0;
-// 	while (map && map[y_size])
-// 		y_size++;
-// 	return (y_size);
-// }
+	length = ft_strlen(map);
+	if (length < 5 || ft_strncmp(map + (length - 4), ".cub", 4) != 0)
+		return (0);
+	return (1);
+}
+
+/* open the map, check wether the map in in .cub format,
+trigger an error if it is not the case,
+or if the path provided does not exist. If everything goes well,
+store the openned map in map_data->fd */
 
 static void	open_map(char *map, t_map_data *map_data) // to test
 {
 	map_data->fd = open(map, O_RDONLY);
 	if (map_data->fd == -1)
+		err_msg_and_free(CUB_MAP_ERR, map_data);
+	if (!is_format_cub(map, map_data))
 	{
-		free(map_data);
-		map_data = NULL;
-		print_err_msg(CUB_MAP_ERR);
+		close(map_data->fd);
+		err_msg_and_free("Map provided is not in .cub format\n", map_data);
 	}
 }
+
+/* get_all_lines use get_next_line and join every line together,
+then returns it. returns NULL when encountering memory allocation problem */
 
 static char	*get_all_lines(int fd) // to test
 {
@@ -64,22 +74,32 @@ static char	*get_all_lines(int fd) // to test
 	return (all_lines);
 }
 
+/* init_map_data assign NULL to every arg of the struct in order to avoid
+segfault when trying to free the struct and its elements
+Then, retrieve map info in a single string (map_data->lines),
+split it into a char** (map_data->cub), and will extract from it  
+the relevant infos (colors of floor and ceiling, texture paths), 
+and the extrat the map itself in map_data->map */
+
 void	init_map_data(t_map_data *map_data, char *map) // to test
 {
-	open_map(map, map_data);
-	map_data->lines = get_all_lines(map_data->fd);
-	close(map_data->fd);
-	if (!map_data->lines)
-		; // handle this
-	map_data->cub = ft_split(map_data->lines, '\n');
-	if (!map_data->cub)
-		; // handle this
-	map_data->nb_infos = 0;
+	map_data->lines = NULL;
+	map_data->cub = NULL;
+	map_data->map = NULL;
 	map_data->no_text = NULL;
 	map_data->so_text = NULL;
 	map_data->ea_text = NULL;
 	map_data->we_text = NULL;
 	map_data->ceil_col = NULL;
 	map_data->floor_col = NULL;
+	open_map(map, map_data);
+	map_data->lines = get_all_lines(map_data->fd);
+	close(map_data->fd);
+	if (!map_data->lines)
+		err_msg_and_free(MALLOC_ERR, map_data);
+	map_data->cub = ft_split(map_data->lines, '\n');
+	if (!map_data->cub)
+		err_msg_and_free(MALLOC_ERR, map_data);
+	map_data->nb_infos = 0;
 	parse_infos(map_data);
 }
