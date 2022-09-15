@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:13:25 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/14 17:42:09 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/15 14:53:57 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ use when normal program termination or when there is an error */
 
 void	free_map_data(t_map_data *map_data)
 {
-	free_and_nullify(&map_data->lines);
+	free_and_nullify((void **)&map_data->lines);
 	if (map_data->cub)
 		free_split(map_data->cub);
 	if (map_data->map)
 		free_split(map_data->map);
-	free_and_nullify(map_data->no_text);
-	free_and_nullify(map_data->so_text);
-	free_and_nullify(map_data->ea_text);
-	free_and_nullify(map_data->we_text);
-	free_and_nullify(map_data->floor_col);
-	free_and_nullify(map_data->ceil_col);
+	free_and_nullify((void **)&map_data->no_text);
+	free_and_nullify((void **)&map_data->so_text);
+	free_and_nullify((void **)&map_data->ea_text);
+	free_and_nullify((void **)&map_data->we_text);
+	free_and_nullify((void **)&map_data->floor_col);
+	free_and_nullify((void **)&map_data->ceil_col);
 	free(map_data);
 	map_data = NULL;
 }

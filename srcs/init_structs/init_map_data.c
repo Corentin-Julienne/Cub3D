@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:42:10 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/14 18:05:58 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/15 14:40:26 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* check wether the map provided is in .cub format
 return 1 if it is the case, 0 otherwise */
 
-static int	is_format_cub(char *map, t_map_data *map_data)
+static int	is_format_cub(char *map)
 {
 	int		length;
 
@@ -34,11 +34,11 @@ static void	open_map(char *map, t_map_data *map_data) // to test
 {
 	map_data->fd = open(map, O_RDONLY);
 	if (map_data->fd == -1)
-		err_msg_and_free(CUB_MAP_ERR, map_data);
-	if (!is_format_cub(map, map_data))
+		err_msg_and_free(ERR_PATH_MAP, map_data);
+	if (!is_format_cub(map))
 	{
 		close(map_data->fd);
-		err_msg_and_free("Map provided is not in .cub format\n", map_data);
+		err_msg_and_free(ERR_NOT_CUB, map_data);
 	}
 }
 
@@ -96,10 +96,10 @@ void	init_map_data(t_map_data *map_data, char *map) // to test
 	map_data->lines = get_all_lines(map_data->fd);
 	close(map_data->fd);
 	if (!map_data->lines)
-		err_msg_and_free(MALLOC_ERR, map_data);
+		err_msg_and_free(ERR_MALLOC, map_data);
 	map_data->cub = ft_split(map_data->lines, '\n');
 	if (!map_data->cub)
-		err_msg_and_free(MALLOC_ERR, map_data);
+		err_msg_and_free(ERR_MALLOC, map_data);
 	map_data->nb_infos = 0;
 	parse_infos(map_data);
 }
