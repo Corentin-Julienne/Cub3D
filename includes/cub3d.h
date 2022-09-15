@@ -6,12 +6,14 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/14 18:18:17 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/15 16:13:24 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+# include <mlx.h>
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -24,15 +26,38 @@
 /* MACROS FOR ERRORS MSGS */
 
 /* wrong number of arguments (argc != 2) */
-# define NB_ARG_ERR		"Wrong number of arguments\nUsage : ./Cub3D [map with .ber extension]\n"
+# define ERR_NB_ARGS		"Wrong number of arguments\n\
+Usage : ./Cub3D [map with .ber extension]\n"
 /* map not in format .cub */
-# define CUB_MAP_ERR	"Map in cub format does not exists. Please provide a viable path\n"
+# define ERR_NOT_CUB		"The map provided is not in .cub format\n"
+/* the path to the map provided by the user is invalid */
+# define ERR_PATH_MAP		"Map does not exist or is unreadable. \
+Please provide a viable path\n"
 /* valid arguments in the map but wrong format */
-# define FORMAT_MAP_ERR	"One or several parameters provided in map are in a wrong format\n"
+# define ERR_PARAM_FORMAT	"One or several parameters provided \
+by the map are in a wrong format\n"
 /* missign parameter in the map */
-# define NB_PARAMS_ERR	"One or several parameters are missing in the map\n"
+# define ERR_PARAM_NB		"One or several parameters are missing in the map\n"
+/* duplicated params */
+# define ERR_DUP_PARAM		"One or several parameters have been duplicated \
+in the map\n"
+/* color of ceiling or floor are in a wrong format */
+# define ERR_COLOR_FORMAT	"RGB colors are in a wrong format\n"
+/* color of ceiling or floor are outside range (0 - 255) */
+# define ERR_COLOR_RANGE	"RGB colors outside of range 0 - 255\n"
+/* no map  grid is present */
+# define ERR_MISSING_GRID	"Map grid is not present in the map\n"
+/* map is not surrounded by walls */
+# define ERR_BREACH_MAP		"Map is not surrounded by walls\n"
+/* lack or several player starting position */
+# define ERR_PSP			"The number player starting position is not equal \
+to one\n"
+/* invalid char in map grid */
+# define ERR_INVALID_CHAR	"Invalid character in map grid\n"
+/* empty line within map grid */
+# define ERR_EMPTY_LINE		"Empty line within map grid\n"
 /* generic for malloc error*/
-# define MALLOC_ERR		"Memory allocation failure\n"
+# define ERR_MALLOC			"Memory allocation failure\n"
 
 typedef struct s_map_data
 {
@@ -49,7 +74,7 @@ typedef struct s_map_data
 	char			*we_text;
 	int				*floor_col;
 	int				*ceil_col;
-}				t_map_data;
+}					t_map_data;
 
 /* CHECK_MAP */
 
@@ -84,5 +109,6 @@ void		free_split(char **split);
 // debug [to kill before pushing to vogsphere]
 
 void		print_map_infos(t_map_data *map_data);
+void		leaks_killing(void);
 
 #endif
