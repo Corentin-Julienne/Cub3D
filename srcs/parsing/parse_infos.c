@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:48:39 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/15 14:49:36 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:25:49 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ of north, south, east and west walls. In case of error in format or
 duplicated param it triggers a relevant error message. Otherwise,
 it store the differents paths in map_data for forther usage */
 
-static void	parse_card_points(t_map_data *map_data, char *line) // to test
+static void	parse_card_points(t_map_data *map_data, char *line)
 {
 	char	*path;
+	char	*cpy;
 
+	cpy = line;
 	line = line + 3;
 	if (!line[0])
 		err_msg_and_free(ERR_PARAM_FORMAT, map_data);
@@ -29,13 +31,13 @@ static void	parse_card_points(t_map_data *map_data, char *line) // to test
 		err_msg_and_free(ERR_MALLOC, map_data);
 	if (ft_strchr(path, ' ') || ft_strchr(path, '	'))
 		err_msg_and_free(ERR_PARAM_FORMAT, map_data);
-	if (!ft_strncmp("NO ", line, 3) && !map_data->no_text)
+	if (!ft_strncmp("NO ", cpy, 3) && !map_data->no_text)
 		map_data->no_text = path;
-	else if (!ft_strncmp("SO ", line, 3) && !map_data->so_text)
+	else if (!ft_strncmp("SO ", cpy, 3) && !map_data->so_text)
 		map_data->so_text = path;
-	else if (!ft_strncmp("EA ", line , 3) && !map_data->ea_text)
+	else if (!ft_strncmp("EA ", cpy, 3) && !map_data->ea_text)
 		map_data->ea_text = path;
-	else if (!ft_strncmp("WE ", line, 3) && !map_data->we_text)
+	else if (!ft_strncmp("WE ", cpy, 3) && !map_data->we_text)
 		map_data->we_text = path;
 	else
 		err_msg_and_free(ERR_DUP_PARAM, map_data);
@@ -46,7 +48,7 @@ for ceiling or floor to the relevant map_data category.
 If information is duplicated, triggers an error msg */
 
 static void	store_intarr_to_struct(t_map_data *map_data, char *line,
-				int *colors, char **color_arr) // to test
+				int *colors, char **color_arr)
 {
 	if (!ft_strncmp("C ", line, 2) && map_data->ceil_col == NULL)
 		map_data->ceil_col = colors;
@@ -66,7 +68,7 @@ contains colors for ceiling or floor in a RGB format
 trigger an err msg if the format is out of range 0 - 255 */
 
 static void	convert_to_intarr(t_map_data *map_data, char *line,
-				char **color_arr) // to test
+				char **color_arr)
 {
 	int		*colors;
 	int		i;
@@ -101,13 +103,13 @@ if it is the case. transform the data read on the map to an array of strings
 which will be transformed into an array of three ints by the function
 convert_to_intarr*/
 
-static void	parse_up_and_down(t_map_data *map_data, char *line) // to test
+static void	parse_up_and_down(t_map_data *map_data, char *line)
 {
 	char	**color_arr;
 	char	*info;
 	int		i;
 
-	line = line + 3;
+	line = line + 2;
 	if (!line[0])
 		err_msg_and_free(ERR_PARAM_FORMAT, map_data);
 	info = ft_strtrim(line, " \t\v\f\r");
@@ -127,7 +129,7 @@ static void	parse_up_and_down(t_map_data *map_data, char *line) // to test
 	free(info);
 	if (!color_arr)
 		err_msg_and_free(ERR_MALLOC, map_data);
-	convert_to_intarr(map_data, line, color_arr);
+	convert_to_intarr(map_data, line - 2, color_arr);
 }
 
 /* parse_infos is used to retrieve and store in map_data
@@ -136,7 +138,7 @@ paths of south, north, east and west textures and the map itself
 triggers exit message in case of problem
 (including duplicate params, missing params and wrong format params) */
 
-void	parse_infos(t_map_data *map_data) // to test
+void	parse_infos(t_map_data *map_data)
 {
 	int		i;
 	char	*line;
@@ -148,11 +150,11 @@ void	parse_infos(t_map_data *map_data) // to test
 		while (ft_isspace(line[0]))
 			line++;
 		if (ft_strlen(line) >= 3 && (!ft_strncmp("NO ", line, 3)
-			|| !ft_strncmp("SO ", line, 3) || !ft_strncmp("EA ", line, 3)
-			|| !ft_strncmp("WE ", line, 3)))
+				|| !ft_strncmp("SO ", line, 3) || !ft_strncmp("EA ", line, 3)
+				|| !ft_strncmp("WE ", line, 3)))
 			parse_card_points(map_data, line);
-		else if ( ft_strlen(line) >= 3 &&
-			(!ft_strncmp("F ", line, 2) || !ft_strncmp("C ", line, 2)))
+		else if (ft_strlen(line) >= 3
+			&& (!ft_strncmp("F ", line, 2) || !ft_strncmp("C ", line, 2)))
 			parse_up_and_down(map_data, line);
 		else
 			err_msg_and_free(ERR_PARAM_FORMAT, map_data);

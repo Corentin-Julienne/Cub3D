@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/15 16:13:24 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/16 12:49:04 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ to one\n"
 
 typedef struct s_map_data
 {
+	int				i;
+	int				j;
 	char			*lines;
 	char			**cub;
 	char			**map;
@@ -109,6 +111,10 @@ void		free_split(char **split);
 // debug [to kill before pushing to vogsphere]
 
 void		print_map_infos(t_map_data *map_data);
+void		print_infos(t_map_data *map_data);
+void		print_oneline(t_map_data *map_data);
 void		leaks_killing(void);
+void		print_cub_file(t_map_data *map_data);
+void 		print_split(char **split);
 
 #endif

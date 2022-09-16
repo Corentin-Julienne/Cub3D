@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 13:23:50 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/13 11:31:18 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:22:03 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void		ft_handle_upper_hxd_num(t_parse *parse_tab);
 
 /* ---------- GET_NEXT_LINE ----------*/
 
-char	*get_next_line(int fd);
-char	*ft_strchr_gnl(const char *s, int c);
-size_t	ft_strlen_gnl(const char *s);
-char	*ft_mallocable(char *patch);
+char		*get_next_line(int fd);
+char		*ft_strchr_gnl(const char *s, int c);
+size_t		ft_strlen_gnl(const char *s);
+char		*ft_mallocable(char *patch);
 
 #endif
