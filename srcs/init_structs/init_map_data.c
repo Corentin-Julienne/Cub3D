@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:42:10 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/15 14:40:26 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:18:50 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ trigger an error if it is not the case,
 or if the path provided does not exist. If everything goes well,
 store the openned map in map_data->fd */
 
-static void	open_map(char *map, t_map_data *map_data) // to test
+static void	open_map(char *map, t_map_data *map_data)
 {
 	map_data->fd = open(map, O_RDONLY);
 	if (map_data->fd == -1)
@@ -45,7 +45,7 @@ static void	open_map(char *map, t_map_data *map_data) // to test
 /* get_all_lines use get_next_line and join every line together,
 then returns it. returns NULL when encountering memory allocation problem */
 
-static char	*get_all_lines(int fd) // to test
+static char	*get_all_lines(int fd)
 {
 	char	*next_line;
 	char	*all_lines;
@@ -81,7 +81,7 @@ split it into a char** (map_data->cub), and will extract from it
 the relevant infos (colors of floor and ceiling, texture paths), 
 and the extrat the map itself in map_data->map */
 
-void	init_map_data(t_map_data *map_data, char *map) // to test
+void	init_map_data(t_map_data *map_data, char *map)
 {
 	map_data->lines = NULL;
 	map_data->cub = NULL;
