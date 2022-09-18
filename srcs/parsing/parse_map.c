@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:48:53 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 13:01:33 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:17:18 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,37 @@
 /* parse_map is used to parse the grid of the map 
 (the part composed of 0, 1 and player starting position and orientation) */
 
-static void	fulfill_map(t_map_data *map_data, int i)
+static void	fulfill_map(t_infomap *infomap, int i)
 {
 	int			j;
 
 	j = 0;
-	while (j < map_data->size_y)
+	while (j < infomap->size_y)
 	{
-		map_data->map[j] = ft_strdup(map_data->cub[i + j]);
-		if (!map_data->map[j])
+		infomap->map[j] = ft_strdup(infomap->cub[i + j]);
+		if (!infomap->map[j])
 		{
-			free_problem_str_arr(map_data->map, j);
-			map_data->map = NULL;
-			err_msg_and_free(ERR_MALLOC, map_data);
+			free_problem_str_arr(infomap->map, j);
+			infomap->map = NULL;
+			err_msg_and_free(ERR_MALLOC, infomap);
 		}
 		j++;
 	}
-	map_data->map[j] = NULL;
+	infomap->map[j] = NULL;
 }
 
-void	parse_map(t_map_data *map_data, int i)
+void	parse_map(t_infomap *infomap, int i)
 {
-	if (!map_data->cub[i])
-		err_msg_and_free(ERR_MISSING_GRID, map_data);
-	map_data->size_y = 0;
-	while (map_data->cub && map_data->cub[i + map_data->size_y])
-		map_data->size_y++;
-	map_data->map = (char **)malloc(sizeof(char *) * (map_data->size_y + 1));
-	if (!map_data->map)
-		err_msg_and_free(ERR_MALLOC, map_data);
-	fulfill_map(map_data, i);
-	free_split(map_data->cub);
-	map_data->cub = NULL;
-	check_map_validity(map_data);
+	if (!infomap->cub[i])
+		err_msg_and_free(ERR_MISSING_GRID, infomap);
+	infomap->size_y = 0;
+	while (infomap->cub && infomap->cub[i + infomap->size_y])
+		infomap->size_y++;
+	infomap->map = (char **)malloc(sizeof(char *) * (infomap->size_y + 1));
+	if (!infomap->map)
+		err_msg_and_free(ERR_MALLOC, infomap);
+	fulfill_map(infomap, i);
+	free_split(infomap->cub);
+	infomap->cub = NULL;
+	check_map_validity(infomap);
 }

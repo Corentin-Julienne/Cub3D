@@ -6,7 +6,7 @@
 #    By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 16:19:40 by cjulienn          #+#    #+#              #
-#    Updated: 2022/09/15 16:19:43 by cjulienn         ###   ########.fr        #
+#    Updated: 2022/09/18 14:32:36 by cjulienn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ INCLUDES := -I includes
 
 SRC_DIR := srcs
 OBJ_DIR := objs
-SUB_DIRS := check_map init_structs main parsing utils debug # update this when adding new subdir [kill debug]
+SUB_DIRS := game graphics main parsing utils debug # update this when adding new subdir [kill debug]
 SOURCEDIRS := $(foreach dir, $(SUB_DIRS), $(addprefix $(SRC_DIR)/, $(dir)))
 
 SRC_FILES := $(foreach dir,$(SOURCEDIRS),$(wildcard $(dir)/*.c))
@@ -46,9 +46,9 @@ LIB_DIR := libft
 LIB_OBJ_DIR := libft/obj
 LIB := libft.a
 
-# MiniLibX (standard 2019 version)
+# MiniLibX (last beta 2021 version)
 MINILIBX_DIR := mlx
-MINILIBX := libmlx.a
+MINILIBX := libmlx.dylib
 
 VPATH = $(SOURCEDIRS)
 
@@ -75,12 +75,14 @@ $(MINILIBX):
 	@printf "$(YELLOW)Compiling MiniLibX...\n$(END)"
 	@$(MAKE) -C $(MINILIBX_DIR)
 	@printf "$(GREEN)MiniLibX has been created\n$(END)"
+	@cp ./mlx/libmlx.dylib .
 
 clean:
 	@printf "$(YELLOW)Removing objects...\n$(END)"
 	$(RM) $(OBJ_DIR)
 	$(RM) $(LIB_OBJ_DIR)
-	$(MAKE) -C $(MINILIBX_DIR) clean 
+	$(MAKE) -C $(MINILIBX_DIR) clean
+	@ rm ./libmlx.dylib
 	@printf "$(GREEN)Objects removed!\n\n$(END)"
 
 fclean: clean

@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 18:03:18 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 13:23:22 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:11:31 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,29 @@
 /* check_invalid_nl verify that the map does not contain any empty line,
 which is not allowed by the instructions PDF */
 
-static void	check_invalid_nl(t_map_data *map_data)
+static void	check_invalid_nl(t_infomap *infomap)
 {
 	char			*map_lines;
 	int				i;
 
-	map_lines = ft_strnstr(map_data->lines, map_data->map[0],
-			ft_strlen(map_data->lines));
+	map_lines = ft_strnstr(infomap->lines, infomap->map[0],
+			ft_strlen(infomap->lines));
 	i = 0;
 	while (map_lines && map_lines[i])
 	{
 		if (map_lines[i] == '\n' && map_lines[i + 1]
 			&& map_lines[i + 1] == '\n')
-			err_msg_and_free(ERR_EMPTY_LINE, map_data);
+			err_msg_and_free(ERR_EMPTY_LINE, infomap);
 		i++;
 	}
-	free(map_data->lines);
-	map_data->lines = NULL;
+	free(infomap->lines);
+	infomap->lines = NULL;
 }
 
 /* check if there is a player starting position and only one,
 and check for invalid characters in map grid */
 
-static void	check_invalid_grid_format(t_map_data *map_data)
+static void	check_invalid_grid_format(t_infomap *infomap)
 {
 	int		x;
 	int		y;
@@ -45,34 +45,34 @@ static void	check_invalid_grid_format(t_map_data *map_data)
 
 	psp_num = 0;
 	y = 0;
-	while (map_data->map[y])
+	while (infomap->map[y])
 	{
 		x = 0;
-		while (map_data->map[y][x])
+		while (infomap->map[y][x])
 		{
-			if (!ft_isspace(map_data->map[y][x])
-				&& !ft_strchr("01NSEW", map_data->map[y][x]))
-				err_msg_and_free(ERR_INVALID_CHAR, map_data);
-			if (ft_strchr("NSEW", map_data->map[y][x]))
+			if (!ft_isspace(infomap->map[y][x])
+				&& !ft_strchr("01NSEW", infomap->map[y][x]))
+				err_msg_and_free(ERR_INVALID_CHAR, infomap);
+			if (ft_strchr("NSEW", infomap->map[y][x]))
 				psp_num++;
 			x++;
 		}
 		y++;
 	}
 	if (psp_num != 1)
-		err_msg_and_free(ERR_PSP, map_data);
+		err_msg_and_free(ERR_PSP, infomap);
 }
 
 /* when verifying that a 0 is not actually close to a free space,
 check wether the direction checked is in the map or not,
 in order to avoid segfaults */
 
-static int	is_out_of_map(t_map_data *map_data, int x, int y)
+static int	is_out_of_map(t_infomap *infomap, int x, int y)
 {
 	int		size_line;
 
-	size_line = ft_strlen(map_data->map[y]);
-	if (y < 0 || y >= map_data->size_y)
+	size_line = ft_strlen(infomap->map[y]);
+	if (y < 0 || y >= infomap->size_y)
 		return (1);
 	if (x < 0 || x >= size_line)
 		return (1);
@@ -83,19 +83,19 @@ static int	is_out_of_map(t_map_data *map_data, int x, int y)
 (AKA S, O, W or E) is valid. In other terms, check wether the map is 
 bounded by walls (AKA 1) */
 
-static int	is_pos_valid(t_map_data *map_data, int x, int y)
+static int	is_pos_valid(t_infomap *infomap, int x, int y)
 {
-	if (is_out_of_map(map_data, x + 1, y)
-		|| ft_isspace(map_data->map[y][x + 1]))
+	if (is_out_of_map(infomap, x + 1, y)
+		|| ft_isspace(infomap->map[y][x + 1]))
 		return (0);
-	else if (is_out_of_map(map_data, x - 1, y)
-		|| ft_isspace(map_data->map[y][x - 1]))
+	else if (is_out_of_map(infomap, x - 1, y)
+		|| ft_isspace(infomap->map[y][x - 1]))
 		return (0);
-	else if (is_out_of_map(map_data, x, y + 1)
-		|| ft_isspace(map_data->map[y + 1][x]))
+	else if (is_out_of_map(infomap, x, y + 1)
+		|| ft_isspace(infomap->map[y + 1][x]))
 		return (0);
-	else if (is_out_of_map(map_data, x, y - 1)
-		|| ft_isspace(map_data->map[y - 1][x]))
+	else if (is_out_of_map(infomap, x, y - 1)
+		|| ft_isspace(infomap->map[y - 1][x]))
 		return (0);
 	return (1);
 }
@@ -106,24 +106,24 @@ which means 1) there is one player starting position with the orientation
 3) no invalid char is present and 4) no empty line is present within
 the map grid */
 
-void	check_map_validity(t_map_data *map_data)
+void	check_map_validity(t_infomap *infomap)
 {
 	int			x;
 	int			y;
 
-	check_invalid_nl(map_data);
-	check_invalid_grid_format(map_data);
+	check_invalid_nl(infomap);
+	check_invalid_grid_format(infomap);
 	x = 0;
 	y = 0;
-	while (map_data->map[y])
+	while (infomap->map[y])
 	{
 		x = 0;
-		while (map_data->map[y][x])
+		while (infomap->map[y][x])
 		{
-			if (ft_strchr("0NSEW", map_data->map[y][x]))
+			if (ft_strchr("0NSEW", infomap->map[y][x]))
 			{
-				if (!is_pos_valid(map_data, x, y))
-					err_msg_and_free(ERR_BREACH_MAP, map_data);
+				if (!is_pos_valid(infomap, x, y))
+					err_msg_and_free(ERR_BREACH_MAP, infomap);
 			}
 			x++;
 		}

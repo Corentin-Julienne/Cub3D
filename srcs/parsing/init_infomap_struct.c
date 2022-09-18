@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_map_data.c                                    :+:      :+:    :+:   */
+/*   init_infomap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -28,17 +28,17 @@ static int	is_format_cub(char *map)
 /* open the map, check wether the map in in .cub format,
 trigger an error if it is not the case,
 or if the path provided does not exist. If everything goes well,
-store the openned map in map_data->fd */
+store the openned map in map->fd */
 
-static void	open_map(char *map, t_map_data *map_data)
+static void	open_map(char *map, t_infomap *infomap)
 {
-	map_data->fd = open(map, O_RDONLY);
-	if (map_data->fd == -1)
-		err_msg_and_free(ERR_PATH_MAP, map_data);
+	infomap->fd = open(map, O_RDONLY);
+	if (infomap->fd == -1)
+		err_msg_and_free(ERR_PATH_MAP, infomap);
 	if (!is_format_cub(map))
 	{
-		close(map_data->fd);
-		err_msg_and_free(ERR_NOT_CUB, map_data);
+		close(infomap->fd);
+		err_msg_and_free(ERR_NOT_CUB, infomap);
 	}
 }
 
@@ -74,32 +74,32 @@ static char	*get_all_lines(int fd)
 	return (all_lines);
 }
 
-/* init_map_data assign NULL to every arg of the struct in order to avoid
+/* init_infomap assign NULL to every arg of the struct in order to avoid
 segfault when trying to free the struct and its elements
-Then, retrieve map info in a single string (map_data->lines),
-split it into a char** (map_data->cub), and will extract from it  
+Then, retrieve map info in a single string (map->lines),
+split it into a char** (map->cub), and will extract from it  
 the relevant infos (colors of floor and ceiling, texture paths), 
-and the extrat the map itself in map_data->map */
+and the extrat the map itself in map->map */
 
-void	init_map_data(t_map_data *map_data, char *map)
+void	init_infomap_struct(t_infomap *infomap, char *map)
 {
-	map_data->lines = NULL;
-	map_data->cub = NULL;
-	map_data->map = NULL;
-	map_data->no_text = NULL;
-	map_data->so_text = NULL;
-	map_data->ea_text = NULL;
-	map_data->we_text = NULL;
-	map_data->ceil_col = NULL;
-	map_data->floor_col = NULL;
-	open_map(map, map_data);
-	map_data->lines = get_all_lines(map_data->fd);
-	close(map_data->fd);
-	if (!map_data->lines)
-		err_msg_and_free(ERR_MALLOC, map_data);
-	map_data->cub = ft_split(map_data->lines, '\n');
-	if (!map_data->cub)
-		err_msg_and_free(ERR_MALLOC, map_data);
-	map_data->nb_infos = 0;
-	parse_infos(map_data);
+	infomap->lines = NULL;
+	infomap->cub = NULL;
+	infomap->map = NULL;
+	infomap->no_text = NULL;
+	infomap->so_text = NULL;
+	infomap->ea_text = NULL;
+	infomap->we_text = NULL;
+	infomap->ceil_col = NULL;
+	infomap->floor_col = NULL;
+	open_map(map, infomap);
+	infomap->lines = get_all_lines(infomap->fd);
+	close(infomap->fd);
+	if (!infomap->lines)
+		err_msg_and_free(ERR_MALLOC, infomap);
+	infomap->cub = ft_split(infomap->lines, '\n');
+	if (!infomap->cub)
+		err_msg_and_free(ERR_MALLOC, infomap);
+	infomap->nb_infos = 0;
+	parse_infos(infomap);
 }

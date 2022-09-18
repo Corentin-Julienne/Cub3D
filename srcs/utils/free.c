@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:13:25 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 13:27:03 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:15:50 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@ void	free_and_nullify(void **to_free)
 /* free the struct in order to avoid leaks
 use when normal program termination or when there is an error */
 
-void	free_map_data(t_map_data *map_data)
+void	free_map(t_infomap *infomap)
 {
-	free_and_nullify((void **)&map_data->lines);
-	if (map_data->cub != NULL)
-		free_split(map_data->cub);
-	if (map_data->map != NULL)
-		free_split(map_data->map);
-	free_and_nullify((void **)&map_data->no_text);
-	free_and_nullify((void **)&map_data->so_text);
-	free_and_nullify((void **)&map_data->ea_text);
-	free_and_nullify((void **)&map_data->we_text);
-	free_and_nullify((void **)&map_data->floor_col);
-	free_and_nullify((void **)&map_data->ceil_col);
-	free(map_data);
-	map_data = NULL;
+	free_and_nullify((void **)&infomap->lines);
+	if (infomap->cub != NULL)
+		free_split(infomap->cub);
+	if (infomap->map != NULL)
+		free_split(infomap->map);
+	free_and_nullify((void **)&infomap->no_text);
+	free_and_nullify((void **)&infomap->so_text);
+	free_and_nullify((void **)&infomap->ea_text);
+	free_and_nullify((void **)&infomap->we_text);
+	free_and_nullify((void **)&infomap->floor_col);
+	free_and_nullify((void **)&infomap->ceil_col);
+	free(infomap);
+	infomap = NULL;
 }
 
 /* in case of a probleme of alloc during the split,
