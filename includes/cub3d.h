@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 12:49:04 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/18 16:55:42 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,62 +59,106 @@ to one\n"
 /* generic for malloc error*/
 # define ERR_MALLOC			"Memory allocation failure\n"
 
-typedef struct s_map_data
+/* MACROS FOR WINDOW SIZE */
+
+# define WDW_WIDTH			800
+# define WDW_HEIGHT			640
+
+/* MACROS FOR CONVERTING TRGB TO INT */
+
+# define CEILING			1
+# define FLOOR				2
+
+typedef struct s_infomap
 {
-	int				i;
-	int				j;
-	char			*lines;
-	char			**cub;
-	char			**map;
-	int				fd;
-	int				size_x;
-	int				size_y;
-	int				nb_infos;
-	char			*no_text;
-	char			*so_text;
-	char			*ea_text;
-	char			*we_text;
-	int				*floor_col;
-	int				*ceil_col;
-}					t_map_data;
+	char		*lines;
+	char		**cub;
+	char		**map;
+	int			fd;
+	int			size_x;
+	int			size_y;
+	int			nb_infos;
+	char		*no_text;
+	char		*so_text;
+	char		*ea_text;
+	char		*we_text;
+	int			*floor_col;
+	int			*ceil_col;
+}				t_infomap;
 
-/* CHECK_MAP */
+typedef struct	s_mlx_img {
+	void		*img;
+	void		*mlx;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	int			width;
+	int			height;
+}				t_mlx_img;
 
-/* map_validity.c */
-void		check_map_validity(t_map_data *map_data);
+typedef struct s_game
+{
+	t_mlx_img	**imgs_set;
+	t_infomap	*infomap;
+	void		*mlx;
+	int			wdw_x;
+	int			wdw_y;
+	void		*wdw;
+	int			col_ceil;
+	int			col_floor;
+}				t_game;
 
-/* INIT STRUCTS */
+/* GAME */
 
-/* init_map_data.c */
-void		init_map_data(t_map_data *map_data, char *map);
+/* init_game.c */
+void		init_game(t_game *game);
+/* init_game_struct.c */
+t_game		*init_game_struct(t_infomap *infomap);
+
+/* GRAPHICS */
+
+/* colors.c */
+int			rtn_ceil_and_floor_colors(t_infomap *infomap, int type);
+/* draw.c */
+void		mlx_pixel_put_to_img(t_mlx_img *mlx_img, int x, int y, int color);
+/* init_mlx_img_struct.c */
+t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y);
+void		clear_mlx_img_struct(t_mlx_img *mlx_img);
+/* render_frame.c */
+void		render_frame(t_game *game);
 
 /* PARSING */
 
+/* init_infomap.c */
+void		init_infomap_struct(t_infomap *infomap, char *map);
+/* map_validity.c */
+void		check_map_validity(t_infomap *infomap);
 /* parse_infos.c */
-void		parse_infos(t_map_data *map_data);
+void		parse_infos(t_infomap *infomap);
 /* parse_map.c */
-void		parse_map(t_map_data *map_data, int i);
-
-/* MAIN */
+void		parse_map(t_infomap *infomap, int i);
 
 /* UTILS */
 
 /* err_msgs.c */
-void		err_msg_and_free(char *spec, t_map_data *map_data);
+void		err_msg_and_free(char *spec, t_infomap *infomap);
 void		print_err_msg(char *msg);
 /* free.c */
 void		free_and_nullify(void **to_free);
-void		free_map_data(t_map_data *map_data);
+void		free_map(t_infomap *infomap);
 void		free_problem_str_arr(char **split, int i);
 void		free_split(char **split);
 
+
+// -----------------------------------------//
 // debug [to kill before pushing to vogsphere]
 
-void		print_map_infos(t_map_data *map_data);
-void		print_infos(t_map_data *map_data);
-void		print_oneline(t_map_data *map_data);
+void		print_infomap_infos(t_infomap *infomap);
+void		print_infos(t_infomap *infomap);
+void		print_oneline(t_infomap *infomap);
 void		leaks_killing(void);
-void		print_cub_file(t_map_data *map_data);
+void		print_cub_file(t_infomap *infomap);
 void 		print_split(char **split);
 
 #endif

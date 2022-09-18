@@ -6,64 +6,64 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:14:57 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 12:40:54 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:14:21 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-/* check wether the map relevant infos are actually stored in the struct map_data */
+/* check wether the map relevant infos are actually stored in the struct map */
 
-void	print_cub_file(t_map_data *map_data)
+void	print_cub_file(t_infomap *infomap)
 {
 	int		y = 0;
 
 	printf("------------------------------------------------\n");
-	while (map_data->cub && map_data->cub[y])
+	while (infomap->cub && infomap->cub[y])
 	{
-		printf("|%s|\n", map_data->cub[y]);
+		printf("|%s|\n", infomap->cub[y]);
 		y++;
 	}
 	printf("------------------------------------------------\n");
 }
 
-void	print_infos(t_map_data *map_data)
+void	print_infos(t_infomap *infomap)
 {
 	printf("-----------------------------------------------\n");
-	printf("path to the north :   |%s|\n", map_data->no_text);
-	printf("path to the south :   |%s|\n", map_data->so_text);
-	printf("path to the west  :   |%s|\n", map_data->we_text);
-	printf("path to the east  :   |%s|\n", map_data->ea_text);
+	printf("path to the north :   |%s|\n", infomap->no_text);
+	printf("path to the south :   |%s|\n", infomap->so_text);
+	printf("path to the west  :   |%s|\n", infomap->we_text);
+	printf("path to the east  :   |%s|\n", infomap->ea_text);
 	printf("ceiling : color 1 : %d | color 2 : %d | color 3 : %d\n",
-		map_data->ceil_col[0], map_data->ceil_col[1], map_data->ceil_col[2]);
-	printf("floor   : color 1 : %d | color 2 : %d | color 3 : %d\n", map_data->floor_col[0],
-		map_data->floor_col[1], map_data->floor_col[2]);
+		infomap->ceil_col[0], infomap->ceil_col[1], infomap->ceil_col[2]);
+	printf("floor   : color 1 : %d | color 2 : %d | color 3 : %d\n", infomap->floor_col[0],
+		infomap->floor_col[1], infomap->floor_col[2]);
 	printf("-----------------------------------------------\n");
 }
 
-void	print_oneline(t_map_data *map_data)
+void	print_oneline(t_infomap *infomap)
 {
-	printf("%s\n", map_data->lines);
+	printf("%s\n", infomap->lines);
 }
 
-void	print_map_infos(t_map_data *map_data)
+void	print_infomap_infos(t_infomap *infomap)
 {
 	int			y;
 	
 	printf("------------------------------\n");
-	printf("NORTH TEXTURES PATH = %s\n", map_data->no_text);
-	printf("SOUTH TEXTURES PATH = %s\n", map_data->so_text);
-	printf("EAST TEXTURES PATH  = %s\n", map_data->ea_text);
-	printf("WEST TEXTURES PATH  = %s\n", map_data->we_text);
+	printf("NORTH TEXTURES PATH = %s\n", infomap->no_text);
+	printf("SOUTH TEXTURES PATH = %s\n", infomap->so_text);
+	printf("EAST TEXTURES PATH  = %s\n", infomap->ea_text);
+	printf("WEST TEXTURES PATH  = %s\n", infomap->we_text);
 	printf("CEILING COLORS      = | color 1 : %d | color 2 : %d | color 3 : %d |\n",
-		map_data->ceil_col[0], map_data->ceil_col[1], map_data->ceil_col[2]);
+		infomap->ceil_col[0], infomap->ceil_col[1], infomap->ceil_col[2]);
 	printf("FLOOR COLORS        = | color 1 : %d | color 2 : %d | color 3 : %d |\n\n",
-		map_data->floor_col[0], map_data->floor_col[1], map_data->floor_col[2]);
+		infomap->floor_col[0], infomap->floor_col[1], infomap->floor_col[2]);
 	printf("---------PRINTING MAP---------\n");
 	y = 0;
-	while (map_data->map[y])
+	while (infomap->map[y])
 	{
-		printf("%s\n", map_data->map[y]);
+		printf("%s\n", infomap->map[y]);
 		y++;
 	}
 	printf("------------------------------\n");	

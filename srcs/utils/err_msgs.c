@@ -6,23 +6,23 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/14 16:58:05 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:15:02 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
 /* when an error is encountered, print Error\n, followed by a relevant
-error msg. then, free the map_data struct to avoid leaks and exit status 1 */
+error msg. then, free the map struct to avoid leaks and exit status 1 */
 
-void	err_msg_and_free(char *spec, t_map_data *map_data)
+void	err_msg_and_free(char *spec, t_infomap *infomap)
 {
 	char		*msg;
 
 	msg = "Error\n";
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd(spec, STDERR_FILENO);
-	free_map_data(map_data);
+	free_map(infomap);
 	exit(EXIT_FAILURE);
 }
 
