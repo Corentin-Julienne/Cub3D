@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/18 16:55:42 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/19 16:46:36 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <stdbool.h>
 #include <stdio.h> // printf to test [supress before pushing to vogsphere]
 
 # include "../libft/libft.h"
@@ -124,9 +125,9 @@ int			rtn_ceil_and_floor_colors(t_infomap *infomap, int type);
 void		mlx_pixel_put_to_img(t_mlx_img *mlx_img, int x, int y, int color);
 /* init_mlx_img_struct.c */
 t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y);
-void		clear_mlx_img_struct(t_mlx_img *mlx_img);
+void		clear_mlx_img_struct(t_mlx_img **mlx_img);
 /* render_frame.c */
-void		render_frame(t_game *game);
+int			render_frame(t_game *game);
 
 /* PARSING */
 

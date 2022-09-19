@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:09:23 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/18 14:35:34 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/19 16:46:27 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y)
 
 /* clear_mlx_img_struct destroy the img and free the struct */
 
-void	clear_mlx_img_struct(t_mlx_img *mlx_img)
+void	clear_mlx_img_struct(t_mlx_img **mlx_img)
 {
-	mlx_destroy_image(mlx_img->mlx, mlx_img->img);
-	free(mlx_img);
-	mlx_img = NULL;
+	mlx_destroy_image((*mlx_img)->mlx, (*mlx_img)->img);
+	free(*mlx_img);
+	*mlx_img = NULL;
 }
