@@ -6,7 +6,7 @@
 #    By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 16:28:40 by cjulienn          #+#    #+#              #
-#    Updated: 2022/09/18 11:43:04 by cjulienn         ###   ########.fr        #
+#    Updated: 2022/09/19 14:36:19 by cjulienn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME := Lab
 CC := gcc
 CFLAGS := -Wall -Wextra -Werror 
 
-SRCS = ./tuto.c
+SRCS = ./lab.c
 OBJS = $(SRCS:.c=.o)
 
 RM = rm -rf

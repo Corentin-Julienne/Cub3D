@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/18 15:23:44 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/19 11:09:53 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,18 @@ for further use */
 t_game	*init_game_struct(t_infomap *infomap)
 {
 	t_game			*game;
-	t_mlx_img		**mlx_imgs;
 
 	game = (t_game *)malloc(sizeof(t_game));
 	if (!game)
 		return (NULL);
-	mlx_imgs = (t_mlx_img **)malloc(sizeof(t_mlx_img *) * 2);
-	if (!mlx_imgs)
+	game->imgs_set = (t_mlx_img **)malloc(sizeof(t_mlx_img *) * 2);
+	if (!game->imgs_set)
 	{
 		free(game);
 		return (NULL);
 	}
-	mlx_imgs[0] = NULL;
-	mlx_imgs[1] = NULL;
+	game->imgs_set[0] = NULL;
+	game->imgs_set[1] = NULL;
 	game->infomap = infomap;
 	game->mlx = mlx_init();
 	game->wdw_x = WDW_WIDTH;
