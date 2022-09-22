@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+         #
+#    By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 16:19:40 by cjulienn          #+#    #+#              #
-#    Updated: 2022/09/18 14:32:36 by cjulienn         ###   ########.fr        #
+#    Updated: 2022/09/22 17:22:50 by maaxit           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,9 +46,22 @@ LIB_DIR := libft
 LIB_OBJ_DIR := libft/obj
 LIB := libft.a
 
+UNAME := $(shell uname)
+
 # MiniLibX (last beta 2021 version)
-MINILIBX_DIR := mlx
-MINILIBX := libmlx.dylib
+ifeq ($(UNAME), Linux)
+
+	MINILIBX_DIR := mlx_linux
+	MINILIBX := mlx_Linux
+	COMPILE_MLX_ARGS := -L/usr/lib -I$(MINILIBX_DIR) -lXext -lX11 -lm -lz
+
+else
+
+	MINILIBX_DIR := mlx
+	MINILIBX := libmlx.dylib
+	COMPILE_MLX_ARGS := -framework OpenGL -framework AppKit
+
+endif
 
 VPATH = $(SOURCEDIRS)
 
@@ -56,14 +69,14 @@ all: $(NAME)
 
 $(NAME): $(MINILIBX) $(LIB) $(OBJ_FILES)
 	@printf "$(YELLOW)Linking Cub3D...\n\n$(END)"
-	$(CC) $(CFLAGS) $(OBJ_FILES) -Lmlx -lmlx -framework OpenGL -framework AppKit -Llibft -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ_FILES) -L$(MINILIBX_DIR) -l$(MINILIBX) $(COMPILE_MLX_ARGS) -L$(LIB_DIR) -lft -o $(NAME)
 	@printf "\n$(GREEN)Cub3D compiled.\n$(END)$(GREEN)Simply type$(END) $(WHITE)./Cub3D $(END)"
 	@printf "$(GREEN)with a *.cub map as argument to execute the program. \n\n$(END)"
 
 $(OBJ_DIR)/%.o : %.c
 	@$(MKDIR) $(OBJ_DIR)
 	@printf "$(YELLOW)Compiling object:\n$(END)"
-	$(CC) $(CFLAGS) $(INCLUDE) -Imlx -c -o $@ $<
+	$(CC) $(CFLAGS) $(INCLUDE) -I/usr/include -I$(MINILIBX_DIR) -O3 -L$(LIB_DIR) -lft -c -o $@ $<
 	@printf "$(GREEN)Object $(UNDERLINE)$(WHITE)$(notdir $@)$(END)$(GREEN) successfully compiled\n\n$(END)"
 
 $(LIB):
@@ -75,14 +88,14 @@ $(MINILIBX):
 	@printf "$(YELLOW)Compiling MiniLibX...\n$(END)"
 	@$(MAKE) -C $(MINILIBX_DIR)
 	@printf "$(GREEN)MiniLibX has been created\n$(END)"
-	@cp ./mlx/libmlx.dylib .
+	@cp ./mlx/libmlx.dylib . 2> /dev/null || :
 
 clean:
 	@printf "$(YELLOW)Removing objects...\n$(END)"
 	$(RM) $(OBJ_DIR)
 	$(RM) $(LIB_OBJ_DIR)
 	$(MAKE) -C $(MINILIBX_DIR) clean
-	@ rm ./libmlx.dylib
+	@rm -f ./libmlx.dylib
 	@printf "$(GREEN)Objects removed!\n\n$(END)"
 
 fclean: clean
