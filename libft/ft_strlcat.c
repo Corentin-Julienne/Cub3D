@@ -64,7 +64,6 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 		}
 		s++;
 	}
-	if (n >= 0)
-		*d = '\0';
+	*d = '\0';
 	return (total_counter);
 }
