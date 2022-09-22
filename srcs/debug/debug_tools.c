@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:14:57 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 14:14:21 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:18:12 by maaxit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	leaks_killing(void)
 	printf("\n\n---------------------------------------\n");
 	printf("---------------[ LEAKS ]---------------\n");
 	printf("---------------------------------------\n\n");
-	system("leaks Cub3D");
+	// system("leaks Cub3D");
 }
 
 void print_split(char **split)
