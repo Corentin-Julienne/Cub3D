@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:07:05 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/19 16:48:10 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:32:04 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ static int	choose_img(t_game *game)
 	return (img_index);
 }
 
+/* altern_imgs is used after the first frame has been used
+it creates another img, then will render the foor and ceiling,
+and will then draw the wall using raycasting algo
+destroy the former img after putting the actual img to window */
+
 static void	altern_imgs(t_game *game)
 {
 	int		img_index;
@@ -64,7 +69,7 @@ static void	altern_imgs(t_game *game)
 	game->imgs_set[img_index] = init_mlx_img_struct(game->mlx,
 		WDW_WIDTH, WDW_HEIGHT);
 	render_landscape(game, img_index);
-	// add algo to render walls after this line
+	// use raycasting algo after this line
 	if (img_index == 0)
 	{
 		mlx_put_image_to_window(game->mlx, game->wdw,
@@ -82,12 +87,14 @@ static void	altern_imgs(t_game *game)
 }
 
 /* render frame render is used to rotate the set of two images.
-The first img is used the first time. When player triggers a movement,
-it renders another frame. The images are used alternatively. 
+The first img is used the first time. When player triggers a movement 
+(when pressing a key), it triggers window modifcation (using ray casting algo,
+with modified position parameters).
+The images are used alternatively. 
 The already existing image is destroyed after the second img is put to the 
 window */
 
-int	render_frame(t_game *game) // to debug
+int	render_frame(t_game *game)
 {
 	static bool	first_iter = true;
 
@@ -96,6 +103,7 @@ int	render_frame(t_game *game) // to debug
 		game->imgs_set[0] = init_mlx_img_struct(game->mlx,
 			WDW_HEIGHT, WDW_HEIGHT);
 		render_landscape(game, 0);
+		// put raycasting algo here
 		mlx_put_image_to_window(game->mlx, game->wdw,
 			game->imgs_set[0]->img, 0, 0);
 		first_iter = false;

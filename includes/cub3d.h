@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/19 16:46:36 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/20 17:54:44 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_game
 	void		*wdw;
 	int			col_ceil;
 	int			col_floor;
+	bool		*keys;
 }				t_game;
 
 /* GAME */

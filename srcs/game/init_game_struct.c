@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/19 11:09:53 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:14:45 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,30 @@ static void	get_colors(t_game *game)
 	game->col_floor = rtn_ceil_and_floor_colors(game->infomap, FLOOR);
 	free(game->infomap->floor_col);
 	game->infomap->floor_col = NULL;
+}
+
+/* get_key_bools allow to store booleans in an array to check
+whether the keyboard keys WASD are actually pressed or not */
+
+static bool	*get_key_bools(t_game *game)
+{
+	bool			*bool_arr;
+	int				i;
+
+	bool_arr = (bool *)malloc(sizeof(bool) * 4);
+	if (!bool_arr)
+	{
+		free(game->imgs_set);
+		free(game);
+		return (NULL);
+	}
+	i = 0;
+	while (i < 4)
+	{
+		bool_arr[i] = false;
+		i++;
+	}
+	return (bool_arr);
 }
 
 /* init_game_struct init the minilibx, create a window,
@@ -42,6 +66,9 @@ t_game	*init_game_struct(t_infomap *infomap)
 		free(game);
 		return (NULL);
 	}
+	game->keys = get_key_bools(game);
+	if (!game->keys)
+		return (NULL);
 	game->imgs_set[0] = NULL;
 	game->imgs_set[1] = NULL;
 	game->infomap = infomap;
