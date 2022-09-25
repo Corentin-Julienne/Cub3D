@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/20 17:54:44 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/24 19:39:16 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,13 @@ in the map\n"
 /* map is not surrounded by walls */
 # define ERR_BREACH_MAP		"Map is not surrounded by walls\n"
 /* lack or several player starting position */
-# define ERR_PSP			"The number player starting position is not equal \
+# define ERR_PSP			"The number of player starting position is not equal \
 to one\n"
 /* invalid char in map grid */
 # define ERR_INVALID_CHAR	"Invalid character in map grid\n"
 /* empty line within map grid */
-# define ERR_EMPTY_LINE		"Empty line within map grid\n"
+# define ERR_EMPTY_LINE		"Empty line within map grid or duplicated \
+and/or uncorrectly formated infos\n"
 /* generic for malloc error*/
 # define ERR_MALLOC			"Memory allocation failure\n"
 
@@ -69,6 +70,22 @@ to one\n"
 
 # define CEILING			1
 # define FLOOR				2
+
+/* MACROS FOR WASD KEY AND DIRECTIONNAL ARROW */
+
+# define W_KEY				13
+# define A_KEY				1
+# define S_KEY				2
+# define D_KEY				0
+# define LEFT_ARROW			123
+# define RIGHT_ARROW		124
+# define ESCAPE				53
+
+/* MACROS FOR HOOKS AND EVENTS */
+
+# define EXIT_HOOK			17
+# define KEY_PRESS_HOOK		2
+# define KEY_RELEASE_HOOK	3
 
 typedef struct s_infomap
 {
@@ -87,7 +104,8 @@ typedef struct s_infomap
 	int			*ceil_col;
 }				t_infomap;
 
-typedef struct	s_mlx_img {
+typedef struct	s_mlx_img 
+{
 	void		*img;
 	void		*mlx;
 	char		*addr;
@@ -97,6 +115,13 @@ typedef struct	s_mlx_img {
 	int			width;
 	int			height;
 }				t_mlx_img;
+
+typedef struct s_texture 
+{
+	void		*img;
+	int			width;
+	int			height;
+}				t_texture;		
 
 typedef struct s_game
 {
@@ -108,6 +133,10 @@ typedef struct s_game
 	void		*wdw;
 	int			col_ceil;
 	int			col_floor;
+	t_texture	*no_texture;
+	t_texture	*so_texture;
+	t_texture	*ea_texture;
+	t_texture	*we_texture;
 	bool		*keys;
 }				t_game;
 
@@ -121,7 +150,7 @@ t_game		*init_game_struct(t_infomap *infomap);
 /* GRAPHICS */
 
 /* colors.c */
-int			rtn_ceil_and_floor_colors(t_infomap *infomap, int type);
+void		get_colors(t_game *game);
 /* draw.c */
 void		mlx_pixel_put_to_img(t_mlx_img *mlx_img, int x, int y, int color);
 /* init_mlx_img_struct.c */
@@ -162,5 +191,6 @@ void		print_oneline(t_infomap *infomap);
 void		leaks_killing(void);
 void		print_cub_file(t_infomap *infomap);
 void 		print_split(char **split);
+void 		put_xpm_img_to_test(t_game *game);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:02:41 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/23 12:23:39 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:07:42 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,25 @@ static int	exit_hook(t_game **game)
 /* key_press_hook is triggered when a key is pressed
 put the booleans to true, and will allow
 the mlx_hoop_look to modify the display of the maze 
-when escape is pressed, terminate the game */
+when escape is pressed, terminate the game 
+the index 0 to 5 are respectively assignated to WASD keys
+and left and right directional arrows */
 
 static int	key_press_hook(int keycode, t_game *game)
 {
-	if (keycode == 13)
+	if (keycode == W_KEY)
 		game->keys[0] = true;
-	else if (keycode == 1)
+	else if (keycode == A_KEY)
 		game->keys[1] = true;
-	else if (keycode == 2)
+	else if (keycode == S_KEY)
 		game->keys[2] = true;
-	else if (keycode == 0)
+	else if (keycode == D_KEY)
 		game->keys[3] = true;
-	else if (keycode == 53) // optimize this
+	else if (keycode == LEFT_ARROW)
+		game->keys[4] = true;
+	else if (keycode == RIGHT_ARROW)
+		game->keys[5] = true;
+	else if (keycode == ESCAPE) // optimize this
 	{
 		mlx_destroy_window(game->mlx, game->wdw); 
 		free_map(game->infomap);
@@ -48,20 +54,25 @@ static int	key_press_hook(int keycode, t_game *game)
 	return (0);	
 }
 
-/* key_release_hook is activated when keys WASD are released
+/* key_release_hook is activated when keys WASD and left and right
+directionnal arrows are released
 indicate to the render_frame function that key is not activated 
 any more */
 
 static int key_release_hook(int keycode, t_game *game)
 {
-	if (keycode == 13)
+	if (keycode == W_KEY)
 		game->keys[0] = false;
-	else if (keycode == 1)
+	else if (keycode == A_KEY)
 		game->keys[1] = false;
-	else if (keycode == 2)
+	else if (keycode == S_KEY)
 		game->keys[2] = false;
-	else if (keycode == 0)
+	else if (keycode == D_KEY)
 		game->keys[3] = false;
+	else if (keycode == LEFT_ARROW)
+		game->keys[4] = false;
+	else if (keycode == RIGHT_ARROW)
+		game->keys[5] = false;
 	return (0);
 }
 
@@ -71,9 +82,9 @@ with mlx_loop() */
 
 void	init_game(t_game *game)
 {
-	mlx_hook(game->wdw, 17, 0, exit_hook, &game);
-	mlx_hook(game->wdw, 2, 0, key_press_hook, game);
-	mlx_hook(game->wdw, 2, 0, key_release_hook, game);
+	mlx_hook(game->wdw, EXIT_HOOK, 0, exit_hook, &game);
+	mlx_hook(game->wdw, KEY_PRESS_HOOK, 0, key_press_hook, game);
+	mlx_hook(game->wdw, KEY_RELEASE_HOOK, 0, key_release_hook, game);
 	mlx_loop_hook(game->mlx, render_frame, game);
 	mlx_loop(game->mlx);
 }

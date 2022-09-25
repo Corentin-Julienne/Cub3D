@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:28:43 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/20 17:18:13 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/24 17:59:01 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,6 +272,7 @@ void	draw_circle(t_game *game, int x, int y, int index)
 
 int	key_press_hook(int keycode, t_game *game) // change game
 {
+	printf("keycode = %d\n", keycode);
 	if (keycode == 13) // UP
 		game->keys[0] = true;
 	else if (keycode == 1) // DOWN

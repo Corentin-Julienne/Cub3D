@@ -1,0 +1,101 @@
+Test procedure to verify if parsing is working
+
+// REQUIREMENTS 
+
+The map must be closed/surrounded by walls, if not the program must return
+an error.
+
+◦ Except for the map content, each type of element can be separated by one or
+more empty line(s).
+
+◦ Except for the map content which always has to be the last, each type of
+element can be set in any order in the file.
+
+◦ Except for the map, each type of information from an element can be separated
+by one or more space(s).
+
+◦ The map must be parsed as it looks in the file. Spaces are a valid part of the
+map and are up to you to handle. You must be able to parse any kind of map,
+as long as it respects the rules of the map.
+
+Contains : 
+
+I ) Empty maps  CREATED | TESTED AND OK
+
+=> empty_map_nl.cub [empty map with new line]
+=> empty_map.cub [empty map without new line]
+
+II ) Well Formated maps with wrong extension formats CREATED | TESTED AND OK
+ 
+=> wrong_format.cup
+=> wrong_format.cu
+=> wrong_format.cube
+=> wrong_format 
+=> wrong_format. 
+=> wrong_formatcub
+
+III ) Maps with missing infos CREATED | TESTED AND OK 
+
+=> missing_info_1.cub [south texture missing]
+=> missing_info_2.cub [ceiling color info missing]
+=> missing_info_3.cub [ceiling color info is after the map]
+=> missing_info_4.cub [no info at all]
+=> missing_info_5.cub [no info at all and empty lines]
+=> missing_info_6.cub [all infos after map]
+=> missing_info_7.cub [all info after map and new line]
+=> missing_info_8.cub [all infos plus other line]
+
+IV ) Maps with duplicated infos CREATED | TESTED AND OK
+
+=> duplicated_infos_1.cub [NO path info duplicated]
+=> duplicated_infos_2.cub [SO path info duplicated]
+=> duplicated_infos_3.cub [ceiling info duplicated with same value]
+=> duplicated_infos_4.cub [ceiling info duplicated with different values]
+
+V ) Maps with wrongly formatted infos CREATED | UNTESTED
+
+=> format_problem_1.cub  [ceiling with colors supp 255]
+=> format_problem_2.cub  [ceiling with colors inf 0]
+=> format_problem_3.cub  [floor with color 255 and 0] // should work
+=> format_problem_4.cub  [floor with color 256]
+=> format_problem_5.cub  [info with invalid path(no points)]
+=> format_problem_6.cub  [no space between info and path]
+=> format_problem_7.cub  [non existing cardinal point (i.e sso)]
+=> format_problem_8.cub  [non existing cardinal point ressembling to existent one (i.e. SOS)]
+=> format_problem_9.cub  [several infos in one line]
+=> format_problem_10.cub [cardinal point with no path]
+=> format_problem_11.cub [colors separated by spaces]
+=> format_problem_12.cub [colors separated by | ]
+
+VI ) Maps with wrongly formatted maps CREATED | TESTED AND OK
+
+=> wrong_map_1.cub [map in first position, before infos]
+=> wrong_map_2.cub [map with nl inside]
+=> wrong_map_3.cub [with with nl at the end]
+=> wrong_map_4.cub [map with some invalid chars]
+
+VII ) Non rule-compliant maps CREATED | TESTED AND OK
+
+=> non_compliant_map_1.cub [unclosed map]
+=> non_compliant_map_2.cub [unclosed map inside]
+=> non compliant_map_3.cub [unclosed map at the border]
+=> non_compliant_map_4.cub [no PSP]
+=> non_compliant_map_5.cub [several PSP]
+=> non_compliant_map_6.cub [PSP do not allow to close the map]
+=> non_compliant_map_7.cub [unclosed map at the corner]
+=> non_compliant_map_8.cub [no free space at all (player in contact with spaces)]
+
+VII ) Fonctionnal maps [that should works] CREATED | TESTED AND OK
+
+=> compliant_map_1.cub [normal basic map]
+=> compliant_map_2.cub [no free space, player is surrounded by walls]
+=> compliant_map_3.cub ["island" unaccessible by the player, but surrounded by walls]
+=> compliant_map_4.cub [empty space in the middle of the map, but surrounded by walls + free space after lines]
+
+VII ) Fonctionnal infos [that should works] CREATED | TESTED AND OK
+
+=> compliant_infos_1.cub [infos are swapped in terms of order, excluding map]
+=> compliant_infos_2.cub [infos of ceiling and floor are swapped with paths]
+=> compliant_infos_3.cub [infos form paths and ceiling/floor are intertwined]
+=> conpliant_infos_4.cub [many ln between infos]
+=> compliant_infos_5.cub [many spaces before elements of info]

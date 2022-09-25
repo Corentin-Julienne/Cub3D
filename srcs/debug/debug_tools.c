@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:14:57 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/22 17:18:12 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/09/25 16:25:07 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,12 @@ void print_split(char **split)
 		printf("|%s|\n", split[i]);
 		i++;
 	}
+}
+
+void put_xpm_img_to_test(t_game *game) // does not work with small windows
+{
+	mlx_put_image_to_window(game->mlx, game->wdw, game->no_texture->img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->wdw, game->so_texture->img, 60, 60);
+	mlx_put_image_to_window(game->mlx, game->wdw, game->ea_texture->img, 120, 120);
+	mlx_put_image_to_window(game->mlx, game->wdw, game->we_texture->img, 180, 180);
 }
