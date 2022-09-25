@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:07:05 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/23 12:32:04 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/25 16:30:14 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static void	altern_imgs(t_game *game)
 		mlx_put_image_to_window(game->mlx, game->wdw,
 			game->imgs_set[1]->img, 0, 0);
 	}
+	put_xpm_img_to_test(game); // testing purpose only, delete after use
 	if (img_index == 0)
 		clear_mlx_img_struct(&game->imgs_set[1]);
 	if (img_index == 1)
