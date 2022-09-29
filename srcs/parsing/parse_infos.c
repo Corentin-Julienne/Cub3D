@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:48:39 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 14:19:45 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/24 17:45:24 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	parse_card_points(t_infomap *infomap, char *line)
 	line = line + 3;
 	if (!line[0])
 		err_msg_and_free(ERR_PARAM_FORMAT, infomap);
-	path = ft_strtrim(line, " \t\v\f\r");
+	path = ft_strtrim(line, " 	");
 	if (!path)
 		err_msg_and_free(ERR_MALLOC, infomap);
 	if (ft_strchr(path, ' ') || ft_strchr(path, '	'))
@@ -112,13 +112,13 @@ static void	parse_up_and_down(t_infomap *infomap, char *line)
 	line = line + 2;
 	if (!line[0])
 		err_msg_and_free(ERR_PARAM_FORMAT, infomap);
-	info = ft_strtrim(line, " \t\v\f\r");
+	info = ft_strtrim(line, "	 ");
 	if (!info)
 		err_msg_and_free(ERR_MALLOC, infomap);
 	i = 0;
-	while (line && line[i])
+	while (info && info[i])
 	{
-		if (line[i] != ',' && ft_isdigit(line[i]) == 0)
+		if (info[i] != ',' && ft_isdigit(info[i]) == 0)
 		{
 			free(info);
 			err_msg_and_free(ERR_COLOR_FORMAT, infomap);
