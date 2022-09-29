@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:09:21 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/18 18:11:36 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/24 19:38:56 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ the parsing of the map. Convert it to a single int use by mlx
 to color a pixel using a given color. Put the first parameter 
 to 0 as it is transparency */
 
-int	rtn_ceil_and_floor_colors(t_infomap *infomap, int type)
+static int	rtn_ceil_and_floor_colors(t_infomap *infomap, int type)
 {
 	int		color;
 
@@ -41,4 +41,17 @@ int	rtn_ceil_and_floor_colors(t_infomap *infomap, int type)
 			infomap->floor_col[1], infomap->floor_col[2]);
 	}
 	return (color);
+}
+
+/* get_colors convert the colors of ceil and floor from trgb 
+to a sole integer to be able to use it whith minilibx functions */
+
+void	get_colors(t_game *game)
+{
+	game->col_ceil = rtn_ceil_and_floor_colors(game->infomap, CEILING);
+	free(game->infomap->ceil_col);
+	game->infomap->ceil_col = NULL;
+	game->col_floor = rtn_ceil_and_floor_colors(game->infomap, FLOOR);
+	free(game->infomap->floor_col);
+	game->infomap->floor_col = NULL;
 }

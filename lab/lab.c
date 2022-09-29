@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:28:43 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/19 16:31:23 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/24 17:59:01 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <math.h>
 #include <stdbool.h>
 
 // prototypes 
@@ -39,6 +41,11 @@ typedef struct s_game
 	void		*wdw;
 	int			col_ceil;
 	int			col_floor;
+	// just testing stuff
+	int			circle_x;
+	int			circle_y;
+	// booleans for mlx_loop_hook
+	bool		*keys;
 }				t_game;
 
 // protos
@@ -48,6 +55,36 @@ int			create_trgb_color(int t, int r, int g, int b);
 t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y);
 void		clear_mlx_img_struct(t_mlx_img **mlx_img);
 void		mlx_pixel_put_to_img(t_mlx_img *mlx_img, int x, int y, int color);
+void		draw_stuff(t_game *game, int color, int index);
+void		draw_circle(t_game *game, int x, int y, int index);
+int			key_press_hook(int keycode, t_game *game);
+int			key_release_hook(int keycode, t_game *game);
+void		change_circle_params(t_game *game);
+
+
+void		change_circle_params(t_game *game)
+{
+	if (game->keys[0] == true)
+	{
+		if (game->circle_y - 10 >= 0)
+			game->circle_y -= 10;
+	}
+	else if (game->keys[1] == true)
+	{
+		if (game->circle_x - 10 >= 0)
+			game->circle_x -= 10;
+	}
+	else if (game->keys[2] == true)
+	{
+		if (game->circle_y < 400)
+			game->circle_y += 10;
+	}
+	else if (game->keys[3] == true)
+	{
+		if (game->circle_x < 400)
+			game->circle_x += 10;
+	}
+}
 
 /* allow to terminate window when the red cross is pressed */
 
@@ -61,7 +98,7 @@ int	exit_hook(t_game **game)
 
 /* create_trgb_color use bitshift ops to convert 0 numbers
 between 0 and 255 (one byte size) to an int regrouping
-all thos infos */
+all those infos */
 
 int	create_trgb_color(int t, int r, int g, int b)
 {
@@ -167,12 +204,13 @@ int	render_frame(t_game *game) // to debug
 {
 	static bool	first_iter = true;
 	int			img_index;
-	
+
 	if (first_iter == true)
 	{
 		game->imgs_set[0] = init_mlx_img_struct(game->mlx,
 			400, 400);
 		render_landscape(game, 0);
+		draw_circle(game, game->circle_x, game->circle_y, 0);
 		mlx_put_image_to_window(game->mlx, game->wdw,
 			game->imgs_set[0]->img, 0, 0);
 		first_iter = false;
@@ -182,6 +220,9 @@ int	render_frame(t_game *game) // to debug
 	game->imgs_set[img_index] = init_mlx_img_struct(game->mlx,
 	400, 400);
 	render_landscape(game, img_index);
+	if (game->keys[0] == true || game->keys[1] == true || game->keys[2] == true || game->keys[3] == true)
+		change_circle_params(game);
+	draw_circle(game, game->circle_x, game->circle_y, img_index);
 	if (img_index == 0)
 	{
 		mlx_put_image_to_window(game->mlx, game->wdw,
@@ -196,6 +237,63 @@ int	render_frame(t_game *game) // to debug
 		clear_mlx_img_struct(&game->imgs_set[1]);
 	if (img_index == 1)
 		clear_mlx_img_struct(&game->imgs_set[0]);
+	return (0);
+}
+
+static int	check_distance(int x, int y, int i, int j)
+{
+	double	radius = 20.0;
+	double	distance;
+	double	tol = 3.00;
+
+	distance = sqrt(pow((i - x), 2.0) + pow((j - y), 2.0));
+	if (distance >= (radius - tol) && distance <= (radius + tol))
+		return (1);
+	return (0);
+}
+
+void	draw_circle(t_game *game, int x, int y, int index)
+{
+	int		i = 0;
+	int		j = 0;
+
+	while (j < game->wdw_y)
+	{
+		i = 0;
+		while (i < game->wdw_x)
+		{
+			if (check_distance(x, y, i, j) == 1)
+				mlx_pixel_put_to_img(game->imgs_set[index], i, j, 0x00000);
+			i++;
+		}
+		j++;
+	}
+}
+
+int	key_press_hook(int keycode, t_game *game) // change game
+{
+	printf("keycode = %d\n", keycode);
+	if (keycode == 13) // UP
+		game->keys[0] = true;
+	else if (keycode == 1) // DOWN
+		game->keys[2] = true;
+	else if (keycode == 2) // RIGHT
+		game->keys[3] = true;
+	else if (keycode == 0) // LEFT
+		game->keys[1] = true;
+	return (0);
+}
+
+int	key_release_hook(int keycode, t_game *game)
+{
+	if (keycode == 13) // UP
+		game->keys[0] = false;
+	else if (keycode == 1) // DOWN
+		game->keys[2] = false;
+	else if (keycode == 2) // RIGHT
+		game->keys[3] = false;
+	else if (keycode == 0) // LEFT
+		game->keys[1] = false;
 	return (0);
 }
 
@@ -217,8 +315,17 @@ int main(void)
 	game->wdw_y = 400;
 	game->col_ceil =  0x00FF0000;
 	game->col_floor = 0x00FFFF;
-	mlx_hook(game->wdw, 17, 0, exit_hook, &game);
-	mlx_loop_hook(game->mlx, render_frame, game);
+	game->circle_x = 199;
+	game->circle_y = 199;
+	game->keys = (bool *)malloc(sizeof(bool) * 4);
+	if (!game->keys)
+		return (1);
+	for (int i = 0; i < 4;i++)
+		game->keys[i] = false;
+	mlx_hook(game->wdw, 17, 0, exit_hook, &game); // X button
+	mlx_hook(game->wdw, 2, 0, key_press_hook, game); // change booleans when keys are pressed
+	mlx_hook(game->wdw, 3, 0, key_release_hook, game); // change booleans when keys are released
+	mlx_loop_hook(game->mlx, render_frame, game); // render every frame
 	mlx_loop(game->mlx);
 	return (0);
 }

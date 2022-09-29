@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:02:41 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/19 14:26:29 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:07:42 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* allow to terminate window when the red cross is pressed */
 
 static int	exit_hook(t_game **game)
-{	
+{
 	mlx_destroy_window((*game)->mlx, (*game)->wdw);
 	free_map((*game)->infomap);
 	free(*game);
@@ -23,15 +23,68 @@ static int	exit_hook(t_game **game)
 	return (1);
 }
 
+/* key_press_hook is triggered when a key is pressed
+put the booleans to true, and will allow
+the mlx_hoop_look to modify the display of the maze 
+when escape is pressed, terminate the game 
+the index 0 to 5 are respectively assignated to WASD keys
+and left and right directional arrows */
+
+static int	key_press_hook(int keycode, t_game *game)
+{
+	if (keycode == W_KEY)
+		game->keys[0] = true;
+	else if (keycode == A_KEY)
+		game->keys[1] = true;
+	else if (keycode == S_KEY)
+		game->keys[2] = true;
+	else if (keycode == D_KEY)
+		game->keys[3] = true;
+	else if (keycode == LEFT_ARROW)
+		game->keys[4] = true;
+	else if (keycode == RIGHT_ARROW)
+		game->keys[5] = true;
+	else if (keycode == ESCAPE) // optimize this
+	{
+		mlx_destroy_window(game->mlx, game->wdw); 
+		free_map(game->infomap);
+		free(game);
+		exit(EXIT_SUCCESS);
+	}
+	return (0);	
+}
+
+/* key_release_hook is activated when keys WASD and left and right
+directionnal arrows are released
+indicate to the render_frame function that key is not activated 
+any more */
+
+static int key_release_hook(int keycode, t_game *game)
+{
+	if (keycode == W_KEY)
+		game->keys[0] = false;
+	else if (keycode == A_KEY)
+		game->keys[1] = false;
+	else if (keycode == S_KEY)
+		game->keys[2] = false;
+	else if (keycode == D_KEY)
+		game->keys[3] = false;
+	else if (keycode == LEFT_ARROW)
+		game->keys[4] = false;
+	else if (keycode == RIGHT_ARROW)
+		game->keys[5] = false;
+	return (0);
+}
+
 /* init game is the starting point of the game
-it triggers event handler and start the game itself with mlx_loop() */
+it triggers event handler hooks and start the game itself 
+with mlx_loop() */
 
 void	init_game(t_game *game)
 {
-	// put hooks after these
-	mlx_hook(game->wdw, 17, 0, exit_hook, &game);
-	// should trigger the drawing process on the windows
+	mlx_hook(game->wdw, EXIT_HOOK, 0, exit_hook, &game);
+	mlx_hook(game->wdw, KEY_PRESS_HOOK, 0, key_press_hook, game);
+	mlx_hook(game->wdw, KEY_RELEASE_HOOK, 0, key_release_hook, game);
 	mlx_loop_hook(game->mlx, render_frame, game);
-	// init program
 	mlx_loop(game->mlx);
 }
