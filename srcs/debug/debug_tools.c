@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* check wether the map relevant infos are actually stored in the struct map */
 
@@ -90,8 +90,9 @@ void print_split(char **split)
 
 void put_xpm_img_to_test(t_game *game) // does not work with small windows
 {
-	mlx_put_image_to_window(game->mlx, game->wdw, game->no_texture->img, 0, 0);
-	mlx_put_image_to_window(game->mlx, game->wdw, game->so_texture->img, 60, 60);
-	mlx_put_image_to_window(game->mlx, game->wdw, game->ea_texture->img, 120, 120);
-	mlx_put_image_to_window(game->mlx, game->wdw, game->we_texture->img, 180, 180);
+	game = (t_game *)game;
+	// mlx_put_image_to_window(game->mlx, game->wdw, game->no_texture->img, 0, 0);
+	// mlx_put_image_to_window(game->mlx, game->wdw, game->so_texture->img, 60, 60);
+	// mlx_put_image_to_window(game->mlx, game->wdw, game->ea_texture->img, 120, 120);
+	// mlx_put_image_to_window(game->mlx, game->wdw, game->we_texture->img, 180, 180);
 }

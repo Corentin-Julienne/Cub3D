@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* mlx_pixel_put_to_img allow to draw a pixel in the img, not to the window
 The img is draw and then is "glued" into the window */

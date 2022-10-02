@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* init_mlx_img_struct create a new image for the minilibx,
 allocated space for the struct, then creating a window attached to 

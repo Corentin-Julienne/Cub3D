@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 int	main(int argc, char **argv)
 {
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	if (!infomap)
 		exit(EXIT_FAILURE); // PERSONNALIZED MSG ?
 	init_infomap_struct(infomap, argv[1]);
-	// print_infomap_infos(infomap); // debug functions, kill after	
+	print_infomap_infos(infomap); // debug functions, kill after	
 	game = init_game_struct(infomap);
 	if (!game)
 		err_msg_and_free(ERR_MALLOC, infomap);

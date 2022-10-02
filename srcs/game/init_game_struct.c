@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* get_key_bools allow to store booleans in an array to check
 whether the keyboard keys WASD are actually pressed or not */

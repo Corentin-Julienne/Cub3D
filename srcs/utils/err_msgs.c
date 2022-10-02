@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* when an error is encountered, print Error\n, followed by a relevant
 error msg. then, free the map struct to avoid leaks and exit status 1 */
