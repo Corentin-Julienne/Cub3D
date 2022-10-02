@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/24 19:39:16 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/02 02:21:54 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,11 @@ and/or uncorrectly formated infos\n"
 # define EXIT_HOOK			17
 # define KEY_PRESS_HOOK		2
 # define KEY_RELEASE_HOOK	3
+
+/* MACROS FOR GAME SETTINGS */
+
+# define PLY_VIEW_FOV		60
+# define PLY_VIEW_HEIGHT	64
 
 typedef struct s_infomap
 {
