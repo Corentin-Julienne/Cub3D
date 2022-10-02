@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   err_msgs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 14:15:02 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/02 02:32:40 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@ void	err_msg_and_free(char *spec, t_infomap *infomap)
 	ft_putstr_fd(spec, STDERR_FILENO);
 	free_map(infomap);
 	exit(EXIT_FAILURE);
+}
+
+/* same as err_msg_and_free but with the game structure to free */
+
+void	err_msg_and_free_all(char *spec, t_game *game)
+{
+	t_infomap	*infomap;
+
+	infomap = game->infomap;
+	
+	// TODO: Free game structure here
+
+	err_msg_and_free(spec, infomap);
 }
 
 /* print Error\n when error encountered, then print a relevant msg,
