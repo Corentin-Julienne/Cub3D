@@ -121,7 +121,7 @@ typedef struct s_texture
 	void		*img;
 	int			width;
 	int			height;
-}				t_texture;		
+}				t_texture;
 
 typedef struct s_game
 {
@@ -139,6 +139,12 @@ typedef struct s_game
 	t_texture	*we_texture;
 	bool		*keys;
 }				t_game;
+
+typedef struct s_player {
+	double		x;
+	double		y;
+	t_game		*game;
+}				t_player;
 
 /* GAME */
 
