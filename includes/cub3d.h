@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/02 02:21:54 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/02 02:53:07 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,24 +130,26 @@ typedef struct s_texture
 
 typedef struct s_game
 {
-	t_mlx_img	**imgs_set;
-	t_infomap	*infomap;
-	void		*mlx;
-	int			wdw_x;
-	int			wdw_y;
-	void		*wdw;
-	int			col_ceil;
-	int			col_floor;
-	t_texture	*no_texture;
-	t_texture	*so_texture;
-	t_texture	*ea_texture;
-	t_texture	*we_texture;
-	bool		*keys;
+	t_mlx_img		**imgs_set;
+	t_infomap		*infomap;
+	void			*mlx;
+	int				wdw_x;
+	int				wdw_y;
+	void			*wdw;
+	int				col_ceil;
+	int				col_floor;
+	t_texture		*no_texture;
+	t_texture		*so_texture;
+	t_texture		*ea_texture;
+	t_texture		*we_texture;
+	bool			*keys;
+	struct s_player	*player;
 }				t_game;
 
 typedef struct s_player {
 	double		x;
 	double		y;
+	int			ang_y;
 	t_game		*game;
 }				t_player;
 

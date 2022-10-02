@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game_struct.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/29 15:55:18 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/10/02 02:53:48 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static void	protect_game_struct(t_game *game)
 	game->we_texture = NULL;
 	game->ea_texture = NULL;
 	game->keys = NULL;
+	game->player = NULL;
 	game->mlx = mlx_init();
 }
 
