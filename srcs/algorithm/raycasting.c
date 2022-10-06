@@ -213,13 +213,10 @@ double **get_touching_array(t_raycast *cast, t_player *ply)
 /* Start the raycasting */
 void    raycast(t_game *game, t_raycast *cast, double ang_offset)
 {
-    char        **map;
     t_player    *ply;
     double      *touching_inter;
 
-    map = game->infomap->map;
     ply = game->player;
-
     cast->intersections_x = find_x_intersections(game, ply->ang_y + ang_offset, ply->pos_x, ply->pos_y);
     cast->intersections_y = find_y_intersections(game, ply->ang_y + ang_offset, ply->pos_x, ply->pos_y);
     cast->inter_x_size = count_valid_intersections(cast->intersections_x);
