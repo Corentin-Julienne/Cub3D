@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/02 02:53:07 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/06 02:48:42 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdbool.h>
+# include <math.h>
 #include <stdio.h> // printf to test [supress before pushing to vogsphere]
 
 # include "../libft/libft.h"
@@ -89,8 +90,10 @@ and/or uncorrectly formated infos\n"
 
 /* MACROS FOR GAME SETTINGS */
 
-# define PLY_VIEW_FOV		60
-# define PLY_VIEW_HEIGHT	64
+# define WALL_HEIGHT		64
+# define CUBES_SIZE			64
+# define PLY_VIEW_HEIGHT	32
+# define PLY_VIEW_FOV_DEG	60
 
 typedef struct s_infomap
 {
@@ -143,15 +146,34 @@ typedef struct s_game
 	t_texture		*ea_texture;
 	t_texture		*we_texture;
 	bool			*keys;
+	int				ray_offset_ang;
 	struct s_player	*player;
 }				t_game;
 
 typedef struct s_player {
-	double		x;
-	double		y;
-	int			ang_y;
+	double		pos_x;
+	double		pos_y;
+	double		ang_y; // Rotation of the camera horizontally
+	double		dist_from_proj; // Distance between the viewer and the projection screen
 	t_game		*game;
 }				t_player;
+
+typedef struct	s_raycast {
+	double		**intersections_x;
+	int			inter_x_size;
+	double		**intersections_y;
+	int			inter_y_size;
+	double		wall_touch_x;
+	double		wall_touch_y;
+}				t_raycast;
+
+/* ALGORITHM */
+
+/* algorithm.c */
+void    	raycast(t_game *game, t_raycast *cast);
+
+/* distances.c */
+double		calc_dist(double x1, double y1, double x2, double y2);
 
 /* GAME */
 
@@ -159,6 +181,8 @@ typedef struct s_player {
 void		init_game(t_game *game);
 /* init_game_struct.c */
 t_game		*init_game_struct(t_infomap *infomap);
+/* init_player.c */
+void    	init_player(t_game *game);
 
 /* GRAPHICS */
 
@@ -187,12 +211,15 @@ void		parse_map(t_infomap *infomap, int i);
 
 /* err_msgs.c */
 void		err_msg_and_free(char *spec, t_infomap *infomap);
+void		err_msg_and_free_all(char *spec, t_game *game);
 void		print_err_msg(char *msg);
 /* free.c */
 void		free_and_nullify(void **to_free);
 void		free_map(t_infomap *infomap);
 void		free_problem_str_arr(char **split, int i);
 void		free_split(char **split);
+/* math.c */
+double  	ceil_double(double nb);
 
 
 // -----------------------------------------//

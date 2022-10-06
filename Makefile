@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+         #
+#    By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 16:19:40 by cjulienn          #+#    #+#              #
-#    Updated: 2022/09/29 15:56:46 by maaxit           ###   ########.fr        #
+#    Updated: 2022/10/06 00:06:09 by mpeharpr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,13 @@ NAME := Cub3D
 TEST_NAME := Cub3D_test
 
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror
+# CFLAGS := -Wall -Wextra -Werror
 
 INCLUDES := -I includes
 
 SRC_DIR := srcs
 OBJ_DIR := objs
-SUB_DIRS := game graphics main parsing utils debug # update this when adding new subdir [kill debug]
+SUB_DIRS := game graphics main parsing utils algorithm debug # update this when adding new subdir [kill debug]
 SOURCEDIRS := $(foreach dir, $(SUB_DIRS), $(addprefix $(SRC_DIR)/, $(dir)))
 
 SRC_FILES := $(foreach dir,$(SOURCEDIRS),$(wildcard $(dir)/*.c))

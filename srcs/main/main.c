@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 13:52:21 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/18 16:57:32 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/05 14:18:51 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char **argv)
 	game = init_game_struct(infomap);
 	if (!game)
 		err_msg_and_free(ERR_MALLOC, infomap);
+	init_player(game);
 	init_game(game);
 	return (0);
 }
