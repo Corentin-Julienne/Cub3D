@@ -100,7 +100,10 @@ double **find_x_intersections(t_game *game, double ang, double start_x, double s
         map_x = (int)floor(cast_x / CUBES_SIZE);
         map_y = (int)floor(found_y / CUBES_SIZE);
 
-        if (map_x > 6 || map_y > 6 || map_x < 0 || map_y < 0) // CHANGE THIS WITH THE MAP WIDTH
+        if (ang >= 90 && ang <= 270)
+            map_x--;
+
+        if (map_x >= 6 || map_y >= 6 || map_x < 0 || map_y < 0) // CHANGE THIS WITH THE MAP WIDTH
             break;
 
         intersections[i][0] = cast_x;
@@ -141,10 +144,14 @@ double **find_y_intersections(t_game *game, double ang, double start_x, double s
         else
             found_x = start_x + fabs(cast_y - start_y) / tanf(ang * M_PI / 180);
         found_x = ceil_double(found_x);
+
         map_x = (int)floor(found_x / CUBES_SIZE);
         map_y = (int)floor(cast_y / CUBES_SIZE);
 
-        if (map_x > 6 || map_y > 6 || map_x < 0 || map_y < 0) // CHANGE THIS WITH THE MAP WIDTH AND HEIGHT
+        if (ang < 180 && ang > 0)
+            map_y--;
+
+        if (map_x >= 6 || map_y >= 6 || map_x < 0 || map_y < 0) // CHANGE THIS WITH THE MAP WIDTH AND HEIGHT
             break;
 
         intersections[i][0] = found_x;
@@ -204,7 +211,7 @@ double **get_touching_array(t_raycast *cast, t_player *ply)
 }
 
 /* Start the raycasting */
-void    raycast(t_game *game, t_raycast *cast)
+void    raycast(t_game *game, t_raycast *cast, double ang_offset)
 {
     char        **map;
     t_player    *ply;
@@ -213,8 +220,8 @@ void    raycast(t_game *game, t_raycast *cast)
     map = game->infomap->map;
     ply = game->player;
 
-    cast->intersections_x = find_x_intersections(game, ply->ang_y, ply->pos_x, ply->pos_y);
-    cast->intersections_y = find_y_intersections(game, ply->ang_y, ply->pos_x, ply->pos_y);
+    cast->intersections_x = find_x_intersections(game, ply->ang_y + ang_offset, ply->pos_x, ply->pos_y);
+    cast->intersections_y = find_y_intersections(game, ply->ang_y + ang_offset, ply->pos_x, ply->pos_y);
     cast->inter_x_size = count_valid_intersections(cast->intersections_x);
     cast->inter_y_size = count_valid_intersections(cast->intersections_y);
 
@@ -227,11 +234,6 @@ void    raycast(t_game *game, t_raycast *cast)
     /* Copy them to the structure */
     cast->wall_touch_x = touching_inter[0];
     cast->wall_touch_y = touching_inter[1];
-
-    if (!cast->intersections_x)
-        printf("No intersections on X axis\n");
-    if (!cast->intersections_y)
-        printf("No intersections on Y axis\n");
 
     /* Free everything */
     free_intersections_array(cast->intersections_x);

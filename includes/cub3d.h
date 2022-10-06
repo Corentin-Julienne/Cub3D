@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/06 02:48:42 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:20:44 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ and/or uncorrectly formated infos\n"
 
 /* MACROS FOR WINDOW SIZE */
 
-# define WDW_WIDTH			800
-# define WDW_HEIGHT			640
+# define WDW_WIDTH			320
+# define WDW_HEIGHT			200
 
 /* MACROS FOR CONVERTING TRGB TO INT */
 
@@ -170,7 +170,7 @@ typedef struct	s_raycast {
 /* ALGORITHM */
 
 /* algorithm.c */
-void    	raycast(t_game *game, t_raycast *cast);
+void    	raycast(t_game *game, t_raycast *cast, double ang_offset);
 
 /* distances.c */
 double		calc_dist(double x1, double y1, double x2, double y2);
@@ -195,6 +195,8 @@ t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y);
 void		clear_mlx_img_struct(t_mlx_img **mlx_img);
 /* render_frame.c */
 int			render_frame(t_game *game);
+/* render_algo.c */
+void    	render_everything(t_game *game, int img_index);
 
 /* PARSING */
 
