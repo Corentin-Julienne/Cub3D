@@ -51,6 +51,34 @@ static double **new_intersections_array(int count)
     return (intersections);
 }
 
+/* Check if the next case is a wall depending on the angle */
+static int  is_next_case_wall(t_game *game, double x, double y, double ang)
+{
+    int     x_case;
+    int     y_case;
+    char    **map;
+
+    map = game->infomap->map;
+    x = ceil_double(x);
+    y = ceil_double(y);
+    x_case = (int)floor(x / CUBES_SIZE);
+    y_case = (int)floor(y / CUBES_SIZE);
+    // Prevent ray from going into a wall or out of the map
+    if (x_case >= game->infomap->size_x || y_case >= game->infomap->size_y)
+        return (2);
+    if (x_case <= 0 || y_case <= 0)
+        return (2);
+    // Get the next caes depending on the ang
+    if (ang >= 0 && ang <= 180)
+        y_case--;
+    if (ang >= 90 && ang <= 270)
+        x_case--;
+    // Check if the next case is a wall
+    if (map[y_case][x_case] == '1')
+        return (1);
+    return (0);
+}
+
 /* Free the instructions array */
 static void free_intersections_array(double **intersections)
 {
@@ -74,9 +102,8 @@ double **find_x_intersections(t_game *game, double ang, double start_x, double s
     double  **intersections;
     double  cast_x;
     double  found_y;
-    int     map_x;
-    int     map_y;
     int     i;
+    int     next_inter;
 
     ang = fmod(ang, 360);
     if (ang == 90 || ang == 270)
@@ -95,23 +122,16 @@ double **find_x_intersections(t_game *game, double ang, double start_x, double s
             found_y = start_y + tanf(ang * M_PI / 180) * fabs(cast_x - start_x);
         else
             found_y = start_y - tanf(ang * M_PI / 180) * fabs(cast_x - start_x);
-        found_y = ceil_double(found_y);
-
-        map_x = (int)floor(cast_x / CUBES_SIZE);
-        map_y = (int)floor(found_y / CUBES_SIZE);
-
-        if (ang >= 90 && ang <= 270)
-            map_x--;
-
-        if (map_x >= game->infomap->size_x || map_y >= game->infomap->size_y || map_x < 0 || map_y < 0)
-            break;
-
-        intersections[i][0] = cast_x;
-        intersections[i][1] = found_y;
-        i++;
-
-        if (game->infomap->map[map_y][map_x] == '1')
-            break;
+        
+        next_inter = is_next_case_wall(game, cast_x, found_y, ang);
+        if (next_inter < 2)
+        {
+            intersections[i][0] = cast_x;
+            intersections[i][1] = found_y;
+            i++;
+        }
+        if (next_inter > 0)
+            break ;
     }
     return intersections;
 }
@@ -122,9 +142,8 @@ double **find_y_intersections(t_game *game, double ang, double start_x, double s
     double  **intersections;
     double  cast_y;
     double  found_x;
-    int     map_x;
-    int     map_y;
     int     i;
+    int     next_inter;
 
     ang = fmod(ang, 360);
     if (ang == 0 || ang == 180)
@@ -143,23 +162,16 @@ double **find_y_intersections(t_game *game, double ang, double start_x, double s
             found_x = start_x - fabs(cast_y - start_y) / tanf(ang * M_PI / 180);
         else
             found_x = start_x + fabs(cast_y - start_y) / tanf(ang * M_PI / 180);
-        found_x = ceil_double(found_x);
 
-        map_x = (int)floor(found_x / CUBES_SIZE);
-        map_y = (int)floor(cast_y / CUBES_SIZE);
-
-        if (ang < 180 && ang > 0)
-            map_y--;
-
-        if (map_x >= game->infomap->size_x || map_y >= game->infomap->size_y || map_x < 0 || map_y < 0)
-            break;
-
-        intersections[i][0] = found_x;
-        intersections[i][1] = cast_y;
-        i++;
-
-        if (game->infomap->map[map_y][map_x] == '1')
-            break;
+        next_inter = is_next_case_wall(game, found_x, cast_y, ang);
+        if (next_inter < 2)
+        {
+            intersections[i][0] = found_x;
+            intersections[i][1] = cast_y;
+            i++;
+        }
+        if (next_inter > 0)
+            break ;
     }
     return (intersections);
 }
@@ -231,6 +243,8 @@ void    raycast(t_game *game, t_raycast *cast, double ang_offset)
     /* Copy them to the structure */
     cast->wall_touch_x = touching_inter[0];
     cast->wall_touch_y = touching_inter[1];
+
+    // printf("ANG %f --> x-touch=%f y-touch=%f (algorithm %c)\n", ang_offset, cast->wall_touch_x, cast->wall_touch_y, (get_touching_array(cast, ply) == cast->intersections_x) ? 'x' : 'y');
 
     /* Free everything */
     free_intersections_array(cast->intersections_x);
