@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game_struct.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/25 16:23:59 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/09/29 15:55:18 by maaxit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,14 @@ t_game	*init_game_struct(t_infomap *infomap)
 	protect_game_struct(game);
 	game->imgs_set = (t_mlx_img **)malloc(sizeof(t_mlx_img *) * 2);
 	if (!game->imgs_set)
-		; // handle this with appropriate function
+		{}; // handle this with appropriate function
 	game->imgs_set[0] = NULL;
 	game->imgs_set[1] = NULL;
 	get_texts_north_south(game, infomap);
 	get_texts_west_east(game, infomap);
 	game->keys = get_key_bools(game);
 	if (!game->keys)
-		; // handle this with appropiate function
+		{}; // handle this with appropiate function
 	game->infomap = infomap;
 	game->wdw_x = WDW_WIDTH;
 	game->wdw_y = WDW_HEIGHT;

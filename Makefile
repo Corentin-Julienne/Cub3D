@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+         #
+#    By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 16:19:40 by cjulienn          #+#    #+#              #
-#    Updated: 2022/09/27 13:25:23 by cjulienn         ###   ########.fr        #
+#    Updated: 2022/09/29 15:56:46 by maaxit           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ NAME := Cub3D
 TEST_NAME := Cub3D_test
 
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror 
+CFLAGS := -Wall -Wextra -Werror
 
 INCLUDES := -I includes
 
@@ -53,6 +53,7 @@ ifeq ($(UNAME), Linux)
 
 	MINILIBX_DIR := mlx_linux
 	MINILIBX := mlx_Linux
+	MINILIBX_LINK := mlx_Linux
 	COMPILE_MLX_ARGS := -L/usr/lib -I$(MINILIBX_DIR) -lXext -lX11 -lm -lz
 
 else
@@ -89,7 +90,7 @@ $(MINILIBX):
 	@printf "$(YELLOW)Compiling MiniLibX...\n$(END)"
 	@$(MAKE) -C $(MINILIBX_DIR)
 	@printf "$(GREEN)MiniLibX has been created\n$(END)"
-	@cp ./mlx/libmlx.dylib .
+	@cp ./mlx/libmlx.dylib . 2>/dev/null || :
 
 clean:
 	@printf "$(YELLOW)Removing objects...\n$(END)"
