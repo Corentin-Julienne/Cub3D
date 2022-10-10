@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:07:05 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/25 16:30:14 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:15:28 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	altern_imgs(t_game *game)
 	game->imgs_set[img_index] = init_mlx_img_struct(game->mlx,
 		WDW_WIDTH, WDW_HEIGHT);
 	render_landscape(game, img_index);
+	render_crosshair(game, img_index); // bonus
 	// use raycasting algo after this line
 	if (img_index == 0)
 	{

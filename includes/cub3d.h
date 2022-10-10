@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 15:27:51 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:17:17 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ and/or uncorrectly formated infos\n"
 
 /* MACROS FOR WINDOW SIZE */
 
-# define WDW_WIDTH			1920
-# define WDW_HEIGHT			1080
+# define WDW_WIDTH			1366
+# define WDW_HEIGHT			768
 
 /* MACROS FOR CONVERTING TRGB TO INT */
 
@@ -153,6 +153,11 @@ typedef struct s_game
 	t_texture	*we_texture;
 	bool		*keys;
 }				t_game;
+
+/* BONUS */
+
+/* crosshair.c */
+void		render_crosshair(t_game *game, int img_index);
 
 /* GAME */
 
