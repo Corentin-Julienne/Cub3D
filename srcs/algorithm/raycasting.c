@@ -82,7 +82,7 @@ double **find_x_intersections(t_game *game, double ang, double start_x, double s
     if (ang == 90 || ang == 270)
         return (NULL);
     
-    intersections = new_intersections_array(6); // CHANGE THIS WITH THE MAP WIDTH
+    intersections = new_intersections_array(game->infomap->size_x);
     if (!intersections)
         return (NULL);
 
@@ -103,7 +103,7 @@ double **find_x_intersections(t_game *game, double ang, double start_x, double s
         if (ang >= 90 && ang <= 270)
             map_x--;
 
-        if (map_x >= 6 || map_y >= 6 || map_x < 0 || map_y < 0) // CHANGE THIS WITH THE MAP WIDTH
+        if (map_x >= game->infomap->size_x || map_y >= game->infomap->size_y || map_x < 0 || map_y < 0)
             break;
 
         intersections[i][0] = cast_x;
@@ -130,7 +130,7 @@ double **find_y_intersections(t_game *game, double ang, double start_x, double s
     if (ang == 0 || ang == 180)
         return (NULL);
     
-    intersections = new_intersections_array(6); // CHANGE THIS WITH THE MAP HEIGHT
+    intersections = new_intersections_array(game->infomap->size_y);
     if (!intersections)
         return (NULL);
 
@@ -151,7 +151,7 @@ double **find_y_intersections(t_game *game, double ang, double start_x, double s
         if (ang < 180 && ang > 0)
             map_y--;
 
-        if (map_x >= 6 || map_y >= 6 || map_x < 0 || map_y < 0) // CHANGE THIS WITH THE MAP WIDTH AND HEIGHT
+        if (map_x >= game->infomap->size_x || map_y >= game->infomap->size_y || map_x < 0 || map_y < 0)
             break;
 
         intersections[i][0] = found_x;
