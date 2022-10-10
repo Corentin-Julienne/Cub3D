@@ -64,8 +64,8 @@ and/or uncorrectly formated infos\n"
 
 /* MACROS FOR WINDOW SIZE */
 
-# define WDW_WIDTH			800
-# define WDW_HEIGHT			640
+# define WDW_WIDTH			1366
+# define WDW_HEIGHT			768
 
 /* MACROS FOR CONVERTING TRGB TO INT */
 
@@ -179,9 +179,13 @@ typedef struct	s_raycast {
 
 /* algorithm.c */
 void    	raycast(t_game *game, t_raycast *cast, double ang_offset);
-
 /* distances.c */
 double		calc_dist(double x1, double y1, double x2, double y2);
+
+/* BONUS */
+
+/* crosshair.c */
+void		render_crosshair(t_game *game, int img_index);
 
 /* GAME */
 

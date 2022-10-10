@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:07:05 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/06 17:27:08 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:15:28 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static void	altern_imgs(t_game *game)
 		WDW_WIDTH, WDW_HEIGHT);
 	render_landscape(game, img_index);
 	render_everything(game, img_index);
+  render_crosshair(game, img_index); // bonus
 	if (img_index == 0)
 	{
 		mlx_put_image_to_window(game->mlx, game->wdw,
