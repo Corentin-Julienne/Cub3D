@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 13:52:21 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/18 16:57:32 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 15:45:26 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	if (!infomap)
 		exit(EXIT_FAILURE); // PERSONNALIZED MSG ?
 	init_infomap_struct(infomap, argv[1]);
-	// print_infomap_infos(infomap); // debug functions, kill after	
+	print_infomap_infos(infomap); // debug functions, kill after
 	game = init_game_struct(infomap);
 	if (!game)
 		err_msg_and_free(ERR_MALLOC, infomap);

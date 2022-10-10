@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/24 19:39:16 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 15:27:51 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdbool.h>
+# include <math.h>
 #include <stdio.h> // printf to test [supress before pushing to vogsphere]
 
 # include "../libft/libft.h"
@@ -63,13 +64,20 @@ and/or uncorrectly formated infos\n"
 
 /* MACROS FOR WINDOW SIZE */
 
-# define WDW_WIDTH			800
-# define WDW_HEIGHT			640
+# define WDW_WIDTH			1920
+# define WDW_HEIGHT			1080
 
 /* MACROS FOR CONVERTING TRGB TO INT */
 
 # define CEILING			1
 # define FLOOR				2
+
+/* MACROS FOR PLAYER STARTING ORIENTATION */
+
+# define NORTH				1
+# define SOUTH				2
+# define EAST				3
+# define WEST				4
 
 /* MACROS FOR WASD KEY AND DIRECTIONNAL ARROW */
 
@@ -87,6 +95,11 @@ and/or uncorrectly formated infos\n"
 # define KEY_PRESS_HOOK		2
 # define KEY_RELEASE_HOOK	3
 
+/* MACROS FOR RAYCASTING ALGORITHM */
+
+# define FOV				60
+# define EDGE_LEN			64
+
 typedef struct s_infomap
 {
 	char		*lines;
@@ -102,6 +115,7 @@ typedef struct s_infomap
 	char		*we_text;
 	int			*floor_col;
 	int			*ceil_col;
+	int			direction;
 }				t_infomap;
 
 typedef struct	s_mlx_img 
@@ -116,12 +130,12 @@ typedef struct	s_mlx_img
 	int			height;
 }				t_mlx_img;
 
-typedef struct s_texture 
+typedef struct s_texture
 {
 	void		*img;
 	int			width;
 	int			height;
-}				t_texture;		
+}				t_texture;
 
 typedef struct s_game
 {
