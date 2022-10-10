@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:48:53 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 14:17:18 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 15:42:55 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,33 @@ static void	fulfill_map(t_infomap *infomap, int i)
 	infomap->map[j] = NULL;
 }
 
+/* calc_map_dimensions allows to calculate infomap->size_y &&
+infomap->size_x */
+
+static void	calc_map_dimensions(t_infomap *infomap, int i)
+{
+	int			j;
+	int			len;
+	
+	infomap->size_y = 0;
+	while (infomap->cub && infomap->cub[i + infomap->size_y])
+		infomap->size_y++;
+	j = 0;
+	len = INT_MIN;
+	while (infomap->cub && infomap->cub[i + j])
+	{
+		if ((int)ft_strlen(infomap->cub[i + j]) > len)
+			len = (int)ft_strlen(infomap->cub[i + j]);
+		j++;
+	}
+	infomap->size_x = len;
+}
+
 void	parse_map(t_infomap *infomap, int i)
 {
 	if (!infomap->cub[i])
 		err_msg_and_free(ERR_MISSING_GRID, infomap);
-	infomap->size_y = 0;
-	while (infomap->cub && infomap->cub[i + infomap->size_y])
-		infomap->size_y++;
+	calc_map_dimensions(infomap, i);
 	infomap->map = (char **)malloc(sizeof(char *) * (infomap->size_y + 1));
 	if (!infomap->map)
 		err_msg_and_free(ERR_MALLOC, infomap);

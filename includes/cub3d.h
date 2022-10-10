@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
+/*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */<
 /*   Updated: 2022/10/06 17:41:37 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -64,13 +64,20 @@ and/or uncorrectly formated infos\n"
 
 /* MACROS FOR WINDOW SIZE */
 
-# define WDW_WIDTH			800
-# define WDW_HEIGHT			640
+# define WDW_WIDTH			1920
+# define WDW_HEIGHT			1080
 
 /* MACROS FOR CONVERTING TRGB TO INT */
 
 # define CEILING			1
 # define FLOOR				2
+
+/* MACROS FOR PLAYER STARTING ORIENTATION */
+
+# define NORTH				1
+# define SOUTH				2
+# define EAST				3
+# define WEST				4
 
 /* MACROS FOR WASD KEY AND DIRECTIONNAL ARROW */
 
@@ -110,6 +117,7 @@ typedef struct s_infomap
 	char		*we_text;
 	int			*floor_col;
 	int			*ceil_col;
+	int			direction;
 }				t_infomap;
 
 typedef struct	s_mlx_img 
@@ -124,7 +132,7 @@ typedef struct	s_mlx_img
 	int			height;
 }				t_mlx_img;
 
-typedef struct s_texture 
+typedef struct s_texture
 {
 	void		*img;
 	int			width;

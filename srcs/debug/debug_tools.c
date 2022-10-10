@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:14:57 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/25 16:25:07 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 15:45:19 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	print_infomap_infos(t_infomap *infomap)
 		printf("%s\n", infomap->map[y]);
 		y++;
 	}
+	printf("map size (x) = %d and map size (y) = %d\n", infomap->size_x, infomap->size_y);
 	printf("------------------------------\n");	
 }
 
