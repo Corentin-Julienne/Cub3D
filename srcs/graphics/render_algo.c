@@ -33,4 +33,5 @@ void    render_everything(t_game *game, int img_index)
             y++;
         }
     }
+    // exit(0);
 }

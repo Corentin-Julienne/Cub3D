@@ -58,17 +58,15 @@ static int  is_next_case_wall(t_game *game, double x, double y, double ang)
     int     y_case;
     char    **map;
 
-    map = game->infomap->map;
-    x = ceil_double(x);
-    y = ceil_double(y);
-    x_case = (int)floor(x / CUBES_SIZE);
-    y_case = (int)floor(y / CUBES_SIZE);
     // Prevent ray from going into a wall or out of the map
-    if (x_case >= game->infomap->size_x || y_case >= game->infomap->size_y)
+    if (x > (game->infomap->size_x - 1) * CUBES_SIZE || y > (game->infomap->size_y - 1) * CUBES_SIZE)
         return (2);
-    if (x_case <= 0 || y_case <= 0)
+    if (x < CUBES_SIZE || y < CUBES_SIZE)
         return (2);
-    // Get the next caes depending on the ang
+    map = game->infomap->map;
+    x_case = (int)floor(ceil_double(x) / CUBES_SIZE);
+    y_case = (int)floor(ceil_double(y) / CUBES_SIZE);
+    // Get the next case depending on the ang
     if (ang >= 0 && ang <= 180)
         y_case--;
     if (ang >= 90 && ang <= 270)
