@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* parse_map is used to parse the grid of the map 
 (the part composed of 0, 1 and player starting position and orientation) */

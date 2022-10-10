@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   render_frame.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:07:05 by cjulienn          #+#    #+#             */
 /*   Updated: 2022/10/10 16:15:28 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* render landscape is used to draw floor and ceiling */
 
@@ -69,8 +69,8 @@ static void	altern_imgs(t_game *game)
 	game->imgs_set[img_index] = init_mlx_img_struct(game->mlx,
 		WDW_WIDTH, WDW_HEIGHT);
 	render_landscape(game, img_index);
-	render_crosshair(game, img_index); // bonus
-	// use raycasting algo after this line
+	render_everything(game, img_index);
+  render_crosshair(game, img_index); // bonus
 	if (img_index == 0)
 	{
 		mlx_put_image_to_window(game->mlx, game->wdw,
@@ -105,7 +105,6 @@ int	render_frame(t_game *game)
 		game->imgs_set[0] = init_mlx_img_struct(game->mlx,
 			WDW_HEIGHT, WDW_HEIGHT);
 		render_landscape(game, 0);
-		// put raycasting algo here
 		mlx_put_image_to_window(game->mlx, game->wdw,
 			game->imgs_set[0]->img, 0, 0);
 		first_iter = false;

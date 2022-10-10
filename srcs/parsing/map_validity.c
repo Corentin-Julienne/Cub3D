@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* check_invalid_nl verify that the map does not contain any empty line,
 which is not allowed by the instructions PDF */

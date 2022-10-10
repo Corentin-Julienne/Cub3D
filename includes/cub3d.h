@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
 /*   Updated: 2022/10/10 16:17:17 by cjulienn         ###   ########.fr       */
@@ -95,10 +95,12 @@ and/or uncorrectly formated infos\n"
 # define KEY_PRESS_HOOK		2
 # define KEY_RELEASE_HOOK	3
 
-/* MACROS FOR RAYCASTING ALGORITHM */
+/* MACROS FOR GAME SETTINGS */
 
-# define FOV				60
-# define EDGE_LEN			64
+# define WALL_HEIGHT		64
+# define CUBES_SIZE			64
+# define PLY_VIEW_HEIGHT	32
+# define PLY_VIEW_FOV_DEG	60
 
 typedef struct s_infomap
 {
@@ -139,20 +141,46 @@ typedef struct s_texture
 
 typedef struct s_game
 {
-	t_mlx_img	**imgs_set;
-	t_infomap	*infomap;
-	void		*mlx;
-	int			wdw_x;
-	int			wdw_y;
-	void		*wdw;
-	int			col_ceil;
-	int			col_floor;
-	t_texture	*no_texture;
-	t_texture	*so_texture;
-	t_texture	*ea_texture;
-	t_texture	*we_texture;
-	bool		*keys;
+	t_mlx_img		**imgs_set;
+	t_infomap		*infomap;
+	void			*mlx;
+	int				wdw_x;
+	int				wdw_y;
+	void			*wdw;
+	int				col_ceil;
+	int				col_floor;
+	t_texture		*no_texture;
+	t_texture		*so_texture;
+	t_texture		*ea_texture;
+	t_texture		*we_texture;
+	bool			*keys;
+	int				ray_offset_ang;
+	struct s_player	*player;
 }				t_game;
+
+typedef struct s_player {
+	double		pos_x;
+	double		pos_y;
+	double		ang_y; // Rotation of the camera horizontally
+	double		dist_from_proj; // Distance between the viewer and the projection screen
+	t_game		*game;
+}				t_player;
+
+typedef struct	s_raycast {
+	double		**intersections_x;
+	int			inter_x_size;
+	double		**intersections_y;
+	int			inter_y_size;
+	double		wall_touch_x;
+	double		wall_touch_y;
+}				t_raycast;
+
+/* ALGORITHM */
+
+/* algorithm.c */
+void    	raycast(t_game *game, t_raycast *cast, double ang_offset);
+/* distances.c */
+double		calc_dist(double x1, double y1, double x2, double y2);
 
 /* BONUS */
 
@@ -165,6 +193,8 @@ void		render_crosshair(t_game *game, int img_index);
 void		init_game(t_game *game);
 /* init_game_struct.c */
 t_game		*init_game_struct(t_infomap *infomap);
+/* init_player.c */
+void    	init_player(t_game *game);
 
 /* GRAPHICS */
 
@@ -177,6 +207,8 @@ t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y);
 void		clear_mlx_img_struct(t_mlx_img **mlx_img);
 /* render_frame.c */
 int			render_frame(t_game *game);
+/* render_algo.c */
+void    	render_everything(t_game *game, int img_index);
 
 /* PARSING */
 
@@ -193,12 +225,15 @@ void		parse_map(t_infomap *infomap, int i);
 
 /* err_msgs.c */
 void		err_msg_and_free(char *spec, t_infomap *infomap);
+void		err_msg_and_free_all(char *spec, t_game *game);
 void		print_err_msg(char *msg);
 /* free.c */
 void		free_and_nullify(void **to_free);
 void		free_map(t_infomap *infomap);
 void		free_problem_str_arr(char **split, int i);
 void		free_split(char **split);
+/* math.c */
+double  	ceil_double(double nb);
 
 
 // -----------------------------------------//
