@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 16:10:48 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:13:45 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ and/or uncorrectly formated infos\n"
 
 /* MACROS FOR WINDOW SIZE */
 
-# define WDW_WIDTH			1920
-# define WDW_HEIGHT			1080
+# define WDW_WIDTH			800
+# define WDW_HEIGHT			640
 
 /* MACROS FOR CONVERTING TRGB TO INT */
 
