@@ -32,7 +32,7 @@ INCLUDES := -I includes
 
 SRC_DIR := srcs
 OBJ_DIR := objs
-SUB_DIRS := game graphics main parsing utils debug # update this when adding new subdir [kill debug]
+SUB_DIRS := algo game graphics main parsing utils debug # update this when adding new subdir [kill debug]
 SOURCEDIRS := $(foreach dir, $(SUB_DIRS), $(addprefix $(SRC_DIR)/, $(dir)))
 
 SRC_FILES := $(foreach dir,$(SOURCEDIRS),$(wildcard $(dir)/*.c))
