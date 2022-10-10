@@ -12,10 +12,10 @@ void    render_everything(t_game *game, int img_index)
 
     ply = game->player;
 
-    if (game->keys[4])
-        ply->ang_y -= 1;
-    else if (game->keys[5])
-        ply->ang_y += 1;
+    // if (game->keys[4])
+        // ply->ang_y -= 1;
+    // else if (game->keys[5])
+        // ply->ang_y += 1;
 
     for (int i = 0; i < game->wdw_x; i++)
     {
