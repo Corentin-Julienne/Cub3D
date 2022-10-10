@@ -242,8 +242,6 @@ void    raycast(t_game *game, t_raycast *cast, double ang_offset)
     cast->wall_touch_x = touching_inter[0];
     cast->wall_touch_y = touching_inter[1];
 
-    // printf("ANG %f --> x-touch=%f y-touch=%f (algorithm %c)\n", ang_offset, cast->wall_touch_x, cast->wall_touch_y, (get_touching_array(cast, ply) == cast->intersections_x) ? 'x' : 'y');
-
     /* Free everything */
     free_intersections_array(cast->intersections_x);
     free_intersections_array(cast->intersections_y);

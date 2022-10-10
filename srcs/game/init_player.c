@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:02:36 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/10 23:19:54 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,4 @@ void    init_player(t_game *game)
     right_x = get_char_map_pos(game->infomap->map, 'N', 1);
     top_y = get_char_map_pos(game->infomap->map, 'N', 0);
     init_player_struct(game, right_x, top_y);
-
-
-
-
-    // t_raycast ray;
-    // double      ang = 8.1;
-
-    // raycast(game, &ray, ang);
-    // printf("ang: %f, touch_x = %f, touch_y = %f\n", ang, ray.wall_touch_x, ray.wall_touch_y);
 }
