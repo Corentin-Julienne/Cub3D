@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_game_struct.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maaxit <maaxit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/29 15:55:18 by maaxit           ###   ########.fr       */
+/*   Updated: 2022/10/05 14:18:28 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* get_key_bools allow to store booleans in an array to check
 whether the keyboard keys WASD are actually pressed or not */
@@ -85,6 +85,7 @@ static void	protect_game_struct(t_game *game)
 	game->we_texture = NULL;
 	game->ea_texture = NULL;
 	game->keys = NULL;
+	game->player = NULL;
 	game->mlx = mlx_init();
 }
 
@@ -114,6 +115,7 @@ t_game	*init_game_struct(t_infomap *infomap)
 	game->wdw_x = WDW_WIDTH;
 	game->wdw_y = WDW_HEIGHT;
 	game->wdw = mlx_new_window(game->mlx, game->wdw_x, game->wdw_y, "Cub3D");
+	game->ray_offset_ang = PLY_VIEW_FOV_DEG / game->wdw_x;
 	get_colors(game);
 	return (game);
 }

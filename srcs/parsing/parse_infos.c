@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* parse_card_points is used to retrieve the paths to the textures
 of north, south, east and west walls. In case of error in format or 

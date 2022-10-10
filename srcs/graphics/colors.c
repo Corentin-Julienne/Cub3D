@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "cub3d.h"
 
 /* create_trgb_color use bitshift ops to convert 0 numbers
 between 0 and 255 (one byte size) to an int regrouping
