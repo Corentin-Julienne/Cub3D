@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_game_struct.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/05 14:18:28 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:07:18 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* get_key_bools allow to store booleans in an array to check
 whether the keyboard keys WASD are actually pressed or not */

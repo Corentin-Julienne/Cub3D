@@ -6,11 +6,11 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:13:25 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 14:15:50 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:09:12 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* free_and_nullify free the target, then put it to NULL */
 

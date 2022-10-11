@@ -6,11 +6,11 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:48:39 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/24 17:45:24 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:08:55 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* parse_card_points is used to retrieve the paths to the textures
 of north, south, east and west walls. In case of error in format or 

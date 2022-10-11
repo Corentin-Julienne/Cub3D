@@ -6,11 +6,11 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:02:41 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/24 18:07:42 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:07:21 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* allow to terminate window when the red cross is pressed */
 

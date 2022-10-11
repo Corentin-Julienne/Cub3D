@@ -1,4 +1,16 @@
-#include "cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   distances.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/10 16:46:35 by cjulienn          #+#    #+#             */
+/*   Updated: 2022/10/10 17:06:59 by cjulienn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/cub3d.h"
 
 /* Calculate the distance between 2 intersections points on X axis */
 double  calc_dist_x(double ang_y)

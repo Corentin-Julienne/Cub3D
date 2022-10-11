@@ -6,11 +6,11 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:09:23 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/19 16:46:27 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:07:37 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* init_mlx_img_struct create a new image for the minilibx,
 allocated space for the struct, then creating a window attached to 

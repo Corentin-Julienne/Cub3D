@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 13:52:21 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/05 14:18:51 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:07:51 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 int	main(int argc, char **argv)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* check wether the map provided is in .cub format
 return 1 if it is the case, 0 otherwise */
