@@ -6,11 +6,11 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 18:03:18 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/16 14:11:31 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:08:52 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* check_invalid_nl verify that the map does not contain any empty line,
 which is not allowed by the instructions PDF */

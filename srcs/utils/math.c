@@ -1,4 +1,16 @@
-#include "cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   math.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/10 17:09:20 by cjulienn          #+#    #+#             */
+/*   Updated: 2022/10/10 17:09:25 by cjulienn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/cub3d.h"
 
 /* Since I had a few problems with results being X.999999 because of PI,
 I made this function in order to ceil the double in case this is all 999999.

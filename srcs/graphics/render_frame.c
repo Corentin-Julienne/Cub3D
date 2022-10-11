@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   render_frame.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:07:05 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 16:15:28 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:21:00 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* render landscape is used to draw floor and ceiling */
 
@@ -68,9 +68,10 @@ static void	altern_imgs(t_game *game)
 	img_index = choose_img(game);
 	game->imgs_set[img_index] = init_mlx_img_struct(game->mlx,
 		WDW_WIDTH, WDW_HEIGHT);
+	update_player_data(game, game->player);
 	render_landscape(game, img_index);
-	render_everything(game, img_index);
-  render_crosshair(game, img_index); // bonus
+	render_walls(game, img_index);
+	render_crosshair(game, img_index); // bonus
 	if (img_index == 0)
 	{
 		mlx_put_image_to_window(game->mlx, game->wdw,

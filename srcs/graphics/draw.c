@@ -6,11 +6,11 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:34:12 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/18 14:55:54 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:07:33 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* mlx_pixel_put_to_img allow to draw a pixel in the img, not to the window
 The img is draw and then is "glued" into the window */

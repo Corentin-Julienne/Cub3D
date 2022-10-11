@@ -6,11 +6,11 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:48:53 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 15:42:55 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:09:04 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* parse_map is used to parse the grid of the map 
 (the part composed of 0, 1 and player starting position and orientation) */

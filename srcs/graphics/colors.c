@@ -6,11 +6,11 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:09:21 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/09/24 19:38:56 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:07:31 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* create_trgb_color use bitshift ops to convert 0 numbers
 between 0 and 255 (one byte size) to an int regrouping

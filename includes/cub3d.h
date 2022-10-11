@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 16:13:45 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:20:00 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,8 @@ void		init_game(t_game *game);
 t_game		*init_game_struct(t_infomap *infomap);
 /* init_player.c */
 void    	init_player(t_game *game);
+/* update_player.c */
+void		update_player_data(t_game *game, t_player *ply);
 
 /* GRAPHICS */
 
@@ -208,7 +210,7 @@ void		clear_mlx_img_struct(t_mlx_img **mlx_img);
 /* render_frame.c */
 int			render_frame(t_game *game);
 /* render_algo.c */
-void    	render_everything(t_game *game, int img_index);
+void    	render_walls(t_game *game, int img_index);
 
 /* PARSING */
 

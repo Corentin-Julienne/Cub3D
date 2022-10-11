@@ -1,7 +1,19 @@
-#include "cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_algo.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/10 16:47:08 by cjulienn          #+#    #+#             */
+/*   Updated: 2022/10/10 17:07:41 by cjulienn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/cub3d.h"
 
 /* Render walls from the map with the raycasting algorithm */
-void    render_everything(t_game *game, int img_index)
+void    render_walls(t_game *game, int img_index)
 {
     t_player    *ply;
     t_raycast   ray;
@@ -9,6 +21,7 @@ void    render_everything(t_game *game, int img_index)
     double      dist_wall;
     double      top_wall_y;
 	int		    y;
+  
     double      ang_offset;
 
     ply = game->player;
@@ -33,4 +46,5 @@ void    render_everything(t_game *game, int img_index)
             y++;
         }
     }
+
 }

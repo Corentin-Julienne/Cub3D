@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   err_msgs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/02 02:32:40 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:09:08 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* when an error is encountered, print Error\n, followed by a relevant
 error msg. then, free the map struct to avoid leaks and exit status 1 */

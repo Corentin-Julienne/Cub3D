@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:38 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 16:31:19 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:43:48 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	render_crosshair(t_game *game, int img_index)
 	while (i < 10)
 	{	
 		mlx_pixel_put_to_img(game->imgs_set[img_index],
-			center_x + i, center_y, 0x00FFFF00);
+			center_x + i, center_y, 0x0000000);
 		i++;
 	}
 	while (j < 10)
 	{
 		mlx_pixel_put_to_img(game->imgs_set[img_index],
-			center_x, center_y + j, 0x00FFFF00);
+			center_x, center_y + j, 0x0000000);
 		j++;
 	}
 }

@@ -6,11 +6,11 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:14:57 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 15:45:19 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:07:14 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* check wether the map relevant infos are actually stored in the struct map */
 

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 23:19:54 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:07:24 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 /* Find the position of a character in the map or -1 if not found */
 int get_char_map_pos(char **map, char c, int ret_x)
