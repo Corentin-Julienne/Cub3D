@@ -63,6 +63,32 @@ static double **new_intersections_array(int count)
     return (intersections);
 }
 
+/* Check if the next case is a wall depending on the angle */
+static int  is_next_case_wall(t_game *game, double x, double y, double ang)
+{
+    int     x_case;
+    int     y_case;
+    char    **map;
+
+    // Prevent ray from going into a wall or out of the map
+    if (x > (game->infomap->size_x - 1) * CUBES_SIZE || y > (game->infomap->size_y - 1) * CUBES_SIZE)
+        return (2);
+    if (x < CUBES_SIZE || y < CUBES_SIZE)
+        return (2);
+    map = game->infomap->map;
+    x_case = (int)floor(ceil_double(x) / CUBES_SIZE);
+    y_case = (int)floor(ceil_double(y) / CUBES_SIZE);
+    // Get the next case depending on the ang
+    if (ang >= 0 && ang <= 180)
+        y_case--;
+    if (ang >= 90 && ang <= 270)
+        x_case--;
+    // Check if the next case is a wall
+    if (map[y_case][x_case] == '1')
+        return (1);
+    return (0);
+}
+
 /* Free the instructions array */
 static void free_intersections_array(double **intersections)
 {
@@ -86,15 +112,14 @@ double **find_x_intersections(t_game *game, double ang, double start_x, double s
     double  **intersections;
     double  cast_x;
     double  found_y;
-    int     map_x;
-    int     map_y;
     int     i;
+    int     next_inter;
 
     ang = fmod(ang, 360);
     if (ang == 90 || ang == 270)
         return (NULL);
     
-    intersections = new_intersections_array(6); // CHANGE THIS WITH THE MAP WIDTH
+    intersections = new_intersections_array(game->infomap->size_x);
     if (!intersections)
         return (NULL);
 
@@ -107,23 +132,16 @@ double **find_x_intersections(t_game *game, double ang, double start_x, double s
             found_y = start_y + tanf(ang * M_PI / 180) * fabs(cast_x - start_x);
         else
             found_y = start_y - tanf(ang * M_PI / 180) * fabs(cast_x - start_x);
-        found_y = ceil_double(found_y);
-
-        map_x = (int)floor(cast_x / CUBES_SIZE);
-        map_y = (int)floor(found_y / CUBES_SIZE);
-
-        if (ang >= 90 && ang <= 270)
-            map_x--;
-
-        if (map_x >= 6 || map_y >= 6 || map_x < 0 || map_y < 0) // CHANGE THIS WITH THE MAP WIDTH
-            break;
-
-        intersections[i][0] = cast_x;
-        intersections[i][1] = found_y;
-        i++;
-
-        if (game->infomap->map[map_y][map_x] == '1')
-            break;
+        
+        next_inter = is_next_case_wall(game, cast_x, found_y, ang);
+        if (next_inter < 2)
+        {
+            intersections[i][0] = cast_x;
+            intersections[i][1] = found_y;
+            i++;
+        }
+        if (next_inter > 0)
+            break ;
     }
     return intersections;
 }
@@ -134,15 +152,14 @@ double **find_y_intersections(t_game *game, double ang, double start_x, double s
     double  **intersections;
     double  cast_y;
     double  found_x;
-    int     map_x;
-    int     map_y;
     int     i;
+    int     next_inter;
 
     ang = fmod(ang, 360);
     if (ang == 0 || ang == 180)
         return (NULL);
     
-    intersections = new_intersections_array(6); // CHANGE THIS WITH THE MAP HEIGHT
+    intersections = new_intersections_array(game->infomap->size_y);
     if (!intersections)
         return (NULL);
 
@@ -155,23 +172,16 @@ double **find_y_intersections(t_game *game, double ang, double start_x, double s
             found_x = start_x - fabs(cast_y - start_y) / tanf(ang * M_PI / 180);
         else
             found_x = start_x + fabs(cast_y - start_y) / tanf(ang * M_PI / 180);
-        found_x = ceil_double(found_x);
 
-        map_x = (int)floor(found_x / CUBES_SIZE);
-        map_y = (int)floor(cast_y / CUBES_SIZE);
-
-        if (ang < 180 && ang > 0)
-            map_y--;
-
-        if (map_x >= 6 || map_y >= 6 || map_x < 0 || map_y < 0) // CHANGE THIS WITH THE MAP WIDTH AND HEIGHT
-            break;
-
-        intersections[i][0] = found_x;
-        intersections[i][1] = cast_y;
-        i++;
-
-        if (game->infomap->map[map_y][map_x] == '1')
-            break;
+        next_inter = is_next_case_wall(game, found_x, cast_y, ang);
+        if (next_inter < 2)
+        {
+            intersections[i][0] = found_x;
+            intersections[i][1] = cast_y;
+            i++;
+        }
+        if (next_inter > 0)
+            break ;
     }
     return (intersections);
 }
