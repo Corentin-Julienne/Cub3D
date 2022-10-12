@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/12 02:48:45 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/13 00:59:46 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void    init_player_struct(t_game *game, int right_x, int top_y)
         err_msg_and_free_all(ERR_MALLOC, game);
     player->pos_x = (double)(right_x * CUBES_SIZE + CUBES_SIZE / 2);
     player->pos_y = (double)(top_y * CUBES_SIZE + CUBES_SIZE / 2);
-    player->ang_y = (double)0;
+    player->ang_y = (double)-45;
     player->dist_from_proj = (double)((game->wdw_x / 2) / tanf((PLY_VIEW_FOV_DEG / 2) * M_PI / 180));
     game->player = player;
 }
@@ -62,4 +62,8 @@ void    init_player(t_game *game)
     right_x = get_char_map_pos(game->infomap->map, 'N', 1);
     top_y = get_char_map_pos(game->infomap->map, 'N', 0);
     init_player_struct(game, right_x, top_y);
+
+    // for (int i = 0; i <= 360; i++)
+        send_raycast(game, 0);
+    
 }

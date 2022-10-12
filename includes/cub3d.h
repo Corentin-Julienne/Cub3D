@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/12 02:36:17 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/13 00:45:33 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,14 +168,18 @@ typedef struct s_player {
 
 typedef struct	s_ray {
 	char		**map;
+	int			size_x;
+	int			size_y;
 	double		ang;
 	double		rad;
 	double		start_x;
 	double		start_y;
 	double		cur_x;
 	double		cur_y;
-	double		prev_x;
-	double		prev_y;
+	double		vertical_found_x;
+	double		vertical_found_y;
+	double		horizontal_found_x;
+	double		horizontal_found_y;
 	int			cur_map_x;
 	int			cur_map_y;
 }				t_ray;

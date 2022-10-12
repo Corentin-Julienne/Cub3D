@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:47:08 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/12 03:07:14 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/12 20:48:07 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void    render_walls(t_game *game, int img_index)
     else if (game->keys[5])
         ply->ang_y += 2;
 
+    exit(0); 
+
     start_ang = ply->ang_y - (PLY_VIEW_FOV_DEG / 2);
     x = 0;
     while (start_ang < ply->ang_y + (PLY_VIEW_FOV_DEG / 2))
@@ -48,5 +50,4 @@ void    render_walls(t_game *game, int img_index)
         x++;
         start_ang += (double)PLY_VIEW_FOV_DEG / (double)game->wdw_x;
     }
-    
 }
