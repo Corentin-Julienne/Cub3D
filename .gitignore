@@ -2,6 +2,7 @@ mlx/*.o
 mlx/*.swiftdoc
 mlx/*.swiftmodule
 mlx/*.dylib
+mlx/*.swiftsourceinfo
 objs/
 Cub3D
 *.dylib

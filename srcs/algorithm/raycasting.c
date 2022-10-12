@@ -3,262 +3,112 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:46:28 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:07:05 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/12 02:55:16 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-/* Calculate the remaining distance between x and 
-the next intersection point on X axis */
-static double  calc_next_inter_x(double x, double ang_y)
+/* Calculate the distance between 2 points */
+double  calc_dist(double x1, double y1, double x2, double y2)
 {
     double  dist;
 
-    dist = (CUBES_SIZE - fmod(x, CUBES_SIZE));
-    ang_y = fmod(ang_y, 360);
-    if (ang_y > 90 && ang_y < 270)
-        dist *= -1;
-    return (x + dist);
+    dist = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+    return (dist);
 }
 
-/* Calculate the remaining distance between y and
-the next intersection point on Y axis */
-static double  calc_next_inter_y(double y, double ang_y)
+/* If the player is not on an intersection point atm, search for the next intersection point
+depending on his ang in order to allow us to add step_x and step_y later */
+static void    move_to_next_point(t_ray *ray)
 {
-    double  dist;
+    double  next_x;
+    double  next_y;
 
-    dist = (CUBES_SIZE - fmod(y, CUBES_SIZE));
-    ang_y = fmod(ang_y, 360);
-    if (ang_y < 180 && ang_y > 0)
-        dist *= -1;
-    return (y + dist);
-}
-
-/* Allocate a new intersections array */
-static double **new_intersections_array(int count)
-{
-    double  **intersections;
-    int     i;
-
-    intersections = malloc(sizeof(double *) * (count + 1));
-    if (!intersections)
-        return (NULL);
-
-    i = 0;
-    while (i < count)
+    // TODO: Scan on the other axis everytime and get the lowest distance
+    if ((ray->ang >= 0 && ray->ang <= 45) || ray->ang >= 315)
     {
-        intersections[i] = malloc(sizeof(double) * 2);
-        if (!intersections[i])
-            return (NULL);
-        intersections[i][0] = (double)-1;
-        intersections[i][1] = (double)-1;
-        i++;
+        next_x = ray->cur_x + (CUBES_SIZE - (fmod(ray->cur_x, CUBES_SIZE)));
+        next_y = ray->cur_y - ((next_x - ray->cur_x) * tan(ray->rad));
+    }
+    else if (ray->ang > 45 && ray->ang <= 135)
+    {
+        next_y = ray->cur_y - (CUBES_SIZE - (fmod(ray->cur_y, CUBES_SIZE)));
+        next_x = ray->cur_x - ((next_y - ray->cur_y) / tan(ray->rad));
+    }
+    else if (ray->ang > 135 && ray->ang <= 225)
+    {
+        next_x = ray->cur_x - (CUBES_SIZE - (fmod(ray->cur_x, CUBES_SIZE)));
+        next_y = ray->cur_y - ((next_x - ray->cur_x) * tan(ray->rad));
+    }
+    else
+    {
+        next_y = ray->cur_y + (CUBES_SIZE - (fmod(ray->cur_y, CUBES_SIZE)));
+        next_x = ray->cur_x - ((next_y - ray->cur_y) / tan(ray->rad));
     }
 
-    intersections[i] = NULL;
-    return (intersections);
+    ray->cur_x = (next_x);
+    ray->cur_y = (next_y);
 }
 
-/* Check if the next case is a wall depending on the angle */
-static int  is_next_case_wall(t_game *game, double x, double y, double ang)
+/* Transform the position we got into a map position depending on the angle */
+void    calculate_map_pos(t_ray *ray)
 {
-    int     x_case;
-    int     y_case;
-    char    **map;
+    int pos_x;
+    int pos_y;
 
-    // Prevent ray from going into a wall or out of the map
-    if (x > (game->infomap->size_x - 1) * CUBES_SIZE || y > (game->infomap->size_y - 1) * CUBES_SIZE)
-        return (2);
-    if (x < CUBES_SIZE || y < CUBES_SIZE)
-        return (2);
-    map = game->infomap->map;
-    x_case = (int)floor(ceil_double(x) / CUBES_SIZE);
-    y_case = (int)floor(ceil_double(y) / CUBES_SIZE);
-    // Get the next case depending on the ang
-    if (ang >= 0 && ang <= 180)
-        y_case--;
-    if (ang >= 90 && ang <= 270)
-        x_case--;
-    // Check if the next case is a wall
-    if (map[y_case][x_case] == '1')
-        return (1);
-    return (0);
-}
-
-/* Free the instructions array */
-static void free_intersections_array(double **intersections)
-{
-    int i;
-
-    if (!intersections)
-        return ;
-
-    i = 0;
-    while (intersections[i])
-    {
-        free(intersections[i]);
-        i++;
-    }
-    free(intersections);
-}
-
-/* Calculate all intersections of x-axis */
-double **find_x_intersections(t_game *game, double ang, double start_x, double start_y)
-{
-    double  **intersections;
-    double  cast_x;
-    double  found_y;
-    int     i;
-    int     next_inter;
-
-    ang = fmod(ang, 360);
-    if (ang == 90 || ang == 270)
-        return (NULL);
+    /* This is the top-left position on the map */
+    pos_x = (int)(ray->cur_x / CUBES_SIZE);
+    pos_y = (int)(ray->cur_y / CUBES_SIZE);
     
-    intersections = new_intersections_array(game->infomap->size_x);
-    if (!intersections)
-        return (NULL);
+    /* If the ray is going up, take the case above instead of the one below */
+    if (ray->ang > 0 && ray->ang < 180)
+        pos_y--;
 
-    cast_x = start_x;
-    i = 0;
+    /* If the ray is going left, take the case on the left instead of the one on the right */
+    if (ray->ang > 90 && ray->ang < 270)
+        pos_x--;
+
+    ray->cur_map_x = pos_x;
+    ray->cur_map_y = pos_y;
+}
+
+/* Send a ray from the player position to a specific angle of the map
+and return the distance of the first obstacle found on the way */
+double  send_raycast(t_game *game, double ray_ang)
+{
+    t_ray       ray;
+    double      dist;
+
+    ray.map = game->infomap->map;
+    ray.start_x = game->player->pos_x;
+    ray.start_y = game->player->pos_y;
+    ray.cur_x = ray.start_x;
+    ray.cur_y = ray.start_y;
+    
+    /* Initialize our angles and shit */
+    ray.ang = fmod(ray_ang, 360);
+    if (ray.ang < 0)
+        ray.ang += 360;
+    ray.rad = (ray_ang * M_PI) / 180;
+    calculate_map_pos(&ray);
+
+    /* Before doing anything, search for the first intersection point */
     while (42)
     {
-        cast_x = calc_next_inter_x(cast_x, ang);
-        if (ang >= 90 && ang <= 270)
-            found_y = start_y + tanf(ang * M_PI / 180) * fabs(cast_x - start_x);
-        else
-            found_y = start_y - tanf(ang * M_PI / 180) * fabs(cast_x - start_x);
-        
-        next_inter = is_next_case_wall(game, cast_x, found_y, ang);
-        if (next_inter < 2)
+        ray.prev_x = ray.cur_x;
+        ray.prev_y = ray.cur_y;
+        move_to_next_point(&ray);
+        calculate_map_pos(&ray);
+        if (ray.map[ray.cur_map_y][ray.cur_map_x] == '1')
         {
-            intersections[i][0] = cast_x;
-            intersections[i][1] = found_y;
-            i++;
-        }
-        if (next_inter > 0)
+            dist = calc_dist(ray.start_x, ray.start_y, ray.cur_x, ray.cur_y);
             break ;
-    }
-    return intersections;
-}
-
-/* Calculate all intersections of y-axis */
-double **find_y_intersections(t_game *game, double ang, double start_x, double start_y)
-{
-    double  **intersections;
-    double  cast_y;
-    double  found_x;
-    int     i;
-    int     next_inter;
-
-    ang = fmod(ang, 360);
-    if (ang == 0 || ang == 180)
-        return (NULL);
-    
-    intersections = new_intersections_array(game->infomap->size_y);
-    if (!intersections)
-        return (NULL);
-
-    cast_y = start_y;
-    i = 0;
-    while (42)
-    {
-        cast_y = calc_next_inter_y(cast_y, ang);
-        if (ang >= 180 && ang <= 360)
-            found_x = start_x - fabs(cast_y - start_y) / tanf(ang * M_PI / 180);
-        else
-            found_x = start_x + fabs(cast_y - start_y) / tanf(ang * M_PI / 180);
-
-        next_inter = is_next_case_wall(game, found_x, cast_y, ang);
-        if (next_inter < 2)
-        {
-            intersections[i][0] = found_x;
-            intersections[i][1] = cast_y;
-            i++;
         }
-        if (next_inter > 0)
-            break ;
     }
-    return (intersections);
-}
 
-/* Count the amount of valid intersections = thoses that are not -1 */
-static int count_valid_intersections(double **intersections)
-{
-    int i;
-
-    if (!intersections)
-        return (0);
-    i = 0;
-    while (intersections[i])
-    {
-        if (intersections[i][0] == -1 || intersections[i][1] == -1)
-            break;
-        i++;
-    }
-    return (i);
-}
-
-/* Check which intersection array has the last value to the wall */
-double **get_touching_array(t_raycast *cast, t_player *ply)
-{
-    double  x_dist;
-    double  y_dist;
-    double  **x_inter;
-    double  **y_inter;
-
-    x_inter = cast->intersections_x;
-    y_inter = cast->intersections_y;
-
-    if (!x_inter && !y_inter)
-        return (NULL);
-
-    if (cast->inter_x_size - 1 >= 0)
-        x_dist = calc_dist(ply->pos_x, ply->pos_y, x_inter[cast->inter_x_size - 1][0], x_inter[cast->inter_x_size - 1][1]);
-    else
-        x_dist = -1;
-
-    if (cast->inter_y_size - 1 >= 0)
-        y_dist = calc_dist(ply->pos_x, ply->pos_y, y_inter[cast->inter_y_size - 1][0], y_inter[cast->inter_y_size - 1][1]);
-    else
-        y_dist = -1;
-
-    if (x_dist >= y_dist)
-        return (x_inter);
-    return (y_inter);
-}
-
-/* Start the raycasting */
-void    raycast(t_game *game, t_raycast *cast, double ang_offset)
-{
-    t_player    *ply;
-    double      *touching_inter;
-
-    ply = game->player;
-    cast->intersections_x = find_x_intersections(game, ply->ang_y + ang_offset, ply->pos_x, ply->pos_y);
-    cast->intersections_y = find_y_intersections(game, ply->ang_y + ang_offset, ply->pos_x, ply->pos_y);
-    cast->inter_x_size = count_valid_intersections(cast->intersections_x);
-    cast->inter_y_size = count_valid_intersections(cast->intersections_y);
-
-    /* In all intersections we have found, get the one who touched the wall and copy values to struct */
-    if (get_touching_array(cast, ply) == cast->intersections_x)
-        touching_inter = cast->intersections_x[cast->inter_x_size - 1];
-    else
-        touching_inter = cast->intersections_y[cast->inter_y_size - 1];
-
-    /* Copy them to the structure */
-    cast->wall_touch_x = touching_inter[0];
-    cast->wall_touch_y = touching_inter[1];
-
-    /* Free everything */
-    free_intersections_array(cast->intersections_x);
-    free_intersections_array(cast->intersections_y);
-
-    /* Set everything to NULL to be sure we're not using freed values anymore */
-    cast->intersections_x = NULL;
-    cast->intersections_y = NULL;
+    return (dist);
 }

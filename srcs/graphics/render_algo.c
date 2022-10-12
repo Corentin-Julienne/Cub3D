@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_algo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:47:08 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:07:41 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/12 03:07:14 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,37 @@
 void    render_walls(t_game *game, int img_index)
 {
     t_player    *ply;
-    t_raycast   ray;
+    double      start_ang;
+    double      calc_dist;
     double      wall_height;
-    double      dist_wall;
-    double      top_wall_y;
-	int		    y;
-  
-    double      ang_offset;
+    double      wall_y;
+    int         y;
+    int         x;
 
     ply = game->player;
 
     if (game->keys[4])
-        ply->ang_y -= 1;
+        ply->ang_y -= 2;
     else if (game->keys[5])
-        ply->ang_y += 1;
+        ply->ang_y += 2;
 
-    for (int i = 0; i < game->wdw_x; i++)
+    start_ang = ply->ang_y - (PLY_VIEW_FOV_DEG / 2);
+    x = 0;
+    while (start_ang < ply->ang_y + (PLY_VIEW_FOV_DEG / 2))
     {
-        ang_offset = ((double)i * ((double)PLY_VIEW_FOV_DEG / (double)game->wdw_x));
-        raycast(game, &ray, ang_offset);
-        dist_wall = calc_dist(ply->pos_x, ply->pos_y, ray.wall_touch_x, ray.wall_touch_y);
-        wall_height = (CUBES_SIZE / dist_wall) * ply->dist_from_proj;
-        top_wall_y = (game->wdw_y / 2) - (wall_height / 2);
+        calc_dist = send_raycast(game, start_ang);
+        wall_height = ply->dist_from_proj * CUBES_SIZE / calc_dist;
+        wall_y = (game->wdw_y / 2) - (wall_height / 2);
 
-    	y = top_wall_y;
-        while (y < game->imgs_set[img_index]->height && y < top_wall_y + wall_height)
+        y = wall_y;
+        while (y < game->imgs_set[img_index]->height && y < wall_y + wall_height)
         {
-            mlx_pixel_put_to_img(game->imgs_set[img_index], i, y, 0x00FFFF00);
+            mlx_pixel_put_to_img(game->imgs_set[img_index], x, y, 0x00FFFF00);
             y++;
         }
-    }
 
+        x++;
+        start_ang += (double)PLY_VIEW_FOV_DEG / (double)game->wdw_x;
+    }
+    
 }
