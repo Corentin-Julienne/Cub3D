@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 13:52:21 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:07:51 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/13 13:18:38 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ int	main(int argc, char **argv)
 	t_infomap			*infomap;
 	t_game				*game;
 
-	// atexit(leaks_killing); // debug functions, kill after use
+	atexit(leaks_killing); // debug functions, kill after use
 	if (argc != 2)
 		print_err_msg(ERR_NB_ARGS);
 	infomap = (t_infomap *)malloc(sizeof(t_infomap));
 	if (!infomap)
-		exit(EXIT_FAILURE); // PERSONNALIZED MSG ?
+		print_err_msg(ERR_MALLOC);
 	init_infomap_struct(infomap, argv[1]);
-	print_infomap_infos(infomap); // debug functions, kill after	
+	print_infomap_infos(infomap); // debug functions, kill after
 	game = init_game_struct(infomap);
 	if (!game)
-		err_msg_and_free(ERR_MALLOC, infomap);
+		err_msg_and_free_map(ERR_MALLOC, infomap);
 	init_player(game);
 	init_game(game);
 	return (0);

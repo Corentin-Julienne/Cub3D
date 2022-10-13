@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 18:03:18 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:08:52 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/13 12:00:30 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	check_invalid_nl(t_infomap *infomap)
 	{
 		if (map_lines[i] == '\n' && map_lines[i + 1]
 			&& map_lines[i + 1] == '\n')
-			err_msg_and_free(ERR_EMPTY_LINE, infomap);
+			err_msg_and_free_map(ERR_EMPTY_LINE, infomap);
 		i++;
 	}
 	free(infomap->lines);
@@ -52,7 +52,7 @@ static void	check_invalid_grid_format(t_infomap *infomap)
 		{
 			if (!ft_isspace(infomap->map[y][x])
 				&& !ft_strchr("01NSEW", infomap->map[y][x]))
-				err_msg_and_free(ERR_INVALID_CHAR, infomap);
+				err_msg_and_free_map(ERR_INVALID_CHAR, infomap);
 			if (ft_strchr("NSEW", infomap->map[y][x]))
 				psp_num++;
 			x++;
@@ -60,7 +60,7 @@ static void	check_invalid_grid_format(t_infomap *infomap)
 		y++;
 	}
 	if (psp_num != 1)
-		err_msg_and_free(ERR_PSP, infomap);
+		err_msg_and_free_map(ERR_PSP, infomap);
 }
 
 /* when verifying that a 0 is not actually close to a free space,
@@ -123,7 +123,7 @@ void	check_map_validity(t_infomap *infomap)
 			if (ft_strchr("0NSEW", infomap->map[y][x]))
 			{
 				if (!is_pos_valid(infomap, x, y))
-					err_msg_and_free(ERR_BREACH_MAP, infomap);
+					err_msg_and_free_map(ERR_BREACH_MAP, infomap);
 			}
 			x++;
 		}

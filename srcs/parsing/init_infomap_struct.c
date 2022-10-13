@@ -34,11 +34,11 @@ static void	open_map(char *map, t_infomap *infomap)
 {
 	infomap->fd = open(map, O_RDONLY);
 	if (infomap->fd == -1)
-		err_msg_and_free(ERR_PATH_MAP, infomap);
+		err_msg_and_free_map(ERR_PATH_MAP, infomap);
 	if (!is_format_cub(map))
 	{
 		close(infomap->fd);
-		err_msg_and_free(ERR_NOT_CUB, infomap);
+		err_msg_and_free_map(ERR_NOT_CUB, infomap);
 	}
 }
 
@@ -96,10 +96,10 @@ void	init_infomap_struct(t_infomap *infomap, char *map)
 	infomap->lines = get_all_lines(infomap->fd);
 	close(infomap->fd);
 	if (!infomap->lines)
-		err_msg_and_free(ERR_MALLOC, infomap);
+		err_msg_and_free_map(ERR_MALLOC, infomap);
 	infomap->cub = ft_split(infomap->lines, '\n');
 	if (!infomap->cub)
-		err_msg_and_free(ERR_MALLOC, infomap);
-	infomap->nb_infos = 0;
+		err_msg_and_free_map(ERR_MALLOC, infomap);
+	infomap->nb_infos = 0;	
 	parse_infos(infomap);
 }

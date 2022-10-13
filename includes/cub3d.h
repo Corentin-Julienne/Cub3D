@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:20:00 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/13 12:25:56 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ to one\n"
 and/or uncorrectly formated infos\n"
 /* generic for malloc error*/
 # define ERR_MALLOC			"Memory allocation failure\n"
+/* mlx init err */
+# define ERR_MLX			"Mlx init failure\n"
 
 /* MACROS FOR WINDOW SIZE */
 
@@ -187,6 +189,17 @@ double		calc_dist(double x1, double y1, double x2, double y2);
 /* crosshair.c */
 void		render_crosshair(t_game *game, int img_index);
 
+/* FREE */
+
+/* free_game.c*/
+void		free_map(t_infomap **infomap);
+void		free_game(t_game **game);
+/* free_utils.c */
+void		free_and_nullify(void **to_free);
+void		free_map(t_infomap **infomap);
+void		free_problem_str_arr(char ***split, int i);
+void		free_split(char ***split);
+
 /* GAME */
 
 /* init_game.c */
@@ -226,14 +239,9 @@ void		parse_map(t_infomap *infomap, int i);
 /* UTILS */
 
 /* err_msgs.c */
-void		err_msg_and_free(char *spec, t_infomap *infomap);
-void		err_msg_and_free_all(char *spec, t_game *game);
 void		print_err_msg(char *msg);
-/* free.c */
-void		free_and_nullify(void **to_free);
-void		free_map(t_infomap *infomap);
-void		free_problem_str_arr(char **split, int i);
-void		free_split(char **split);
+void		err_msg_and_free_map(char *spec, t_infomap *infomap);
+void		err_msg_and_free_all(char *spec, t_game *game);
 /* math.c */
 double  	ceil_double(double nb);
 

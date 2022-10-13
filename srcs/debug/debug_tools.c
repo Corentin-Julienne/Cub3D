@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:14:57 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:07:14 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/13 11:42:08 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	leaks_killing(void)
 	printf("\n\n---------------------------------------\n");
 	printf("---------------[ LEAKS ]---------------\n");
 	printf("---------------------------------------\n\n");
-	// system("leaks Cub3D");
+	system("leaks Cub3D");
 }
 
 void print_split(char **split)

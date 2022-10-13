@@ -6,20 +6,24 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:02:41 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:07:21 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/13 13:07:42 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+static void	exit_process(t_game **game)
+{
+	mlx_destroy_window((*game)->mlx, (*game)->wdw);
+	free_game(game);
+	exit(EXIT_SUCCESS);
+}
+
 /* allow to terminate window when the red cross is pressed */
 
 static int	exit_hook(t_game **game)
 {
-	mlx_destroy_window((*game)->mlx, (*game)->wdw);
-	free_map((*game)->infomap);
-	free(*game);
-	exit(EXIT_SUCCESS);
+	exit_process(game);
 	return (1);
 }
 
@@ -44,14 +48,9 @@ static int	key_press_hook(int keycode, t_game *game)
 		game->keys[4] = true;
 	else if (keycode == RIGHT_ARROW)
 		game->keys[5] = true;
-	else if (keycode == ESCAPE) // optimize this
-	{
-		mlx_destroy_window(game->mlx, game->wdw); 
-		free_map(game->infomap);
-		free(game);
-		exit(EXIT_SUCCESS);
-	}
-	return (0);	
+	else if (keycode == ESCAPE)
+		exit_process(&game);
+	return (0);
 }
 
 /* key_release_hook is activated when keys WASD and left and right

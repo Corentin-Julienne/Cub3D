@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:48:53 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:09:04 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/13 13:15:55 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	fulfill_map(t_infomap *infomap, int i)
 		infomap->map[j] = ft_strdup(infomap->cub[i + j]);
 		if (!infomap->map[j])
 		{
-			free_problem_str_arr(infomap->map, j);
+			free_problem_str_arr(&infomap->map, j);
 			infomap->map = NULL;
-			err_msg_and_free(ERR_MALLOC, infomap);
+			err_msg_and_free_map(ERR_MALLOC, infomap);
 		}
 		j++;
 	}
@@ -59,13 +59,13 @@ static void	calc_map_dimensions(t_infomap *infomap, int i)
 void	parse_map(t_infomap *infomap, int i)
 {
 	if (!infomap->cub[i])
-		err_msg_and_free(ERR_MISSING_GRID, infomap);
+		err_msg_and_free_map(ERR_MISSING_GRID, infomap);
 	calc_map_dimensions(infomap, i);
 	infomap->map = (char **)malloc(sizeof(char *) * (infomap->size_y + 1));
 	if (!infomap->map)
-		err_msg_and_free(ERR_MALLOC, infomap);
+		err_msg_and_free_map(ERR_MALLOC, infomap);
 	fulfill_map(infomap, i);
-	free_split(infomap->cub);
+	free_split(&infomap->cub);
 	infomap->cub = NULL;
 	check_map_validity(infomap);
 }

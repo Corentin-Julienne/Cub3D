@@ -6,7 +6,7 @@
 #    By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 16:19:40 by cjulienn          #+#    #+#              #
-#    Updated: 2022/10/10 16:08:25 by cjulienn         ###   ########.fr        #
+#    Updated: 2022/10/11 16:28:36 by cjulienn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ INCLUDES := -I includes
 
 SRC_DIR := srcs
 OBJ_DIR := objs
-SUB_DIRS := algorithm bonus game graphics main parsing utils debug # update this when adding new subdir [kill debug]
+SUB_DIRS := algorithm bonus game free graphics main parsing utils debug # update this when adding new subdir [kill debug]
 SOURCEDIRS := $(foreach dir, $(SUB_DIRS), $(addprefix $(SRC_DIR)/, $(dir)))
 
 SRC_FILES := $(foreach dir,$(SOURCEDIRS),$(wildcard $(dir)/*.c))

@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:07:18 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/13 13:13:45 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,14 @@
 /* get_key_bools allow to store booleans in an array to check
 whether the keyboard keys WASD are actually pressed or not */
 
-static bool	*get_key_bools(t_game *game)
+static bool	*get_key_bools(void)
 {
 	bool			*bool_arr;
 	int				i;
 
 	bool_arr = (bool *)malloc(sizeof(bool) * 6);
-	if (!bool_arr) // change this
-	{
-		free(game->imgs_set);
-		free(game);
+	if (!bool_arr)
 		return (NULL);
-	}
 	i = 0;
 	while (i < 6)
 	{
@@ -40,36 +36,36 @@ static void get_texts_north_south(t_game *game, t_infomap *infomap)
 {
 	game->no_texture = (t_texture *)malloc(sizeof(t_texture));
 	if (!game->no_texture)
-		printf("problem there\n"); // handle that shit
+		err_msg_and_free_all(ERR_MALLOC, game);
 	game->no_texture->img = mlx_xpm_file_to_image(game->mlx,
 		infomap->no_text, &game->no_texture->width, &game->no_texture->height);
 	if (!game->no_texture->img)
-		printf("problem there\n");// handle that shit
+		err_msg_and_free_all(ERR_MALLOC, game);
 	game->so_texture = (t_texture *)malloc(sizeof(t_texture));
 	if (!game->so_texture)
-		printf("problem there\n"); // handle that shit
+		err_msg_and_free_all(ERR_MALLOC, game);
 	game->so_texture->img = mlx_xpm_file_to_image(game->mlx,
 		infomap->so_text, &game->so_texture->width, &game->so_texture->height);
 	if (!game->so_texture->img)
-		printf("problem there\n"); // handle that shit
+		err_msg_and_free_all(ERR_MALLOC, game);
 }
 
 static void	get_texts_west_east(t_game *game, t_infomap *infomap)
 {
 	game->we_texture = (t_texture *)malloc(sizeof(t_texture));
 	if (!game->we_texture)
-		printf("problem there\n"); // handle that shit
+		err_msg_and_free_all(ERR_MALLOC, game);
 	game->we_texture->img = mlx_xpm_file_to_image(game->mlx,
 		infomap->we_text, &game->we_texture->width, &game->we_texture->height);
 	if (!game->we_texture->img)
-		printf("problem there\n");// handle that shit
+		err_msg_and_free_all(ERR_MALLOC, game);
 	game->ea_texture = (t_texture *)malloc(sizeof(t_texture));
 	if (!game->ea_texture)
-		printf("problem there\n"); // handle that shit
+		err_msg_and_free_all(ERR_MALLOC, game);
 	game->ea_texture->img = mlx_xpm_file_to_image(game->mlx,
 		infomap->ea_text, &game->ea_texture->width, &game->ea_texture->height);
 	if (!game->ea_texture->img)
-		printf("problem there\n"); // handle that shit
+		err_msg_and_free_all(ERR_MALLOC, game);
 }
 
 /* put every pointer in the struct to NULL to be able to
@@ -87,6 +83,8 @@ static void	protect_game_struct(t_game *game)
 	game->keys = NULL;
 	game->player = NULL;
 	game->mlx = mlx_init();
+	if (!game->mlx)
+		err_msg_and_free_all(ERR_MLX, game);
 }
 
 /* init_game_struct init the minilibx, create a window,
@@ -103,14 +101,14 @@ t_game	*init_game_struct(t_infomap *infomap)
 	protect_game_struct(game);
 	game->imgs_set = (t_mlx_img **)malloc(sizeof(t_mlx_img *) * 2);
 	if (!game->imgs_set)
-		{}; // handle this with appropriate function
+		err_msg_and_free_all(ERR_MALLOC, game);
 	game->imgs_set[0] = NULL;
 	game->imgs_set[1] = NULL;
 	get_texts_north_south(game, infomap);
 	get_texts_west_east(game, infomap);
-	game->keys = get_key_bools(game);
+	game->keys = get_key_bools();
 	if (!game->keys)
-		{}; // handle this with appropiate function
+		err_msg_and_free_all(ERR_MALLOC, game);
 	game->infomap = infomap;
 	game->wdw_x = WDW_WIDTH;
 	game->wdw_y = WDW_HEIGHT;
