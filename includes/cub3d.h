@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 00:45:33 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:00:46 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ typedef struct s_game
 	t_texture		*ea_texture;
 	t_texture		*we_texture;
 	bool			*keys;
-	int				ray_offset_ang;
 	struct s_player	*player;
 }				t_game;
 
@@ -176,12 +175,11 @@ typedef struct	s_ray {
 	double		start_y;
 	double		cur_x;
 	double		cur_y;
-	double		vertical_found_x;
-	double		vertical_found_y;
-	double		horizontal_found_x;
-	double		horizontal_found_y;
 	int			cur_map_x;
 	int			cur_map_y;
+	double		**found_vert;
+	double		**found_horiz;
+	double		**found_order;
 }				t_ray;
 
 /* ALGORITHM */
