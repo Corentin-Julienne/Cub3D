@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 16:31:02 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 13:12:01 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:24:37 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	free_set_of_imgs(t_mlx_img ***imgs_set, t_game *game)
 		mlx_destroy_image(game->mlx, (*imgs_set[0])->img);
 	if (*imgs_set[1])
 		mlx_destroy_image(game->mlx, (*imgs_set[1])->img);
-	free((*imgs_set));
-	**imgs_set = NULL;
+	free(*imgs_set);
+	*imgs_set = NULL;
 }
 
 /* free a given texture and suppress the img within it */
