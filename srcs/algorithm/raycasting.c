@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:46:28 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 00:59:56 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:51:54 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,5 +269,5 @@ double  send_raycast(t_game *game, double ray_ang)
         free(ray.found_order[i]);
     free(ray.found_order);
 
-    return (dist);
+    return (dist * cos((ray.ang - game->player->ang_y) * M_PI / 180));
 }
