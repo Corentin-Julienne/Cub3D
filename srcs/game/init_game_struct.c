@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game_struct.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 13:13:45 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:19:52 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ t_game	*init_game_struct(t_infomap *infomap)
 	game->wdw_x = WDW_WIDTH;
 	game->wdw_y = WDW_HEIGHT;
 	game->wdw = mlx_new_window(game->mlx, game->wdw_x, game->wdw_y, "Cub3D");
-	game->ray_offset_ang = PLY_VIEW_FOV_DEG / game->wdw_x;
 	get_colors(game);
 	return (game);
 }

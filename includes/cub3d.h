@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 12:25:56 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:19:16 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ and/or uncorrectly formated infos\n"
 
 /* MACROS FOR WINDOW SIZE */
 
-# define WDW_WIDTH			1366
-# define WDW_HEIGHT			768
+# define WDW_WIDTH			800
+# define WDW_HEIGHT			640
 
 /* MACROS FOR CONVERTING TRGB TO INT */
 
@@ -156,7 +156,6 @@ typedef struct s_game
 	t_texture		*ea_texture;
 	t_texture		*we_texture;
 	bool			*keys;
-	int				ray_offset_ang;
 	struct s_player	*player;
 }				t_game;
 
@@ -168,21 +167,27 @@ typedef struct s_player {
 	t_game		*game;
 }				t_player;
 
-typedef struct	s_raycast {
-	double		**intersections_x;
-	int			inter_x_size;
-	double		**intersections_y;
-	int			inter_y_size;
-	double		wall_touch_x;
-	double		wall_touch_y;
-}				t_raycast;
+typedef struct	s_ray {
+	char		**map;
+	int			size_x;
+	int			size_y;
+	double		ang;
+	double		rad;
+	double		start_x;
+	double		start_y;
+	double		cur_x;
+	double		cur_y;
+	int			cur_map_x;
+	int			cur_map_y;
+	double		**found_vert;
+	double		**found_horiz;
+	double		**found_order;
+}				t_ray;
 
 /* ALGORITHM */
 
 /* algorithm.c */
-void    	raycast(t_game *game, t_raycast *cast, double ang_offset);
-/* distances.c */
-double		calc_dist(double x1, double y1, double x2, double y2);
+double  	send_raycast(t_game *game, double ray_ang);
 
 /* BONUS */
 

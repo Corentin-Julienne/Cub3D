@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:09:20 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/11 16:19:04 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:20:34 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ Even if this is make by error (really low probability), it will not change anyth
 double  ceil_double(double nb)
 {
     double  tmp;
-
+    
     tmp = nb;
     if (nb - (int)nb > 0.99999)
         tmp = (int)nb + 1;
+    if (nb - (int)nb < 0.00001)
+        tmp = (int)nb;
     return (tmp);
 }
