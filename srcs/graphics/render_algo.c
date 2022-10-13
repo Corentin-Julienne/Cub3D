@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:47:08 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:07:41 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/11 16:21:55 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,7 @@ void    render_walls(t_game *game, int img_index)
 
     ply = game->player;
 
-    if (game->keys[4])
-        ply->ang_y -= 1;
-    else if (game->keys[5])
-        ply->ang_y += 1;
-
-    for (int i = 0; i < game->wdw_x; i++)
+    for (int i = 0; i < game->wdw_x; i++) // use a while loop (NORM)
     {
         ang_offset = ((double)i * ((double)PLY_VIEW_FOV_DEG / (double)game->wdw_x));
         raycast(game, &ray, ang_offset);
@@ -46,5 +41,4 @@ void    render_walls(t_game *game, int img_index)
             y++;
         }
     }
-
 }

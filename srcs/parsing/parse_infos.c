@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:48:39 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:08:55 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/13 13:27:52 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static void	parse_card_points(t_infomap *infomap, char *line)
 	cpy = line;
 	line = line + 3;
 	if (!line[0])
-		err_msg_and_free(ERR_PARAM_FORMAT, infomap);
+		err_msg_and_free_map(ERR_PARAM_FORMAT, infomap);
 	path = ft_strtrim(line, " 	");
 	if (!path)
-		err_msg_and_free(ERR_MALLOC, infomap);
+		err_msg_and_free_map(ERR_MALLOC, infomap);
 	if (ft_strchr(path, ' ') || ft_strchr(path, '	'))
-		err_msg_and_free(ERR_PARAM_FORMAT, infomap);
+		err_msg_and_free_map(ERR_PARAM_FORMAT, infomap);
 	if (!ft_strncmp("NO ", cpy, 3) && !infomap->no_text)
 		infomap->no_text = path;
 	else if (!ft_strncmp("SO ", cpy, 3) && !infomap->so_text)
@@ -40,7 +40,7 @@ static void	parse_card_points(t_infomap *infomap, char *line)
 	else if (!ft_strncmp("WE ", cpy, 3) && !infomap->we_text)
 		infomap->we_text = path;
 	else
-		err_msg_and_free(ERR_DUP_PARAM, infomap);
+		err_msg_and_free_map(ERR_DUP_PARAM, infomap);
 }
 
 /* store_intarr_to_struct store the int* containing RGB info
@@ -56,11 +56,11 @@ static void	store_intarr_to_struct(t_infomap *infomap, char *line,
 		infomap->floor_col = colors;
 	else
 	{
-		free_split(color_arr);
+		free_split(&color_arr);
 		free(colors);
-		err_msg_and_free(ERR_DUP_PARAM, infomap);
+		err_msg_and_free_map(ERR_DUP_PARAM, infomap);
 	}
-	free_split(color_arr);
+	free_split(&color_arr);
 }
 
 /* convert_to_intarr convert a char** to an int[3] which
@@ -75,22 +75,22 @@ static void	convert_to_intarr(t_infomap *infomap, char *line,
 
 	colors = (int *)malloc(sizeof(int) * 3);
 	if (!colors)
-		err_msg_and_free(ERR_MALLOC, infomap);
+		err_msg_and_free_map(ERR_MALLOC, infomap);
 	i = 0;
 	while (i < 3)
 	{
 		if (ft_strlen(color_arr[i]) > 3)
 		{
-			free_split(color_arr);
+			free_split(&color_arr);
 			free(colors);
-			err_msg_and_free(ERR_COLOR_RANGE, infomap);
+			err_msg_and_free_map(ERR_COLOR_RANGE, infomap);
 		}
 		colors[i] = ft_atoi(color_arr[i]);
 		if (colors[i] > 255 || colors[i] < 0)
 		{
-			free_split(color_arr);
+			free_split(&color_arr);
 			free(colors);
-			err_msg_and_free(ERR_COLOR_RANGE, infomap);
+			err_msg_and_free_map(ERR_COLOR_RANGE, infomap);
 		}
 		i++;
 	}
@@ -111,24 +111,24 @@ static void	parse_up_and_down(t_infomap *infomap, char *line)
 
 	line = line + 2;
 	if (!line[0])
-		err_msg_and_free(ERR_PARAM_FORMAT, infomap);
+		err_msg_and_free_map(ERR_PARAM_FORMAT, infomap);
 	info = ft_strtrim(line, "	 ");
 	if (!info)
-		err_msg_and_free(ERR_MALLOC, infomap);
+		err_msg_and_free_map(ERR_MALLOC, infomap);
 	i = 0;
 	while (info && info[i])
 	{
 		if (info[i] != ',' && ft_isdigit(info[i]) == 0)
 		{
 			free(info);
-			err_msg_and_free(ERR_COLOR_FORMAT, infomap);
+			err_msg_and_free_map(ERR_COLOR_FORMAT, infomap);
 		}
 		i++;
 	}
 	color_arr = ft_split(info, ',');
 	free(info);
 	if (!color_arr)
-		err_msg_and_free(ERR_MALLOC, infomap);
+		err_msg_and_free_map(ERR_MALLOC, infomap);
 	convert_to_intarr(infomap, line - 2, color_arr);
 }
 
@@ -157,11 +157,11 @@ void	parse_infos(t_infomap *infomap)
 			&& (!ft_strncmp("F ", line, 2) || !ft_strncmp("C ", line, 2)))
 			parse_up_and_down(infomap, line);
 		else
-			err_msg_and_free(ERR_PARAM_FORMAT, infomap);
+			err_msg_and_free_map(ERR_PARAM_FORMAT, infomap);
 		infomap->nb_infos++;
 		i++;
 	}
 	if (infomap->nb_infos != 6)
-		err_msg_and_free(ERR_PARAM_NB, infomap);
+		err_msg_and_free_map(ERR_PARAM_NB, infomap);
 	parse_map(infomap, i);
 }
