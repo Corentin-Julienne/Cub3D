@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game_struct.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 01:19:52 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/14 18:27:03 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static void	protect_game_struct(t_game *game)
 	game->ea_texture = NULL;
 	game->keys = NULL;
 	game->player = NULL;
+	game->minimap = NULL;
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		err_msg_and_free_all(ERR_MLX, game);
@@ -109,6 +110,7 @@ t_game	*init_game_struct(t_infomap *infomap)
 	game->keys = get_key_bools();
 	if (!game->keys)
 		err_msg_and_free_all(ERR_MALLOC, game);
+	game->run = false;
 	game->infomap = infomap;
 	game->wdw_x = WDW_WIDTH;
 	game->wdw_y = WDW_HEIGHT;

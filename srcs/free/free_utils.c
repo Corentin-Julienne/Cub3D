@@ -6,11 +6,13 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 16:29:05 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 13:38:10 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:45:38 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+/* free and put it to NULL, only and only if previously allocated */
 
 void	free_and_nullify(void **to_free)
 {
@@ -60,4 +62,13 @@ void	free_split(char ***split)
 	}
 	free(*split);
 	*split = NULL;
+}
+
+/* clear_mlx_img_struct destroy the img and free the struct */
+
+void	clear_mlx_img_struct(t_mlx_img **mlx_img)
+{
+	mlx_destroy_image((*mlx_img)->mlx, (*mlx_img)->img);
+	free(*mlx_img);
+	*mlx_img = NULL;
 }

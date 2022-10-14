@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 16:31:02 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 01:24:37 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/14 18:42:02 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 /* free the set of two imgs and free it, then set it to NULL */
 
-static void	free_set_of_imgs(t_mlx_img ***imgs_set, t_game *game)
+static void	free_set_of_imgs(t_mlx_img ***imgs_set)
 {
-	if (*imgs_set == NULL)
+	t_mlx_img		**tmp;
+	
+	tmp = *imgs_set;
+	if (tmp == NULL)
 		return ;
-	if (*imgs_set[0])
-		mlx_destroy_image(game->mlx, (*imgs_set[0])->img);
+	if (tmp[0])
+		clear_mlx_img_struct(&tmp[0]);
 	if (*imgs_set[1])
-		mlx_destroy_image(game->mlx, (*imgs_set[1])->img);
+		clear_mlx_img_struct(&tmp[1]);
 	free(*imgs_set);
 	*imgs_set = NULL;
 }
@@ -35,6 +38,23 @@ static void	free_texture(t_texture **text, t_game *game)
 	mlx_destroy_image(game->mlx, (*text)->img);
 	free(*text);
 	*text = NULL;
+}
+
+/* free player struct and minimap struct,
+should they were previously allocated */
+
+static void	free_ply_and_minimap(t_player **ply, t_minimap **mini)
+{
+	if (*ply)
+	{
+		free(*ply);
+		*ply = NULL;
+	}
+	if (*mini)
+	{
+		free(*mini);
+		*mini = NULL;
+	}
 }
 
 /* free the struct in order to avoid leaks
@@ -72,15 +92,14 @@ void	free_game(t_game **game)
 	tmp = *game;
 	if (!tmp)
 		return ;
-	free_set_of_imgs(&tmp->imgs_set, tmp);
+	free_set_of_imgs(&tmp->imgs_set);
 	free_map(&tmp->infomap);
 	free_texture(&tmp->no_texture, tmp);
 	free_texture(&tmp->so_texture, tmp);
 	free_texture(&tmp->ea_texture, tmp);
 	free_texture(&tmp->we_texture, tmp);
 	free_and_nullify((void **)&tmp->keys);
-	free((*game)->player);
-	(*game)->player = NULL;
+	free_ply_and_minimap(&tmp->player, &tmp->minimap);
 	free(*game);
 	*game = NULL;
 }

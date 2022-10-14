@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:46:28 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 01:51:54 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:25:10 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,6 @@ static void create_inter_array(t_ray *ray)
     }
 }
 
-
 /* Send a ray from the player position to a specific angle of the map
 and return the distance of the first obstacle found on the way */
 double  send_raycast(t_game *game, double ray_ang)
@@ -183,7 +182,7 @@ double  send_raycast(t_game *game, double ray_ang)
     double      dist;
 
     dist = 0;
-    ray.map = game->infomap->map;
+    ray.map = game->infomap->map; // ft_strdup to prevent double frees
     ray.start_x = game->player->pos_x;
     ray.start_y = game->player->pos_y;
     ray.cur_x = ray.start_x;
