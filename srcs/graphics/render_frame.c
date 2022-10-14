@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:07:05 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:21:00 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/13 14:16:33 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void	altern_imgs(t_game *game)
 	update_player_data(game, game->player);
 	render_landscape(game, img_index);
 	render_walls(game, img_index);
+	render_minimap(game, img_index); // bonus
 	render_crosshair(game, img_index); // bonus
 	if (img_index == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 12:25:56 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/13 14:15:36 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,8 @@ double		calc_dist(double x1, double y1, double x2, double y2);
 
 /* crosshair.c */
 void		render_crosshair(t_game *game, int img_index);
+/* minimap.c */
+void		render_minimap(t_game *game, int img_index);
 
 /* FREE */
 
