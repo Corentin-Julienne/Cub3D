@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:14:57 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 11:42:08 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:19:33 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,15 @@ void	print_infomap_infos(t_infomap *infomap)
 		infomap->ceil_col[0], infomap->ceil_col[1], infomap->ceil_col[2]);
 	printf("FLOOR COLORS        = | color 1 : %d | color 2 : %d | color 3 : %d |\n\n",
 		infomap->floor_col[0], infomap->floor_col[1], infomap->floor_col[2]);
-	printf("---------PRINTING MAP---------\n");
+	printf("---------PRINTING MAP---------\n\n");
+	printf("    0123456789\n\n");
 	y = 0;
 	while (infomap->map[y])
 	{
-		printf("%s\n", infomap->map[y]);
+		printf("%d   %s\n", y, infomap->map[y]);
 		y++;
 	}
-	printf("map size (x) = %d and map size (y) = %d\n", infomap->size_x, infomap->size_y);
+	printf("\nmap size (x) = %d and map size (y) = %d\n", infomap->size_x, infomap->size_y);
 	printf("------------------------------\n");	
 }
 
