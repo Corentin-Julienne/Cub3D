@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 01:19:16 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/13 14:15:36 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,8 @@ double  	send_raycast(t_game *game, double ray_ang);
 
 /* crosshair.c */
 void		render_crosshair(t_game *game, int img_index);
+/* minimap.c */
+void		render_minimap(t_game *game, int img_index);
 
 /* FREE */
 
