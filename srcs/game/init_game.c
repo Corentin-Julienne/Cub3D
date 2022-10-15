@@ -6,14 +6,21 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:02:41 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 13:07:42 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 14:36:19 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+/* [TO REDACT] */
+
 static void	exit_process(t_game **game)
 {
+	while (42)
+	{
+		if ((*game)->run == false)
+			break ;
+	}
 	mlx_destroy_window((*game)->mlx, (*game)->wdw);
 	free_game(game);
 	exit(EXIT_SUCCESS);
@@ -58,7 +65,7 @@ directionnal arrows are released
 indicate to the render_frame function that key is not activated 
 any more */
 
-static int key_release_hook(int keycode, t_game *game)
+static int	key_release_hook(int keycode, t_game *game)
 {
 	if (keycode == W_KEY)
 		game->keys[0] = false;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 14:15:36 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 14:40:00 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <math.h>
-#include <stdio.h> // printf to test [supress before pushing to vogsphere]
+# include <stdio.h>
 
 # include "../libft/libft.h"
 
 /* MACROS FOR ERRORS MSGS */
 
 /* wrong number of arguments (argc != 2) */
-# define ERR_NB_ARGS		"Wrong number of arguments\n\
+# define ERR_NB_ARGS		"Wrong number of arguments\n \
 Usage : ./Cub3D [map with .ber extension]\n"
 /* map not in format .cub */
 # define ERR_NOT_CUB		"The map provided is not in .cub format\n"
@@ -66,8 +66,8 @@ and/or uncorrectly formated infos\n"
 
 /* MACROS FOR WINDOW SIZE */
 
-# define WDW_WIDTH			800
-# define WDW_HEIGHT			640
+# define WDW_WIDTH			1366
+# define WDW_HEIGHT			768
 
 /* MACROS FOR CONVERTING TRGB TO INT */
 
@@ -81,7 +81,7 @@ and/or uncorrectly formated infos\n"
 # define EAST				3
 # define WEST				4
 
-/* MACROS FOR WASD KEY AND DIRECTIONNAL ARROW */
+/* MACROS FOR WASD KEY AND DIRECTIONNAL ARROW AND MOUSE BUTTTONS */
 
 # define W_KEY				13
 # define A_KEY				1
@@ -90,6 +90,8 @@ and/or uncorrectly formated infos\n"
 # define LEFT_ARROW			123
 # define RIGHT_ARROW		124
 # define ESCAPE				53
+# define SCROLL_UP			4
+# define SCROLL_DOWN		5
 
 /* MACROS FOR HOOKS AND EVENTS */
 
@@ -106,106 +108,132 @@ and/or uncorrectly formated infos\n"
 
 typedef struct s_infomap
 {
-	char		*lines;
-	char		**cub;
-	char		**map;
-	int			fd;
-	int			size_x;
-	int			size_y;
-	int			nb_infos;
-	char		*no_text;
-	char		*so_text;
-	char		*ea_text;
-	char		*we_text;
-	int			*floor_col;
-	int			*ceil_col;
-	int			direction;
+	char				*lines;
+	char				**cub;
+	char				**map;
+	int					fd;
+	int					size_x;
+	int					size_y;
+	int					nb_infos;
+	char				*no_text;
+	char				*so_text;
+	char				*ea_text;
+	char				*we_text;
+	int					*floor_col;
+	int					*ceil_col;
+	int					direction;
 }				t_infomap;
 
-typedef struct	s_mlx_img 
+typedef struct s_mlx_img
 {
-	void		*img;
-	void		*mlx;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-	int			width;
-	int			height;
+	void				*img;
+	void				*mlx;
+	char				*addr;
+	int					bits_per_pixel;
+	int					line_length;
+	int					endian;
+	int					width;
+	int					height;
 }				t_mlx_img;
 
 typedef struct s_texture
 {
-	void		*img;
-	int			width;
-	int			height;
+	void				*img;
+	int					width;
+	int					height;
 }				t_texture;
+
+typedef struct s_player
+{
+	double				pos_x;
+	double				pos_y;
+	double				ang_y;
+	double				dist_from_proj;
+	struct s_game		*game;
+}				t_player;
+
+typedef struct s_ray
+{
+	char				**map;
+	int					size_x;
+	int					size_y;
+	double				ang;
+	double				rad;
+	double				start_x;
+	double				start_y;
+	double				cur_x;
+	double				cur_y;
+	int					cur_map_x;
+	int					cur_map_y;
+	double				**found_vert;
+	double				**found_horiz;
+	double				**found_order;
+}				t_ray;
+
+typedef struct s_minimap
+{
+	int					width;
+	int					height;
+	int					offset;
+	int					padding_x;
+	int					padding_y;
+	int					img_index;
+	int					edge_len;
+	int					col_back;
+	int					col_square;
+	int					col_ply;
+}				t_minimap;
 
 typedef struct s_game
 {
-	t_mlx_img		**imgs_set;
-	t_infomap		*infomap;
-	void			*mlx;
-	int				wdw_x;
-	int				wdw_y;
-	void			*wdw;
-	int				col_ceil;
-	int				col_floor;
-	t_texture		*no_texture;
-	t_texture		*so_texture;
-	t_texture		*ea_texture;
-	t_texture		*we_texture;
-	bool			*keys;
-	struct s_player	*player;
+	t_mlx_img			**imgs_set;
+	t_infomap			*infomap;
+	void				*mlx;
+	int					wdw_x;
+	int					wdw_y;
+	void				*wdw;
+	int					col_ceil;
+	int					col_floor;
+	t_texture			*no_texture;
+	t_texture			*so_texture;
+	t_texture			*ea_texture;
+	t_texture			*we_texture;
+	bool				*keys;
+	bool				run;
+	struct s_player		*player;
+	struct s_minimap	*minimap;
 }				t_game;
-
-typedef struct s_player {
-	double		pos_x;
-	double		pos_y;
-	double		ang_y; // Rotation of the camera horizontally
-	double		dist_from_proj; // Distance between the viewer and the projection screen
-	t_game		*game;
-}				t_player;
-
-typedef struct	s_ray {
-	char		**map;
-	int			size_x;
-	int			size_y;
-	double		ang;
-	double		rad;
-	double		start_x;
-	double		start_y;
-	double		cur_x;
-	double		cur_y;
-	int			cur_map_x;
-	int			cur_map_y;
-	double		**found_vert;
-	double		**found_horiz;
-	double		**found_order;
-}				t_ray;
 
 /* ALGORITHM */
 
 /* algorithm.c */
-double  	send_raycast(t_game *game, double ray_ang);
+double		send_raycast(t_game *game, double ray_ang);
 
 /* BONUS */
 
 /* crosshair.c */
 void		render_crosshair(t_game *game, int img_index);
+/* minimap_utils.c */
+int			is_within_minimap(t_minimap *mini, int x, int y);
+int			is_map_fitting(t_minimap *mini, t_game *game);
+void		render_square(t_minimap *mini, t_game *game, int x, int y);
+void		render_background(t_minimap *mini, t_game *game, int img_index);
 /* minimap.c */
-void		render_minimap(t_game *game, int img_index);
+void		render_minimap(t_minimap *mini, t_game *game, int img_index);
+void		init_minimap_struct(t_game *game);
 
 /* FREE */
 
 /* free_game.c*/
 void		free_map(t_infomap **infomap);
 void		free_game(t_game **game);
+/* free_raycast.c */
+void		free_raycast(t_ray **ray);
 /* free_utils.c */
 void		free_and_nullify(void **to_free);
-void		free_map(t_infomap **infomap);
 void		free_problem_str_arr(char ***split, int i);
 void		free_split(char ***split);
+void		clear_mlx_img_struct(t_mlx_img **mlx_img);
 
 /* GAME */
 
@@ -214,9 +242,9 @@ void		init_game(t_game *game);
 /* init_game_struct.c */
 t_game		*init_game_struct(t_infomap *infomap);
 /* init_player.c */
-void    	init_player(t_game *game);
+void		init_player(t_game *game);
 /* update_player.c */
-void		update_player_data(t_game *game, t_player *ply);
+int			update_player_data(t_game *game, t_player *ply);
 
 /* GRAPHICS */
 
@@ -226,11 +254,10 @@ void		get_colors(t_game *game);
 void		mlx_pixel_put_to_img(t_mlx_img *mlx_img, int x, int y, int color);
 /* init_mlx_img_struct.c */
 t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y);
-void		clear_mlx_img_struct(t_mlx_img **mlx_img);
 /* render_frame.c */
 int			render_frame(t_game *game);
 /* render_algo.c */
-void    	render_walls(t_game *game, int img_index);
+void		render_walls(t_game *game, int img_index);
 
 /* PARSING */
 
@@ -250,18 +277,16 @@ void		print_err_msg(char *msg);
 void		err_msg_and_free_map(char *spec, t_infomap *infomap);
 void		err_msg_and_free_all(char *spec, t_game *game);
 /* math.c */
-double  	ceil_double(double nb);
+double		ceil_double(double nb);
 
-
-// -----------------------------------------//
-// debug [to kill before pushing to vogsphere]
+/* !!! DEBUG FUNCS : DESTROY BEFORE PUSHING TO VOGSPHERE !!! */
 
 void		print_infomap_infos(t_infomap *infomap);
 void		print_infos(t_infomap *infomap);
 void		print_oneline(t_infomap *infomap);
 void		leaks_killing(void);
 void		print_cub_file(t_infomap *infomap);
-void 		print_split(char **split);
-void 		put_xpm_img_to_test(t_game *game);
+void		print_split(char **split);
+void		put_xpm_img_to_test(t_game *game);
 
 #endif
