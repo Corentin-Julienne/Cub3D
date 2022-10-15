@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:02:41 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 13:06:00 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 14:36:19 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	init_game(t_game *game)
 	mlx_hook(game->wdw, EXIT_HOOK, 0, exit_hook, &game);
 	mlx_hook(game->wdw, KEY_PRESS_HOOK, 0, key_press_hook, game);
 	mlx_hook(game->wdw, KEY_RELEASE_HOOK, 0, key_release_hook, game);
-	mlx_mouse_hook(game->wdw, mouse_hook, game);
 	mlx_loop_hook(game->mlx, render_frame, game);
 	mlx_loop(game->mlx);
 }
