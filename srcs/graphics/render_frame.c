@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:07:05 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 18:42:53 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:17:31 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ when no img is used, we use the first image (index 0) */
 static int	choose_img(t_game *game)
 {
 	int				img_index;
-	
+
 	if (game->imgs_set[0] != NULL && game->imgs_set[1] == NULL)
 		img_index = 1;
 	else
@@ -64,10 +64,10 @@ destroy the former img after putting the actual img to window */
 static void	populate_img(t_game *game)
 {
 	int		img_index;
-	
+
 	img_index = choose_img(game);
 	game->imgs_set[img_index] = init_mlx_img_struct(game->mlx,
-		WDW_WIDTH, WDW_HEIGHT);
+			WDW_WIDTH, WDW_HEIGHT);
 	render_landscape(game, img_index);
 	render_walls(game, img_index);
 	render_minimap(game->minimap, game, img_index);
@@ -99,12 +99,12 @@ window */
 int	render_frame(t_game *game)
 {
 	static bool	first_iter = true;
-	
+
 	if (first_iter == true)
 	{
 		game->run = true;
 		game->imgs_set[0] = init_mlx_img_struct(game->mlx,
-			WDW_HEIGHT, WDW_HEIGHT);
+				WDW_HEIGHT, WDW_HEIGHT);
 		render_landscape(game, 0);
 		render_walls(game, 0);
 		render_minimap(game->minimap, game, 0);
@@ -116,8 +116,7 @@ int	render_frame(t_game *game)
 	}
 	else
 	{
-		if (update_player_data(game, game->player) == 0)
-			return (0);
+		update_player_data(game, game->player);
 		game->run = true;
 		populate_img(game);
 		game->run = false;

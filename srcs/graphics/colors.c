@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:09:21 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:07:31 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:15:47 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static int	rtn_ceil_and_floor_colors(t_infomap *infomap, int type)
 	if (type == CEILING)
 	{
 		color = create_trgb_color(0, infomap->ceil_col[0],
-			infomap->ceil_col[1], infomap->ceil_col[2]);
+				infomap->ceil_col[1], infomap->ceil_col[2]);
 	}
 	else
 	{
 		color = create_trgb_color(0, infomap->floor_col[0],
-			infomap->floor_col[1], infomap->floor_col[2]);
+				infomap->floor_col[1], infomap->floor_col[2]);
 	}
 	return (color);
 }

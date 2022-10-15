@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 18:27:03 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:09:13 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,22 @@ static bool	*get_key_bools(void)
 	return (bool_arr);
 }
 
-static void get_texts_north_south(t_game *game, t_infomap *infomap)
+static void	get_texts_north_south(t_game *game, t_infomap *infomap)
 {
 	game->no_texture = (t_texture *)malloc(sizeof(t_texture));
 	if (!game->no_texture)
 		err_msg_and_free_all(ERR_MALLOC, game);
 	game->no_texture->img = mlx_xpm_file_to_image(game->mlx,
-		infomap->no_text, &game->no_texture->width, &game->no_texture->height);
+			infomap->no_text, &game->no_texture->width,
+			&game->no_texture->height);
 	if (!game->no_texture->img)
 		err_msg_and_free_all(ERR_MALLOC, game);
 	game->so_texture = (t_texture *)malloc(sizeof(t_texture));
 	if (!game->so_texture)
 		err_msg_and_free_all(ERR_MALLOC, game);
 	game->so_texture->img = mlx_xpm_file_to_image(game->mlx,
-		infomap->so_text, &game->so_texture->width, &game->so_texture->height);
+			infomap->so_text, &game->so_texture->width,
+			&game->so_texture->height);
 	if (!game->so_texture->img)
 		err_msg_and_free_all(ERR_MALLOC, game);
 }
@@ -56,14 +58,16 @@ static void	get_texts_west_east(t_game *game, t_infomap *infomap)
 	if (!game->we_texture)
 		err_msg_and_free_all(ERR_MALLOC, game);
 	game->we_texture->img = mlx_xpm_file_to_image(game->mlx,
-		infomap->we_text, &game->we_texture->width, &game->we_texture->height);
+			infomap->we_text, &game->we_texture->width,
+			&game->we_texture->height);
 	if (!game->we_texture->img)
 		err_msg_and_free_all(ERR_MALLOC, game);
 	game->ea_texture = (t_texture *)malloc(sizeof(t_texture));
 	if (!game->ea_texture)
 		err_msg_and_free_all(ERR_MALLOC, game);
 	game->ea_texture->img = mlx_xpm_file_to_image(game->mlx,
-		infomap->ea_text, &game->ea_texture->width, &game->ea_texture->height);
+			infomap->ea_text, &game->ea_texture->width,
+			&game->ea_texture->height);
 	if (!game->ea_texture->img)
 		err_msg_and_free_all(ERR_MALLOC, game);
 }

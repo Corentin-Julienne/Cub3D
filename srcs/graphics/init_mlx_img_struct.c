@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:09:23 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 16:15:12 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:17:50 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y)
 		return (NULL);
 	new->img = mlx_new_image(mlx, x, y);
 	new->addr = mlx_get_data_addr(new->img, &new->bits_per_pixel,
-				&new->line_length, &new->endian);
+			&new->line_length, &new->endian);
 	new->width = x;
 	new->height = y;
 	new->mlx = mlx;

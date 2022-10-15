@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 16:31:02 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 18:42:02 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:04:28 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static void	free_set_of_imgs(t_mlx_img ***imgs_set)
 {
 	t_mlx_img		**tmp;
-	
+
 	tmp = *imgs_set;
 	if (tmp == NULL)
 		return ;

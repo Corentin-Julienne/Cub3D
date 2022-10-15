@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:34:12 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/10 17:07:33 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:16:29 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void	mlx_pixel_put_to_img(t_mlx_img *mlx_img, int x, int y, int color)
 		return ;
 	offset = y * mlx_img->line_length + x * (mlx_img->bits_per_pixel / 8);
 	dst = mlx_img->addr + offset;
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }

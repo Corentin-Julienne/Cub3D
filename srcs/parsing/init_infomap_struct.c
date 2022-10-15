@@ -100,6 +100,6 @@ void	init_infomap_struct(t_infomap *infomap, char *map)
 	infomap->cub = ft_split(infomap->lines, '\n');
 	if (!infomap->cub)
 		err_msg_and_free_map(ERR_MALLOC, infomap);
-	infomap->nb_infos = 0;	
+	infomap->nb_infos = 0;
 	parse_infos(infomap);
 }

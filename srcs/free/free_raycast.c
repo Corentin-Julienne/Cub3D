@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:45:23 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 18:42:20 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:04:33 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	free_double_arr(double ***arr, int stop)
 void	free_raycast(t_ray **ray)
 {
 	t_ray			*tmp;
-	
+
 	tmp = *ray;
 	if (!tmp)
 		return ;

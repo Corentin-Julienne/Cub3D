@@ -6,13 +6,13 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:02:41 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 18:38:38 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:06:00 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-/* wait for the  */
+/* [TO REDACT] */
 
 static void	exit_process(t_game **game)
 {
@@ -21,7 +21,7 @@ static void	exit_process(t_game **game)
 		if ((*game)->run == false)
 			break ;
 	}
-	mlx_destroy_window((*game)->mlx, (*game)->wdw); // useful ? enough ?
+	mlx_destroy_window((*game)->mlx, (*game)->wdw);
 	free_game(game);
 	exit(EXIT_SUCCESS);
 }
@@ -65,7 +65,7 @@ directionnal arrows are released
 indicate to the render_frame function that key is not activated 
 any more */
 
-static int key_release_hook(int keycode, t_game *game)
+static int	key_release_hook(int keycode, t_game *game)
 {
 	if (keycode == W_KEY)
 		game->keys[0] = false;
@@ -91,7 +91,7 @@ void	init_game(t_game *game)
 	mlx_hook(game->wdw, EXIT_HOOK, 0, exit_hook, &game);
 	mlx_hook(game->wdw, KEY_PRESS_HOOK, 0, key_press_hook, game);
 	mlx_hook(game->wdw, KEY_RELEASE_HOOK, 0, key_release_hook, game);
-	mlx_mouse_hook(game->wdw, mouse_hook, game); // bonus
+	mlx_mouse_hook(game->wdw, mouse_hook, game);
 	mlx_loop_hook(game->mlx, render_frame, game);
 	mlx_loop(game->mlx);
 }

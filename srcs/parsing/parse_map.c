@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:48:53 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 13:15:55 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:20:26 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	calc_map_dimensions(t_infomap *infomap, int i)
 {
 	int			j;
 	int			len;
-	
+
 	infomap->size_y = 0;
 	while (infomap->cub && infomap->cub[i + infomap->size_y])
 		infomap->size_y++;

@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:06:08 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 18:41:20 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:14:54 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static int	is_data_updated(t_player *ply, double prev_x,
 static void	correct_pos(t_game *game, t_player *ply,
 	double prev_pos_x, double prev_pos_y)
 {
-	if (game->infomap->map[(int)ply->pos_y / CUBES_SIZE][(int)ply->pos_x / CUBES_SIZE] == '1')
+	if (game->infomap->map[(int)ply->pos_y
+			/ CUBES_SIZE][(int)ply->pos_x / CUBES_SIZE] == '1')
 	{
 		ply->pos_x = prev_pos_x;
 		ply->pos_y = prev_pos_y;
@@ -38,7 +39,6 @@ static void	correct_pos(t_game *game, t_player *ply,
 
 static void	update_coord(t_game *game, t_player *ply)
 {
-	
 	if (game->keys[0] == true)
 	{
 		ply->pos_x += cos(ply->ang_y * M_PI / 180) * 3;
@@ -76,9 +76,9 @@ int	update_player_data(t_game *game, t_player *ply)
 	prev_ang = ply->ang_y;
 	update_coord(game, ply);
 	if (game->keys[4])
-        ply->ang_y -= 2;
-    if (game->keys[5])
-        ply->ang_y += 2;
+		ply->ang_y -= 2;
+	if (game->keys[5])
+		ply->ang_y += 2;
 	correct_pos(game, ply, prev_pos_x, prev_pos_y);
 	return (is_data_updated(ply, prev_pos_x, prev_pos_y, prev_ang));
 }

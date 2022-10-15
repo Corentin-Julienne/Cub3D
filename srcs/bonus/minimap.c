@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 13:50:51 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 15:29:17 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:21:51 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	render_minimap(t_minimap *mini, t_game *game, int img_index)
 
 void	init_minimap_struct(t_game *game)
 {
-	t_minimap 		*mini;
+	t_minimap		*mini;
 
 	mini = (t_minimap *)malloc(sizeof(t_minimap));
 	if (!mini)

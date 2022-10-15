@@ -6,35 +6,35 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:46:28 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 16:25:10 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:30:13 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
 /* Calculate the distance between 2 points */
-double  calc_dist(double x1, double y1, double x2, double y2)
+double	calc_dist(double x1, double y1, double x2, double y2)
 {
-    double  dist;
+	double		dist;
 
-    dist = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-    return (dist);
+	dist = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+	return	(dist);
 }
 
 /* Find every intersection on vertical lines (moving left/right on the X axis)
 and put everything in an array */
-static void find_vert_inter(t_ray *ray)
+static void	find_vert_inter(t_ray *ray)
 {
-    double  x;
-    double  y;
-    double  dist;
-    int     idx;
+	double		x;
+	double		y;
+	double		dist;
+	int			idx;
 
-    if (ray->ang == 90 || ray->ang == 270)
-        return ;
-    idx = 0;
-    x = ray->cur_x;
-    while (x < ray->size_x * CUBES_SIZE && x > 0)
+	if (ray->ang == 90 || ray->ang == 270)
+		return ;
+	idx = 0;
+	x = ray->cur_x;
+	while (x < ray->size_x * CUBES_SIZE && x > 0)
     {
         dist = fmod(x, CUBES_SIZE);
         if (ray->ang > 90 && ray->ang < 270)

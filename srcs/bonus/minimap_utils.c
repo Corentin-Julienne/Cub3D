@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 12:16:06 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 14:26:45 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/15 13:21:37 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ map. Return 1 if it is the case, 0 otherwise. */
 
 int	is_map_fitting(t_minimap *mini, t_game *game)
 {
-	if (mini->width - (mini->padding_x * 2) < game->infomap->size_x * mini->edge_len)
+	if (mini->width - (mini->padding_x * 2) < game->infomap->size_x
+		* mini->edge_len)
 		return (0);
-	if (mini->height - (mini->padding_y * 2) < game->infomap->size_y * mini->edge_len)
+	if (mini->height - (mini->padding_y * 2) < game->infomap->size_y
+		* mini->edge_len)
 		return (0);
 	return (1);
 }
 
 /* render a cubic section of wall (in white) */
 
-void render_square(t_minimap *mini, t_game *game, int x, int y)
+void	render_square(t_minimap *mini, t_game *game, int x, int y)
 {
 	int			i;
 	int			j;
