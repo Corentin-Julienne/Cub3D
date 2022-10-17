@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 16:31:02 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 13:04:28 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 06:46:34 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	free_game(t_game **game)
 	free_texture(&tmp->ea_texture, tmp);
 	free_texture(&tmp->we_texture, tmp);
 	free_and_nullify((void **)&tmp->keys);
-	free_ply_and_minimap(&tmp->player, &tmp->minimap);
+	free_ply_and_minimap(&tmp->ply, &tmp->minimap);
 	free(*game);
 	*game = NULL;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_frame.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:07:05 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 13:17:31 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 07:09:40 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	populate_img(t_game *game)
 	game->imgs_set[img_index] = init_mlx_img_struct(game->mlx,
 			WDW_WIDTH, WDW_HEIGHT);
 	render_landscape(game, img_index);
-	render_walls(game, img_index);
+	render_walls(game, img_index, 0);
 	render_minimap(game->minimap, game, img_index);
 	render_crosshair(game, img_index);
 	if (img_index == 0)
@@ -106,7 +106,7 @@ int	render_frame(t_game *game)
 		game->imgs_set[0] = init_mlx_img_struct(game->mlx,
 				WDW_HEIGHT, WDW_HEIGHT);
 		render_landscape(game, 0);
-		render_walls(game, 0);
+		render_walls(game, 0, 0);
 		render_minimap(game->minimap, game, 0);
 		render_crosshair(game, 0);
 		mlx_put_image_to_window(game->mlx, game->wdw,
@@ -116,7 +116,7 @@ int	render_frame(t_game *game)
 	}
 	else
 	{
-		update_player_data(game, game->player);
+		update_player_data(game, game->ply);
 		game->run = true;
 		populate_img(game);
 		game->run = false;

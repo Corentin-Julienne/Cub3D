@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersections.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/17 06:42:04 by mpeharpr          #+#    #+#             */
+/*   Updated: 2022/10/17 06:54:05 by mpeharpr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub3d.h"
 
 /* Calculate the actual intersection for vertical lines */
-static void	find_vert_inter_calc(t_ray *ray, double *dist, double *x, double *y)
+static void	calc_vert(t_ray *ray, double *dist, double *x, double *y)
 {
 	if (ray->ang > 90 && ray->ang < 270)
 	{
@@ -34,7 +46,7 @@ void	find_vert_inter(t_ray *ray)
 	while (x < ray->size_x * CUBES_SIZE && x > 0)
 	{
 		dist = fmod(x, CUBES_SIZE);
-		find_vert_inter_calc(ray, &dist, &x, &y);
+		calc_vert(ray, &dist, &x, &y);
 		if (y < 0 || y > ray->size_y * CUBES_SIZE)
 			break ;
 		ray->found_vert[idx][0] = x;
@@ -44,7 +56,7 @@ void	find_vert_inter(t_ray *ray)
 }
 
 /* Calculate the actual intersection for horizontal lines */
-static void	find_horiz_inter_calc(t_ray *ray, double *dist, double *x, double *y)
+static void	calc_horiz(t_ray *ray, double *dist, double *x, double *y)
 {
 	if (ray->ang >= 0 && ray->ang <= 180)
 	{
@@ -63,12 +75,12 @@ static void	find_horiz_inter_calc(t_ray *ray, double *dist, double *x, double *y
 
 /* Find every intersection on horizontal lines (moving up/down on the Y axis)
 and put everything in an array */
-void    find_horiz_inter(t_ray *ray)
+void	find_horiz_inter(t_ray *ray)
 {
-	double  x;
-	double  y;
-	double  dist;
-	int     idx;
+	double	x;
+	double	y;
+	double	dist;
+	int		idx;
 
 	if (ray->ang == 0 || ray->ang == 180)
 		return ;
@@ -77,7 +89,7 @@ void    find_horiz_inter(t_ray *ray)
 	while (y < ray->size_y * CUBES_SIZE && y > 0)
 	{
 		dist = fmod(y, CUBES_SIZE);
-		find_horiz_inter_calc(ray, &dist, &x, &y);
+		calc_horiz(ray, &dist, &x, &y);
 		if (x < 0 || x > ray->size_x * CUBES_SIZE)
 			break ;
 		ray->found_horiz[idx][0] = x;

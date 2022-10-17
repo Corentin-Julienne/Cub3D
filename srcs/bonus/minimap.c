@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 13:50:51 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 13:21:51 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 06:46:34 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	render_player(t_minimap *mini, t_game *game)
 	int			y;
 
 	scale = CUBES_SIZE / mini->edge_len;
-	center_x = (int)round(game->player->pos_x / scale);
-	center_y = (int)round(game->player->pos_y / scale);
+	center_x = (int)round(game->ply->pos_x / scale);
+	center_y = (int)round(game->ply->pos_y / scale);
 	y = center_y - 2;
 	while (y < center_y + 2)
 	{

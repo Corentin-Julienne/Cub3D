@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_raycast.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:45:23 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 13:04:33 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 06:43:52 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	free_raycast(t_ray **ray)
 		free_split(&tmp->map);
 	free_double_arr(&tmp->found_horiz, tmp->size_x);
 	free_double_arr(&tmp->found_vert, tmp->size_y);
-	free_double_arr(&tmp->found_order, tmp->size_x + tmp->size_y);
+	free_double_arr(&tmp->order, tmp->size_x + tmp->size_y);
 	free(*ray);
 	*ray = NULL;
 }

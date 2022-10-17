@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 06:19:50 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 07:09:05 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ typedef struct s_ray
 	int					cur_map_y;
 	double				**found_vert;
 	double				**found_horiz;
-	double				**found_order;
+	double				**order;
 }				t_ray;
 
 typedef struct	s_raysult
@@ -206,7 +206,7 @@ typedef struct s_game
 	t_texture			*we_texture;
 	bool				*keys;
 	bool				run;
-	struct s_player		*player;
+	struct s_player		*ply;
 	struct s_minimap	*minimap;
 }				t_game;
 
@@ -274,7 +274,7 @@ t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y);
 /* render_frame.c */
 int			render_frame(t_game *game);
 /* render_algo.c */
-void		render_walls(t_game *game, int img_index);
+void		render_walls(t_game *game, int img_index, double start_ang);
 
 /* PARSING */
 
