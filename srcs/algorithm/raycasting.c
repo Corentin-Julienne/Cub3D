@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:46:28 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 13:30:13 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 03:14:54 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,14 +175,16 @@ static void create_inter_array(t_ray *ray)
 }
 
 /* Send a ray from the player position to a specific angle of the map
-and return the distance of the first obstacle found on the way */
-double  send_raycast(t_game *game, double ray_ang)
+and return the distance of the first obstacle found on the way and
+the offset (modulo 64) for later wall texturing */
+void    send_raycast(t_game *game, double ray_ang, t_raysult *res)
 {
     t_ray       ray;
     double      dist;
+    double      offset;
 
     dist = 0;
-    ray.map = game->infomap->map; // ft_strdup to prevent double frees
+    ray.map = game->infomap->map;
     ray.start_x = game->player->pos_x;
     ray.start_y = game->player->pos_y;
     ray.cur_x = ray.start_x;
@@ -235,24 +237,25 @@ double  send_raycast(t_game *game, double ray_ang)
     }
 
     /* Send rays */
-    int i = 0;
-    while (i++ < 1)
-    {
-        find_vert_inter(&ray);
-        find_horiz_inter(&ray);
-        create_inter_array(&ray);
+    find_vert_inter(&ray);
+    find_horiz_inter(&ray);
+    create_inter_array(&ray);
 
-        /* Find the first intersection that is next to a wall */
-        for (int i = 0; i < ray.size_x + ray.size_y; i++)
+    /* Find the first intersection that is next to a wall */
+    for (int i = 0; i < ray.size_x + ray.size_y; i++)
+    {
+        if (ray.found_order[i][0] != -1.0 && ray.found_order[i][1] != -1.0)
         {
-            if (ray.found_order[i][0] != -1.0 && ray.found_order[i][1] != -1.0)
+            calculate_map_pos(&ray, ray.found_order[i][0], ray.found_order[i][1], ray.found_order[i][2]);                
+            if (ray.map[ray.cur_map_y][ray.cur_map_x] == '1')
             {
-                calculate_map_pos(&ray, ray.found_order[i][0], ray.found_order[i][1], ray.found_order[i][2]);
-                if (ray.map[ray.cur_map_y][ray.cur_map_x] == '1')
-                {
-                    dist = calc_dist(ray.start_x, ray.start_y, ray.found_order[i][0], ray.found_order[i][1]);
-                    break;
-                }
+                if (ray.found_order[i][2] == 0) // horizontal intersection
+                    offset = ray.found_order[i][0] - ray.cur_map_x * 64;
+                else // vertical intersection
+                    offset = ray.found_order[i][1] - ray.cur_map_y * 64;
+                offset = fmod(offset, 64);
+                dist = calc_dist(ray.start_x, ray.start_y, ray.found_order[i][0], ray.found_order[i][1]);
+                break;
             }
         }
     }
@@ -268,5 +271,6 @@ double  send_raycast(t_game *game, double ray_ang)
         free(ray.found_order[i]);
     free(ray.found_order);
 
-    return (dist * cos((ray.ang - game->player->ang_y) * M_PI / 180));
+    res->dist = dist * cos((ray.ang - game->player->ang_y) * M_PI / 180);
+    res->offset = offset;
 }
