@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 07:09:05 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 12:22:59 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,11 @@ and/or uncorrectly formated infos\n"
 # define PLY_VIEW_HEIGHT	32
 # define PLY_VIEW_FOV_DEG	60
 
+/* MACROS FOR IMG CREATION */
+
+# define NEW_IMG			1
+# define IMPORT				2
+
 typedef struct s_infomap
 {
 	char				*lines;
@@ -136,13 +141,6 @@ typedef struct s_mlx_img
 	int					width;
 	int					height;
 }				t_mlx_img;
-
-typedef struct s_texture
-{
-	void				*img;
-	int					width;
-	int					height;
-}				t_texture;
 
 typedef struct s_player
 {
@@ -200,10 +198,10 @@ typedef struct s_game
 	void				*wdw;
 	int					col_ceil;
 	int					col_floor;
-	t_texture			*no_texture;
-	t_texture			*so_texture;
-	t_texture			*ea_texture;
-	t_texture			*we_texture;
+	t_mlx_img			*no_texture;
+	t_mlx_img			*so_texture;
+	t_mlx_img			*ea_texture;
+	t_mlx_img			*we_texture;
 	bool				*keys;
 	bool				run;
 	struct s_player		*ply;
@@ -214,14 +212,11 @@ typedef struct s_game
 
 /* algorithm.c */
 void		send_raycast(t_game *game, double ray_ang, t_raysult *res);
-
 /* intersections.c */
 void		find_vert_inter(t_ray *ray);
 void		find_horiz_inter(t_ray *ray);
-
 /* filter.c */
 void    	create_inter_array(t_ray *ray);
-
 /* allocationc.c */
 void    	alloc_ray_intersections(t_ray *ray);
 void    	free_ray_intersections(t_ray *ray);
@@ -269,8 +264,9 @@ int			update_player_data(t_game *game, t_player *ply);
 void		get_colors(t_game *game);
 /* draw.c */
 void		mlx_pixel_put_to_img(t_mlx_img *mlx_img, int x, int y, int color);
+int			retrieve_color_in_texture(t_mlx_img *mlx_img, int x, int y);
 /* init_mlx_img_struct.c */
-t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y);
+t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y, int type);
 /* render_frame.c */
 int			render_frame(t_game *game);
 /* render_algo.c */
@@ -306,5 +302,6 @@ void		leaks_killing(void);
 void		print_cub_file(t_infomap *infomap);
 void		print_split(char **split);
 void		put_xpm_img_to_test(t_game *game);
+void		reproduce_texture(t_game *game, int img_index);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:14:57 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/14 01:19:33 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 12:20:55 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,40 @@ void print_split(char **split)
 void put_xpm_img_to_test(t_game *game) // does not work with small windows
 {
 	game = (t_game *)game;
-	// mlx_put_image_to_window(game->mlx, game->wdw, game->no_texture->img, 0, 0);
-	// mlx_put_image_to_window(game->mlx, game->wdw, game->so_texture->img, 60, 60);
-	// mlx_put_image_to_window(game->mlx, game->wdw, game->ea_texture->img, 120, 120);
-	// mlx_put_image_to_window(game->mlx, game->wdw, game->we_texture->img, 180, 180);
+	mlx_put_image_to_window(game->mlx, game->wdw, game->no_texture->img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->wdw, game->so_texture->img, 60, 60);
+	mlx_put_image_to_window(game->mlx, game->wdw, game->ea_texture->img, 120, 120);
+	mlx_put_image_to_window(game->mlx, game->wdw, game->we_texture->img, 180, 180);
+}
+
+void	reproduce_texture(t_game *game, int img_index)
+{
+	int			x;
+	int			y;
+	int			color;
+
+	y = 240;
+	while (y < 300)
+	{
+		x = 240;
+		while (x < 300)
+		{
+			color = (int)retrieve_color_in_texture(game->no_texture, x - 240, y - 240);
+			mlx_pixel_put_to_img(game->imgs_set[img_index], x, y, color);
+			x++;
+		}
+		y++;
+	}
+	y = 300;
+	while (y < 360)
+	{
+		x = 300;
+		while (x < 360)
+		{
+			color = (int)retrieve_color_in_texture(game->no_texture, x - 300, y - 300);
+			mlx_pixel_put_to_img(game->imgs_set[img_index], x, y, color);
+			x++;
+		}
+		y++;
+	}
 }
