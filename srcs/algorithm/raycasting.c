@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:46:28 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 06:49:07 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:46:01 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,14 @@ void	send_raycast(t_game *game, double ray_ang, t_raysult *res)
 		if (ray.order[i][0] != -1.0 && ray.order[i][1] != -1.0)
 		{
 			calc_map(&ray, ray.order[i][0], ray.order[i][1], ray.order[i][2]);
-			if (ray.map[ray.cur_map_y][ray.cur_map_x] == '1')
+			if (ray.map[ray.cur_map_y][ray.cur_map_x] == '1' || ray.map[ray.cur_map_y][ray.cur_map_x] == '2')
 			{
 				calc_wall_orientation(&ray, res, i);
 				res->dist = calc_dist(ray.start_x, ray.start_y, \
 				ray.order[i][0], ray.order[i][1]) * cos((ray.ang - \
 				game->ply->ang_y) * M_PI / 180);
+				res->map_x = ray.cur_map_x;
+				res->map_y = ray.cur_map_y;
 				break ;
 			}
 		}

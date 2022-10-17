@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:47:08 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 21:19:55 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:48:48 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,24 @@ static int	get_color(t_game *game, t_raysult res, int y, double *walls)
 	else
 		cur_color = get_color_in_texture(game->we_texture, res.offset, offsety);
 	return (cur_color);
+}
+
+/* Detect if the player want to open a door */
+static void	detect_door_use(t_game *game, t_raysult res)
+{
+	char	c;
+	char	**map;
+	
+	map = game->infomap->map;
+	c = map[res.map_y][res.map_x];
+	if (game->keys[7] && c == '2')
+	{
+		if (c == '2')
+			map[res.map_y][res.map_x] = '3';
+		else if (c == '3')
+			map[res.map_y][res.map_x] = '2';
+		game->keys[7] = false;
+	}
 }
 
 /* Calculate wall heights and other calculations */
@@ -60,6 +78,8 @@ void	render_walls(t_game *game, int idx, double start_ang)
 			get_color(game, res, y, walls));
 			y++;
 		}
+		if ((int)start_ang == (int)game->ply->ang_y)
+			detect_door_use(game, res);
 		x++;
 		start_ang += (double)PLY_VIEW_FOV_DEG / (double)game->wdw_x;
 	}

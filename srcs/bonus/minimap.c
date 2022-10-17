@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 13:50:51 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 06:46:34 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:29:43 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	draw_minimap(t_minimap *mini, t_game *game, char **map)
 		x = 0;
 		while (map[y][x])
 		{
-			if (map[y][x] == '1')
+			if (map[y][x] == '1' || map[y][x] == '2')
 				render_square(mini, game,
 					(x * mini->edge_len) + mini->offset + mini->padding_x,
 					(y * mini->edge_len) + mini->offset + mini->padding_y);

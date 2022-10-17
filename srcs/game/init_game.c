@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:02:41 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 02:31:34 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:33:33 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ and left and right directional arrows */
 
 static int	key_press_hook(int keycode, t_game *game)
 {
+	printf("%d\n", keycode);
 	if (keycode == W_KEY)
 		game->keys[0] = true;
 	else if (keycode == A_KEY)
@@ -57,6 +58,8 @@ static int	key_press_hook(int keycode, t_game *game)
 		game->keys[5] = true;
 	else if (keycode == SHIFT_KEY)
 		game->keys[6] = true;
+	else if (keycode == USE_KEY)
+		game->keys[7] = true;
 	else if (keycode == ESCAPE)
 		exit_process(&game);
 	return (0);
@@ -83,6 +86,8 @@ static int	key_release_hook(int keycode, t_game *game)
 		game->keys[5] = false;
 	else if (keycode == SHIFT_KEY)
 		game->keys[6] = false;
+	else if (keycode == USE_KEY)
+		game->keys[7] = false;
 	return (0);
 }
 

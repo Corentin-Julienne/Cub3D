@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game_struct.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 11:37:30 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:36:00 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static bool	*get_key_bools(void)
 	bool			*bool_arr;
 	int				i;
 
-	bool_arr = (bool *)malloc(sizeof(bool) * 7);
+	bool_arr = (bool *)malloc(sizeof(bool) * 8);
 	if (!bool_arr)
 		return (NULL);
 	i = 0;
-	while (i < 7)
+	while (i < 8)
 	{
 		bool_arr[i] = false;
 		i++;

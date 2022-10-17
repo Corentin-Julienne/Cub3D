@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 21:19:55 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:45:40 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ and/or uncorrectly formated infos\n"
 # define LEFT_ARROW			123
 # define RIGHT_ARROW		124
 # define SHIFT_KEY			257
+# define USE_KEY			14
 # define ESCAPE				53
 # define SCROLL_UP			4
 # define SCROLL_DOWN		5
@@ -172,6 +173,8 @@ typedef struct	s_raysult
 	double				dist;
 	double				offset;
 	char				wall_orientation;
+	int					map_x;
+	int					map_y;
 }				t_raysult;
 
 typedef struct s_minimap

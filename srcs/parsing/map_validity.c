@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validity.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 18:03:18 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 12:00:30 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:30:48 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	check_invalid_grid_format(t_infomap *infomap)
 		while (infomap->map[y][x])
 		{
 			if (!ft_isspace(infomap->map[y][x])
-				&& !ft_strchr("01NSEW", infomap->map[y][x]))
+				&& !ft_strchr("01NSEW2", infomap->map[y][x]))
 				err_msg_and_free_map(ERR_INVALID_CHAR, infomap);
 			if (ft_strchr("NSEW", infomap->map[y][x]))
 				psp_num++;
