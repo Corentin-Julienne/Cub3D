@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 16:31:02 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 06:46:34 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 11:38:23 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	free_set_of_imgs(t_mlx_img ***imgs_set)
 
 /* free a given texture and suppress the img within it */
 
-static void	free_texture(t_texture **text, t_game *game)
+static void	free_texture(t_mlx_img **text, t_game *game)
 {
 	if (*text == NULL)
 		return ;

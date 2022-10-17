@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:09:21 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 13:15:47 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 12:23:58 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,20 @@ void	get_colors(t_game *game)
 	game->col_floor = rtn_ceil_and_floor_colors(game->infomap, FLOOR);
 	free(game->infomap->floor_col);
 	game->infomap->floor_col = NULL;
+}
+
+/* is used to retrieve a color of a pixel in a texture
+x and y are the coordinates of this point in the texture img, 
+not on the main img */
+
+int	retrieve_color_in_texture(t_mlx_img *mlx_img, int x, int y)
+{
+	int		color;
+	int		offset;
+	char	*dst;
+
+	offset = y * mlx_img->line_length + x * (mlx_img->bits_per_pixel / 8);
+	dst = mlx_img->addr + offset; 
+	color = *(int *)dst;
+	return (color);
 }
