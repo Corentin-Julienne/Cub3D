@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 03:45:17 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 06:46:34 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	protect_game_struct(t_game *game)
 	game->we_texture = NULL;
 	game->ea_texture = NULL;
 	game->keys = NULL;
-	game->player = NULL;
+	game->ply = NULL;
 	game->minimap = NULL;
 	game->mlx = mlx_init();
 	if (!game->mlx)

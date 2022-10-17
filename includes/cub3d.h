@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 03:35:29 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 07:09:05 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,14 +166,14 @@ typedef struct s_ray
 	int					cur_map_y;
 	double				**found_vert;
 	double				**found_horiz;
-	double				**found_order;
+	double				**order;
 }				t_ray;
 
 typedef struct	s_raysult
 {
-	double	dist;
-	double	offset;
-	char	wall_orientation;
+	double				dist;
+	double				offset;
+	char				wall_orientation;
 }				t_raysult;
 
 typedef struct s_minimap
@@ -206,7 +206,7 @@ typedef struct s_game
 	t_texture			*we_texture;
 	bool				*keys;
 	bool				run;
-	struct s_player		*player;
+	struct s_player		*ply;
 	struct s_minimap	*minimap;
 }				t_game;
 
@@ -214,6 +214,17 @@ typedef struct s_game
 
 /* algorithm.c */
 void		send_raycast(t_game *game, double ray_ang, t_raysult *res);
+
+/* intersections.c */
+void		find_vert_inter(t_ray *ray);
+void		find_horiz_inter(t_ray *ray);
+
+/* filter.c */
+void    	create_inter_array(t_ray *ray);
+
+/* allocationc.c */
+void    	alloc_ray_intersections(t_ray *ray);
+void    	free_ray_intersections(t_ray *ray);
 
 /* BONUS */
 
@@ -263,7 +274,7 @@ t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y);
 /* render_frame.c */
 int			render_frame(t_game *game);
 /* render_algo.c */
-void		render_walls(t_game *game, int img_index);
+void		render_walls(t_game *game, int img_index, double start_ang);
 
 /* PARSING */
 
@@ -284,6 +295,7 @@ void		err_msg_and_free_map(char *spec, t_infomap *infomap);
 void		err_msg_and_free_all(char *spec, t_game *game);
 /* math.c */
 double		ceil_double(double nb);
+double		calc_dist(double x1, double y1, double x2, double y2);
 
 /* !!! DEBUG FUNCS : DESTROY BEFORE PUSHING TO VOGSPHERE !!! */
 

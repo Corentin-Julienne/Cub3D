@@ -6,289 +6,102 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:46:28 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 04:15:58 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 06:49:07 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-/* Calculate the distance between 2 points */
-double	calc_dist(double x1, double y1, double x2, double y2)
-{
-	double		dist;
-
-	dist = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-	return	(dist);
-}
-
-/* Find every intersection on vertical lines (moving left/right on the X axis)
-and put everything in an array */
-static void	find_vert_inter(t_ray *ray)
-{
-	double		x;
-	double		y;
-	double		dist;
-	int			idx;
-
-	if (ray->ang == 90 || ray->ang == 270)
-		return ;
-	idx = 0;
-	x = ray->start_x;
-	while (x < ray->size_x * CUBES_SIZE && x > 0)
-    {
-        dist = fmod(x, CUBES_SIZE);
-        if (ray->ang > 90 && ray->ang < 270)
-        {
-            if (dist == 0)
-                dist = CUBES_SIZE;   
-            x -= dist;
-        }
-        else
-            x += CUBES_SIZE - dist;
-        x = ceil_double(x);
-        
-        if (ray->ang == 0 || ray->ang == 180)
-            y = ray->start_y;
-        else
-            y = ceil_double(ray->start_y - (x - ray->start_x) * tan(ray->rad));
-        if (y < 0 || y > ray->size_y * CUBES_SIZE)
-            break ;
-
-        ray->found_vert[idx][0] = x;
-        ray->found_vert[idx][1] = y;
-        idx++;
-    }
-}
-
-/* Find every intersection on horizontal lines (moving up/down on the Y axis)
-and put everything in an array */
-static void find_horiz_inter(t_ray *ray)
-{
-    double  x;
-    double  y;
-    double  dist;
-    int     idx;
-
-    if (ray->ang == 0 || ray->ang == 180)
-        return ;
-    idx = 0;
-    y = ray->start_y;
-    while (y < ray->size_y * CUBES_SIZE && y > 0)
-    {
-        dist = fmod(y, CUBES_SIZE);
-        if (ray->ang >= 0 && ray->ang <= 180)
-        {
-            if (dist == 0)
-                dist = CUBES_SIZE;   
-            y -= dist;
-        }
-        else
-            y += CUBES_SIZE - dist;
-        y = ceil_double(y);
-        
-        if (ray->ang == 90 || ray->ang == 270)
-            x = ray->start_x;
-        else
-            x = ceil_double(ray->start_x - (y - ray->start_y) / tan(ray->rad));
-        if (x < 0 || x > ray->size_x * CUBES_SIZE)
-            break ;
-
-        ray->found_horiz[idx][0] = x;
-        ray->found_horiz[idx][1] = y;
-        idx++;
-    }
-}
-
 /* Transform the position we got into a map position depending on the angle */
-void    calculate_map_pos(t_ray *ray, double x, double y, double is_vert)
+void	calc_map(t_ray *ray, double x, double y, double is_vert)
 {
-    int pos_x;
-    int pos_y;
+	int	pos_x;
+	int	pos_y;
 
-    /* This is the top-left position on the map */
-    pos_x = (int)(ceil_double(x / CUBES_SIZE));
-    pos_y = (int)(ceil_double(y / CUBES_SIZE));
-
-    if (is_vert && ray->ang > 90 && ray->ang < 270)
-        pos_x--;
-    else if (!is_vert && ray->ang > 0 && ray->ang < 180)
-        pos_y--;
-
-    if (pos_x < 0 || pos_x > ray->size_x || pos_y < 0 || pos_y > ray->size_y)
-    {
-        printf("The ray has been out of the map, unexpected problem, aborting!\n");
-        exit(0); // TODO: Change this
-    }
-
-    ray->cur_map_x = pos_x;
-    ray->cur_map_y = pos_y;
+	pos_x = (int)(ceil_double(x / CUBES_SIZE));
+	pos_y = (int)(ceil_double(y / CUBES_SIZE));
+	if (is_vert && ray->ang > 90 && ray->ang < 270)
+		pos_x--;
+	else if (!is_vert && ray->ang > 0 && ray->ang < 180)
+		pos_y--;
+	if (pos_x < 0 || pos_x > ray->size_x || pos_y < 0 || pos_y > ray->size_y)
+	{
+		printf("The ray has been out of the map, unexpected problem, abort!\n");
+		exit(0); // TODO: Change this
+	}
+	ray->cur_map_x = pos_x;
+	ray->cur_map_y = pos_y;
 }
 
-/* Create a new array containing all intersections point (from our both arrays) order by distance */
-static void create_inter_array(t_ray *ray)
+/* Initialize the ray structure correctly before doing anything */
+void	init_raycast(t_game *game, t_ray *ray, double ray_ang, int *i)
 {
-    int i;
-    int j;
-    int idx;
+	*i = 0;
+	ray->map = game->infomap->map;
+	ray->start_x = game->ply->pos_x;
+	ray->start_y = game->ply->pos_y;
+	ray->size_x = game->infomap->size_x;
+	ray->size_y = game->infomap->size_y;
+	ray->found_vert = NULL;
+	ray->found_horiz = NULL;
+	ray->order = NULL;
+	ray->ang = fmod(ray_ang, 360);
+	if (ray->ang < 0)
+		ray->ang += 360;
+	ray->rad = (ray_ang * M_PI) / 180;
+}
 
-    i = 0;
-    j = 0;
-    idx = 0;
-    while (i < ray->size_x || j < ray->size_y)
-    {
-        if (i < ray->size_x && j < ray->size_y && ray->found_vert[i][0] != -1 && ray->found_horiz[j][0] != -1)
-        {
-            /* If the vertical intersection is closer than the horizontal one */
-            if (calc_dist(ray->start_x, ray->start_y, ray->found_vert[i][0], ray->found_vert[i][1]) < calc_dist(ray->start_x, ray->start_y, ray->found_horiz[j][0], ray->found_horiz[j][1]))
-            {
-                ray->found_order[idx][0] = ray->found_vert[i][0];
-                ray->found_order[idx][1] = ray->found_vert[i][1];
-                ray->found_order[idx][2] = 1;
-                i++;
-            }
-            else
-            {
-                ray->found_order[idx][0] = ray->found_horiz[j][0];
-                ray->found_order[idx][1] = ray->found_horiz[j][1];
-                ray->found_order[idx][2] = 0;
-                j++;
-            }
-        }
-        else if (i < ray->size_x && ray->found_vert[i][0] != -1)
-        {
-            ray->found_order[idx][0] = ray->found_vert[i][0];
-            ray->found_order[idx][1] = ray->found_vert[i][1];
-            ray->found_order[idx][2] = 1;
-            i++;
-        }
-        else if (j < ray->size_y && ray->found_horiz[j][0] != -1)
-        {
-            ray->found_order[idx][0] = ray->found_horiz[j][0];
-            ray->found_order[idx][1] = ray->found_horiz[j][1];
-            ray->found_order[idx][2] = 0;
-            j++;
-        }
-        else
-            break ;
-        idx++;
-    }
+/* Get the wall orientation depending on the player position, the ray
+final position and the ray angle */
+void	calc_wall_orientation(t_ray *ray, t_raysult *res, int i)
+{
+	if (ray->order[i][2] == 0)
+	{
+		res->offset = ray->order[i][0] - ray->cur_map_x * 64;
+		if (ray->order[i][1] - ray->start_y < 0)
+			res->wall_orientation = 'N';
+		else
+			res->wall_orientation = 'S';
+	}
+	else
+	{
+		res->offset = ray->order[i][1] - ray->cur_map_y * 64;
+		if (ray->order[i][0] - ray->start_x < 0)
+			res->wall_orientation = 'W';
+		else
+			res->wall_orientation = 'E';
+	}
+	res->offset = fmod(res->offset, 64);
 }
 
 /* Send a ray from the player position to a specific angle of the map
 and return the distance of the first obstacle found on the way and
 the offset (modulo 64) for later wall texturing */
-void    send_raycast(t_game *game, double ray_ang, t_raysult *res)
+void	send_raycast(t_game *game, double ray_ang, t_raysult *res)
 {
-    t_ray       ray;
-    double      dist;
-    double      offset;
-    char        wall_orientation;
+	t_ray	ray;
+	int		i;
 
-    dist = 0;
-    ray.map = game->infomap->map;
-    ray.start_x = game->player->pos_x;
-    ray.start_y = game->player->pos_y;
-    ray.size_x = game->infomap->size_x;
-    ray.size_y = game->infomap->size_y;
-
-    /* Initialize our angles and shit */
-    ray.ang = fmod(ray_ang, 360);
-    if (ray.ang < 0)
-        ray.ang += 360;
-    ray.rad = (ray_ang * M_PI) / 180;
-
-    /* Allocate all arrays */
-    ray.found_vert = malloc(sizeof(double *) * ray.size_x);
-    if (!ray.found_vert)
-        exit(0); // TODO: Change this
-    ray.found_horiz = malloc(sizeof(double *) * ray.size_y);
-    if (!ray.found_horiz)
-        exit(0); // TODO: Change this
-    ray.found_order = malloc(sizeof(double *) * (ray.size_x + ray.size_y));
-    if (!ray.found_order)
-        exit(0); // TODO: Change this
-
-    /* Allocate all subarrays for each array */
-    for (int i = 0; i < ray.size_x; i++)
-    {
-        ray.found_vert[i] = malloc(sizeof(double) * 2);
-        if (!ray.found_vert[i])
-            exit(0); // TODO: Change this
-        ray.found_vert[i][0] = -1.0;
-        ray.found_vert[i][1] = -1.0;
-    }
-    for (int i = 0; i < ray.size_y; i++)
-    {
-        ray.found_horiz[i] = malloc(sizeof(double) * 2);
-        if (!ray.found_horiz[i])
-            exit(0); // TODO: Change this
-        ray.found_horiz[i][0] = -1.0;
-        ray.found_horiz[i][1] = -1.0;
-    }
-    for (int i = 0; i < ray.size_x + ray.size_y; i++)
-    {
-        ray.found_order[i] = malloc(sizeof(double) * 3);
-        if (!ray.found_order[i])
-            exit(0); // TODO: Change this
-        ray.found_order[i][0] = -1.0;
-        ray.found_order[i][1] = -1.0;
-        ray.found_order[i][2] = 0.0; // 0 for horizontal, 1 for vertical
-    }
-
-    /* Send rays */
-    find_vert_inter(&ray);
-    find_horiz_inter(&ray);
-    create_inter_array(&ray);
-
-    /* Find the first intersection that is next to a wall */
-    for (int i = 0; i < ray.size_x + ray.size_y; i++)
-    {
-        if (ray.found_order[i][0] != -1.0 && ray.found_order[i][1] != -1.0)
-        {
-            calculate_map_pos(&ray, ray.found_order[i][0], ray.found_order[i][1], ray.found_order[i][2]);                
-            if (ray.map[ray.cur_map_y][ray.cur_map_x] == '1')
-            {
-                /* Calculate the offset of the ray from the wall touched (and orientation) */
-                if (ray.found_order[i][2] == 0)
-                {
-                    offset = ray.found_order[i][0] - ray.cur_map_x * 64;
-                    /* If the wall is above the player, it will always be south.
-                    Else, it will always be north */
-                    if (ray.found_order[i][1] - ray.start_y < 0)
-                        wall_orientation = 'N';
-                    else
-                        wall_orientation = 'S';
-                }
-                else
-                {
-                    offset = ray.found_order[i][1] - ray.cur_map_y * 64;
-                    /* If the wall is to the left of the player, it will always be east.
-                    Else, it will always be west */
-                    if (ray.found_order[i][0] - ray.start_x < 0)
-                        wall_orientation = 'W';
-                    else
-                        wall_orientation = 'E';
-                }
-                offset = fmod(offset, 64);
-                /* Calculate the distance */
-                dist = calc_dist(ray.start_x, ray.start_y, ray.found_order[i][0], ray.found_order[i][1]);
-                break;
-            }
-        }
-    }
-
-    /* Free the arrays */
-    for (int i = 0; i < ray.size_x; i++)
-        free(ray.found_vert[i]);
-    free(ray.found_vert);
-    for (int i = 0; i < ray.size_y; i++)
-        free(ray.found_horiz[i]);
-    free(ray.found_horiz);
-    for (int i = 0; i < ray.size_x + ray.size_y; i++)
-        free(ray.found_order[i]);
-    free(ray.found_order);
-
-    res->dist = dist * cos((ray.ang - game->player->ang_y) * M_PI / 180);
-    res->offset = offset;
-    res->wall_orientation = wall_orientation;
+	init_raycast(game, &ray, ray_ang, &i);
+	alloc_ray_intersections(&ray);
+	find_vert_inter(&ray);
+	find_horiz_inter(&ray);
+	create_inter_array(&ray);
+	while (i < ray.size_x + ray.size_y)
+	{
+		if (ray.order[i][0] != -1.0 && ray.order[i][1] != -1.0)
+		{
+			calc_map(&ray, ray.order[i][0], ray.order[i][1], ray.order[i][2]);
+			if (ray.map[ray.cur_map_y][ray.cur_map_x] == '1')
+			{
+				calc_wall_orientation(&ray, res, i);
+				res->dist = calc_dist(ray.start_x, ray.start_y, \
+				ray.order[i][0], ray.order[i][1]) * cos((ray.ang - \
+				game->ply->ang_y) * M_PI / 180);
+				break ;
+			}
+		}
+		i++;
+	}
+	free_ray_intersections(&ray);
 }

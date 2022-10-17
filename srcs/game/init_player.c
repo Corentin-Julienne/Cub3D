@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 05:40:25 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 06:56:01 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ static void	init_player_struct(t_game *game, int right_x, int top_y)
 		err_msg_and_free_all(ERR_MALLOC, game);
 	player->pos_x = (double)(right_x * CUBES_SIZE + CUBES_SIZE / 2);
 	player->pos_y = (double)(top_y * CUBES_SIZE + CUBES_SIZE / 2);
-	player->ang_y = (double)0; // TODO: Change this angle depending on the letter
+	player->ang_y = (double)0; // TODO: Change this angle
 	player->dist_from_proj = (double)((game->wdw_x / 2)
 			/ tanf((PLY_VIEW_FOV_DEG / 2) * M_PI / 180));
-	game->player = player;
+	game->ply = player;
 }
 
 /* Find and create the initial player on the position from the map */
