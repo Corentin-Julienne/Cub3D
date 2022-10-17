@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:46:28 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 13:30:13 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 04:15:58 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	find_vert_inter(t_ray *ray)
 	if (ray->ang == 90 || ray->ang == 270)
 		return ;
 	idx = 0;
-	x = ray->cur_x;
+	x = ray->start_x;
 	while (x < ray->size_x * CUBES_SIZE && x > 0)
     {
         dist = fmod(x, CUBES_SIZE);
@@ -48,9 +48,9 @@ static void	find_vert_inter(t_ray *ray)
         x = ceil_double(x);
         
         if (ray->ang == 0 || ray->ang == 180)
-            y = ray->cur_y;
+            y = ray->start_y;
         else
-            y = ceil_double(ray->cur_y - (x - ray->cur_x) * tan(ray->rad));
+            y = ceil_double(ray->start_y - (x - ray->start_x) * tan(ray->rad));
         if (y < 0 || y > ray->size_y * CUBES_SIZE)
             break ;
 
@@ -72,7 +72,7 @@ static void find_horiz_inter(t_ray *ray)
     if (ray->ang == 0 || ray->ang == 180)
         return ;
     idx = 0;
-    y = ray->cur_y;
+    y = ray->start_y;
     while (y < ray->size_y * CUBES_SIZE && y > 0)
     {
         dist = fmod(y, CUBES_SIZE);
@@ -87,9 +87,9 @@ static void find_horiz_inter(t_ray *ray)
         y = ceil_double(y);
         
         if (ray->ang == 90 || ray->ang == 270)
-            x = ray->cur_x;
+            x = ray->start_x;
         else
-            x = ceil_double(ray->cur_x - (y - ray->cur_y) / tan(ray->rad));
+            x = ceil_double(ray->start_x - (y - ray->start_y) / tan(ray->rad));
         if (x < 0 || x > ray->size_x * CUBES_SIZE)
             break ;
 
@@ -139,7 +139,7 @@ static void create_inter_array(t_ray *ray)
         if (i < ray->size_x && j < ray->size_y && ray->found_vert[i][0] != -1 && ray->found_horiz[j][0] != -1)
         {
             /* If the vertical intersection is closer than the horizontal one */
-            if (calc_dist(ray->cur_x, ray->cur_y, ray->found_vert[i][0], ray->found_vert[i][1]) < calc_dist(ray->cur_x, ray->cur_y, ray->found_horiz[j][0], ray->found_horiz[j][1]))
+            if (calc_dist(ray->start_x, ray->start_y, ray->found_vert[i][0], ray->found_vert[i][1]) < calc_dist(ray->start_x, ray->start_y, ray->found_horiz[j][0], ray->found_horiz[j][1]))
             {
                 ray->found_order[idx][0] = ray->found_vert[i][0];
                 ray->found_order[idx][1] = ray->found_vert[i][1];
@@ -175,18 +175,19 @@ static void create_inter_array(t_ray *ray)
 }
 
 /* Send a ray from the player position to a specific angle of the map
-and return the distance of the first obstacle found on the way */
-double  send_raycast(t_game *game, double ray_ang)
+and return the distance of the first obstacle found on the way and
+the offset (modulo 64) for later wall texturing */
+void    send_raycast(t_game *game, double ray_ang, t_raysult *res)
 {
     t_ray       ray;
     double      dist;
+    double      offset;
+    char        wall_orientation;
 
     dist = 0;
-    ray.map = game->infomap->map; // ft_strdup to prevent double frees
+    ray.map = game->infomap->map;
     ray.start_x = game->player->pos_x;
     ray.start_y = game->player->pos_y;
-    ray.cur_x = ray.start_x;
-    ray.cur_y = ray.start_y;
     ray.size_x = game->infomap->size_x;
     ray.size_y = game->infomap->size_y;
 
@@ -235,28 +236,47 @@ double  send_raycast(t_game *game, double ray_ang)
     }
 
     /* Send rays */
-    int i = 0;
-    while (i++ < 1)
-    {
-        find_vert_inter(&ray);
-        find_horiz_inter(&ray);
-        create_inter_array(&ray);
+    find_vert_inter(&ray);
+    find_horiz_inter(&ray);
+    create_inter_array(&ray);
 
-        /* Find the first intersection that is next to a wall */
-        for (int i = 0; i < ray.size_x + ray.size_y; i++)
+    /* Find the first intersection that is next to a wall */
+    for (int i = 0; i < ray.size_x + ray.size_y; i++)
+    {
+        if (ray.found_order[i][0] != -1.0 && ray.found_order[i][1] != -1.0)
         {
-            if (ray.found_order[i][0] != -1.0 && ray.found_order[i][1] != -1.0)
+            calculate_map_pos(&ray, ray.found_order[i][0], ray.found_order[i][1], ray.found_order[i][2]);                
+            if (ray.map[ray.cur_map_y][ray.cur_map_x] == '1')
             {
-                calculate_map_pos(&ray, ray.found_order[i][0], ray.found_order[i][1], ray.found_order[i][2]);
-                if (ray.map[ray.cur_map_y][ray.cur_map_x] == '1')
+                /* Calculate the offset of the ray from the wall touched (and orientation) */
+                if (ray.found_order[i][2] == 0)
                 {
-                    dist = calc_dist(ray.start_x, ray.start_y, ray.found_order[i][0], ray.found_order[i][1]);
-                    break;
+                    offset = ray.found_order[i][0] - ray.cur_map_x * 64;
+                    /* If the wall is above the player, it will always be south.
+                    Else, it will always be north */
+                    if (ray.found_order[i][1] - ray.start_y < 0)
+                        wall_orientation = 'N';
+                    else
+                        wall_orientation = 'S';
                 }
+                else
+                {
+                    offset = ray.found_order[i][1] - ray.cur_map_y * 64;
+                    /* If the wall is to the left of the player, it will always be east.
+                    Else, it will always be west */
+                    if (ray.found_order[i][0] - ray.start_x < 0)
+                        wall_orientation = 'W';
+                    else
+                        wall_orientation = 'E';
+                }
+                offset = fmod(offset, 64);
+                /* Calculate the distance */
+                dist = calc_dist(ray.start_x, ray.start_y, ray.found_order[i][0], ray.found_order[i][1]);
+                break;
             }
         }
     }
-    
+
     /* Free the arrays */
     for (int i = 0; i < ray.size_x; i++)
         free(ray.found_vert[i]);
@@ -268,5 +288,7 @@ double  send_raycast(t_game *game, double ray_ang)
         free(ray.found_order[i]);
     free(ray.found_order);
 
-    return (dist * cos((ray.ang - game->player->ang_y) * M_PI / 180));
+    res->dist = dist * cos((ray.ang - game->player->ang_y) * M_PI / 180);
+    res->offset = offset;
+    res->wall_orientation = wall_orientation;
 }
