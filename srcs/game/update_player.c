@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_player.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:06:08 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 14:36:40 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 02:32:43 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,31 @@ static void	correct_pos(t_game *game, t_player *ply,
 
 static void	update_coord(t_game *game, t_player *ply)
 {
+	int	multiplier;
+
+	multiplier = 3;
+	if (game->keys[6] == true)
+		multiplier *= 2;
+	
 	if (game->keys[0] == true)
 	{
-		ply->pos_x += cos(ply->ang_y * M_PI / 180) * 3;
-		ply->pos_y -= sin(ply->ang_y * M_PI / 180) * 3;
+		ply->pos_x += cos(ply->ang_y * M_PI / 180) * multiplier;
+		ply->pos_y -= sin(ply->ang_y * M_PI / 180) * multiplier;
 	}
 	if (game->keys[1] == true)
 	{
-		ply->pos_x -= cos(ply->ang_y * M_PI / 180) * 3;
-		ply->pos_y += sin(ply->ang_y * M_PI / 180) * 3;
+		ply->pos_x -= cos(ply->ang_y * M_PI / 180) * multiplier;
+		ply->pos_y += sin(ply->ang_y * M_PI / 180) * multiplier;
 	}
 	if (game->keys[2] == true)
 	{
-		ply->pos_x += cos((ply->ang_y + 90) * M_PI / 180) * 3;
-		ply->pos_y -= sin((ply->ang_y + 90) * M_PI / 180) * 3;
+		ply->pos_x += cos((ply->ang_y + 90) * M_PI / 180) * multiplier;
+		ply->pos_y -= sin((ply->ang_y + 90) * M_PI / 180) * multiplier;
 	}
 	if (game->keys[3] == true)
 	{
-		ply->pos_x += cos((ply->ang_y - 90) * M_PI / 180) * 3;
-		ply->pos_y -= sin((ply->ang_y - 90) * M_PI / 180) * 3;
+		ply->pos_x += cos((ply->ang_y - 90) * M_PI / 180) * multiplier;
+		ply->pos_y -= sin((ply->ang_y - 90) * M_PI / 180) * multiplier;
 	}
 }
 

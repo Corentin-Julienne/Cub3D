@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 14:40:00 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 02:31:01 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ and/or uncorrectly formated infos\n"
 # define D_KEY				0
 # define LEFT_ARROW			123
 # define RIGHT_ARROW		124
+# define SHIFT_KEY			257
 # define ESCAPE				53
 # define SCROLL_UP			4
 # define SCROLL_DOWN		5

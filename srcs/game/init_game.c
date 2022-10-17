@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:02:41 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 14:36:19 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 02:31:34 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ static int	key_press_hook(int keycode, t_game *game)
 		game->keys[4] = true;
 	else if (keycode == RIGHT_ARROW)
 		game->keys[5] = true;
+	else if (keycode == SHIFT_KEY)
+		game->keys[6] = true;
 	else if (keycode == ESCAPE)
 		exit_process(&game);
 	return (0);
@@ -79,6 +81,8 @@ static int	key_release_hook(int keycode, t_game *game)
 		game->keys[4] = false;
 	else if (keycode == RIGHT_ARROW)
 		game->keys[5] = false;
+	else if (keycode == SHIFT_KEY)
+		game->keys[6] = false;
 	return (0);
 }
 
