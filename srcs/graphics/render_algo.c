@@ -6,25 +6,25 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:47:08 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 07:08:43 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:04:03 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
 /* Get the color of the pixel to draw */
-static int	get_color(t_raysult res)
+static int	get_color(t_game *game, t_raysult res, int y)
 {
 	int	cur_color;
 
 	if (res.wall_orientation == 'N')
-		cur_color = 0x00FFFFFF;
+		cur_color = retrieve_color_in_texture(game->no_texture, res.offset, y);
 	else if (res.wall_orientation == 'S')
-		cur_color = 0x00FF0000;
+		cur_color = retrieve_color_in_texture(game->so_texture, res.offset, y);
 	else if (res.wall_orientation == 'E')
-		cur_color = 0x0000FF00;
+		cur_color = retrieve_color_in_texture(game->ea_texture, res.offset, y);
 	else
-		cur_color = 0x000000FF;
+		cur_color = retrieve_color_in_texture(game->we_texture, res.offset, y);
 	return (cur_color);
 }
 
@@ -54,7 +54,11 @@ void	render_walls(t_game *game, int idx, double start_ang)
 		if (y < 0)
 			y = 0;
 		while (y < game->imgs_set[idx]->height && y < wall_y + wall_height)
-			mlx_pixel_put_to_img(game->imgs_set[idx], x, y++, get_color(res));
+		{
+			int perc = (y - wall_y) / wall_height * 64;
+			mlx_pixel_put_to_img(game->imgs_set[idx], x, y, get_color(game, res, perc));
+			y++;
+		}
 		x++;
 		start_ang += (double)PLY_VIEW_FOV_DEG / (double)game->wdw_x;
 	}
