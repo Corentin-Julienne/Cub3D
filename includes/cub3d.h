@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 12:22:59 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:19:55 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ int			update_player_data(t_game *game, t_player *ply);
 void		get_colors(t_game *game);
 /* draw.c */
 void		mlx_pixel_put_to_img(t_mlx_img *mlx_img, int x, int y, int color);
-int			retrieve_color_in_texture(t_mlx_img *mlx_img, int x, int y);
+int			get_color_in_texture(t_mlx_img *mlx_img, int x, int y);
 /* init_mlx_img_struct.c */
 t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y, int type);
 /* render_frame.c */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:14:57 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 12:20:55 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:19:55 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	reproduce_texture(t_game *game, int img_index)
 		x = 240;
 		while (x < 300)
 		{
-			color = (int)retrieve_color_in_texture(game->no_texture, x - 240, y - 240);
+			color = (int)get_color_in_texture(game->no_texture, x - 240, y - 240);
 			mlx_pixel_put_to_img(game->imgs_set[img_index], x, y, color);
 			x++;
 		}
@@ -123,7 +123,7 @@ void	reproduce_texture(t_game *game, int img_index)
 		x = 300;
 		while (x < 360)
 		{
-			color = (int)retrieve_color_in_texture(game->no_texture, x - 300, y - 300);
+			color = (int)get_color_in_texture(game->no_texture, x - 300, y - 300);
 			mlx_pixel_put_to_img(game->imgs_set[img_index], x, y, color);
 			x++;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_mlx_img_struct.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:09:23 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 12:09:52 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:11:22 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y, int type)
 	if (type == NEW_IMG)
 	{
 		new->img = mlx_new_image(mlx, x, y);
-		new->addr = mlx_get_data_addr(new->img, &new->bits_per_pixel,
-			&new->line_length, &new->endian);
+		new->addr = mlx_get_data_addr(new->img, &new->bits_per_pixel, \
+		&new->line_length, &new->endian);
 	}
 	else
 		new->img = NULL;

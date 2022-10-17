@@ -6,25 +6,27 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:47:08 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 21:04:03 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 21:19:55 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
 /* Get the color of the pixel to draw */
-static int	get_color(t_game *game, t_raysult res, int y)
+static int	get_color(t_game *game, t_raysult res, int y, double *walls)
 {
 	int	cur_color;
+	int	offsety;
 
+	offsety = (y - walls[0]) / walls[1] * 64;
 	if (res.wall_orientation == 'N')
-		cur_color = retrieve_color_in_texture(game->no_texture, res.offset, y);
+		cur_color = get_color_in_texture(game->no_texture, res.offset, offsety);
 	else if (res.wall_orientation == 'S')
-		cur_color = retrieve_color_in_texture(game->so_texture, res.offset, y);
+		cur_color = get_color_in_texture(game->so_texture, res.offset, offsety);
 	else if (res.wall_orientation == 'E')
-		cur_color = retrieve_color_in_texture(game->ea_texture, res.offset, y);
+		cur_color = get_color_in_texture(game->ea_texture, res.offset, offsety);
 	else
-		cur_color = retrieve_color_in_texture(game->we_texture, res.offset, y);
+		cur_color = get_color_in_texture(game->we_texture, res.offset, offsety);
 	return (cur_color);
 }
 
@@ -38,8 +40,7 @@ static void	calc_walls(t_game *game, t_raysult res, double *height, double *y)
 /* Render walls from the map with the raycasting algorithm */
 void	render_walls(t_game *game, int idx, double start_ang)
 {
-	double		wall_height;
-	double		wall_y;
+	double		walls[2];
 	int			y;
 	int			x;
 	t_raysult	res;
@@ -49,14 +50,14 @@ void	render_walls(t_game *game, int idx, double start_ang)
 	while (start_ang < game->ply->ang_y + (PLY_VIEW_FOV_DEG / 2))
 	{
 		send_raycast(game, start_ang, &res);
-		calc_walls(game, res, &wall_height, &wall_y);
-		y = wall_y;
+		calc_walls(game, res, &walls[1], &walls[0]);
+		y = walls[0];
 		if (y < 0)
 			y = 0;
-		while (y < game->imgs_set[idx]->height && y < wall_y + wall_height)
+		while (y < game->imgs_set[idx]->height && y < walls[0] + walls[1])
 		{
-			int perc = (y - wall_y) / wall_height * 64;
-			mlx_pixel_put_to_img(game->imgs_set[idx], x, y, get_color(game, res, perc));
+			mlx_pixel_put_to_img(game->imgs_set[idx], x, y, \
+			get_color(game, res, y, walls));
 			y++;
 		}
 		x++;
