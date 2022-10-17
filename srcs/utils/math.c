@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:09:20 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 13:19:34 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/17 05:59:52 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,14 @@ double	ceil_double(double nb)
 	if (nb - (int)nb < 0.00001)
 		tmp = (int)nb;
 	return (tmp);
+}
+
+/* Calculate the distance between 2 points */
+
+double	calc_dist(double x1, double y1, double x2, double y2)
+{
+	double	dist;
+
+	dist = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+	return (dist);
 }
