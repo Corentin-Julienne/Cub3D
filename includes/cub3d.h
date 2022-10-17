@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 03:13:26 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/17 03:35:29 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,6 @@ typedef struct s_ray
 	double				rad;
 	double				start_x;
 	double				start_y;
-	double				cur_x;
-	double				cur_y;
 	int					cur_map_x;
 	int					cur_map_y;
 	double				**found_vert;
@@ -174,7 +172,8 @@ typedef struct s_ray
 typedef struct	s_raysult
 {
 	double	dist;
-	double	offset;	
+	double	offset;
+	char	wall_orientation;
 }				t_raysult;
 
 typedef struct s_minimap
