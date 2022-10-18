@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:14:57 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 21:19:55 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/18 14:25:05 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,47 @@ void	reproduce_texture(t_game *game, int img_index)
 		}
 		y++;
 	}
+}
+
+// typedef struct s_game
+// {
+// 	t_img			**imgs_set;
+// 	t_infomap			*infomap;
+// 	void				*mlx;
+// 	int					wdw_x;
+// 	int					wdw_y;
+// 	void				*wdw;
+// 	int					col_ceil;
+// 	int					col_floor;
+// 	t_img			*no_texture;
+// 	t_img			*so_texture;
+// 	t_img			*ea_texture;
+// 	t_img			*we_texture;
+// 	bool				*keys;
+// 	bool				run;
+// 	struct s_player		*ply;
+// 	struct s_minimap	*minimap;
+// }				t_game;
+
+
+void	print_ptns(t_game *game)
+{
+	printf("game = %p\n", game);
+	printf("infomap = %p\n", game->infomap);
+	printf("mlx ptn = %p\n", game->mlx);
+	printf("wdw ptn = %p\n", game->wdw);
+	printf("N txt = %p\n", game->no_texture);
+	printf("S txt = %p\n", game->so_texture);
+	printf("E txt = %p\n", game->ea_texture);
+	printf("W txt = %p\n", game->we_texture);
+	printf("bools = %p\n", game->keys);
+	printf("img set = %p\n", game->imgs_set);	
+}
+
+void	track_the_leaks(t_game *game)
+{
+	mlx_destroy_window(game->mlx, game->wdw);
+	free_game(&game);
+	system("leaks Cub3D");
+	exit(EXIT_SUCCESS);
 }

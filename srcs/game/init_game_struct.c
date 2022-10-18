@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 11:37:30 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/18 14:33:02 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static bool	*get_key_bools(void)
 
 static void	get_texts_north_south(t_game *game, t_infomap *infomap)
 {
-	game->no_texture = init_mlx_img_struct(game->mlx, CUBES_SIZE,
+	game->no_texture = init_img_struct(game->mlx, CUBES_SIZE,
 			CUBES_SIZE, IMPORT);
 	if (!game->no_texture)
 		err_msg_and_free_all(ERR_MALLOC, game);
@@ -46,7 +46,7 @@ static void	get_texts_north_south(t_game *game, t_infomap *infomap)
 	game->no_texture->addr = mlx_get_data_addr(game->no_texture->img,
 			&game->no_texture->bits_per_pixel, &game->no_texture->line_length,
 			&game->no_texture->endian);
-	game->so_texture = init_mlx_img_struct(game->mlx, CUBES_SIZE,
+	game->so_texture = init_img_struct(game->mlx, CUBES_SIZE,
 			CUBES_SIZE, IMPORT);
 	if (!game->so_texture)
 		err_msg_and_free_all(ERR_MALLOC, game);
@@ -62,7 +62,7 @@ static void	get_texts_north_south(t_game *game, t_infomap *infomap)
 
 static void	get_texts_west_east(t_game *game, t_infomap *infomap)
 {
-	game->we_texture = init_mlx_img_struct(game->mlx, CUBES_SIZE,
+	game->we_texture = init_img_struct(game->mlx, CUBES_SIZE,
 			CUBES_SIZE, IMPORT);
 	if (!game->we_texture)
 		err_msg_and_free_all(ERR_MALLOC, game);
@@ -74,7 +74,7 @@ static void	get_texts_west_east(t_game *game, t_infomap *infomap)
 	game->we_texture->addr = mlx_get_data_addr(game->we_texture->img,
 			&game->we_texture->bits_per_pixel, &game->we_texture->line_length,
 			&game->we_texture->endian);
-	game->ea_texture = init_mlx_img_struct(game->mlx, CUBES_SIZE,
+	game->ea_texture = init_img_struct(game->mlx, CUBES_SIZE,
 			CUBES_SIZE, IMPORT);
 	if (!game->ea_texture)
 		err_msg_and_free_all(ERR_MALLOC, game);
@@ -120,7 +120,7 @@ t_game	*init_game_struct(t_infomap *infomap)
 	if (!game)
 		return (NULL);
 	protect_game_struct(game);
-	game->imgs_set = (t_mlx_img **)malloc(sizeof(t_mlx_img *) * 2);
+	game->imgs_set = (t_img **)malloc(sizeof(t_img *) * 2);
 	if (!game->imgs_set)
 		err_msg_and_free_all(ERR_MALLOC, game);
 	game->imgs_set[0] = NULL;

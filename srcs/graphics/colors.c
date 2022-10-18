@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 14:09:21 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 21:20:12 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/18 14:25:05 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	get_colors(t_game *game)
 x and y are the coordinates of this point in the texture img, 
 not on the main img */
 
-int	get_color_in_texture(t_mlx_img *mlx_img, int x, int y)
+int	get_color_in_texture(t_img *mlx_img, int x, int y)
 {
 	int		color;
 	int		offset;

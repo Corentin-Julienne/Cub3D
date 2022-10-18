@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 16:31:02 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 11:38:23 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/18 14:35:25 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 /* free the set of two imgs and free it, then set it to NULL */
 
-static void	free_set_of_imgs(t_mlx_img ***imgs_set)
+static void	free_set_of_imgs(t_img ***imgs_set)
 {
-	t_mlx_img		**tmp;
+	t_img		**tmp;
 
 	tmp = *imgs_set;
 	if (tmp == NULL)
 		return ;
 	if (tmp[0])
 		clear_mlx_img_struct(&tmp[0]);
-	if (*imgs_set[1])
+	if (tmp[1])
 		clear_mlx_img_struct(&tmp[1]);
 	free(*imgs_set);
 	*imgs_set = NULL;
@@ -31,11 +31,15 @@ static void	free_set_of_imgs(t_mlx_img ***imgs_set)
 
 /* free a given texture and suppress the img within it */
 
-static void	free_texture(t_mlx_img **text, t_game *game)
+static void	free_texture(t_img **text, t_game *game)
 {
-	if (*text == NULL)
+	t_img			*tmp;
+
+	tmp = *text;
+	if (tmp == NULL)
 		return ;
-	mlx_destroy_image(game->mlx, (*text)->img);
+	game->wdw_y++;
+	mlx_destroy_image(game->mlx, tmp->img);
 	free(*text);
 	*text = NULL;
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_mlx_img_struct.c                              :+:      :+:    :+:   */
+/*   init_img_struct.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,16 +12,16 @@
 
 #include "../../includes/cub3d.h"
 
-/* init_mlx_img_struct create a new image for the minilibx,
+/* init_img_struct create a new image for the minilibx,
 allocated space for the struct, then creating a window attached to 
 the minilibx, then getting relevant data in order to be able to 
 draw pixels with the custom function mlx_pixel_put_to_img */
 
-t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y, int type)
+t_img	*init_img_struct(void *mlx, int x, int y, int type)
 {
-	t_mlx_img		*new;
+	t_img		*new;
 
-	new = (t_mlx_img *)malloc(sizeof(t_mlx_img));
+	new = (t_img *)malloc(sizeof(t_img));
 	if (!new)
 		return (NULL);
 	if (type == NEW_IMG)

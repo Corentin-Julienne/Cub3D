@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/18 11:57:19 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/18 14:25:05 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ typedef struct s_infomap
 	int					direction;
 }				t_infomap;
 
-typedef struct s_mlx_img
+typedef struct s_img
 {
 	void				*img;
 	void				*mlx;
@@ -142,7 +142,7 @@ typedef struct s_mlx_img
 	int					endian;
 	int					width;
 	int					height;
-}				t_mlx_img;
+}				t_img;
 
 typedef struct s_player
 {
@@ -193,7 +193,7 @@ typedef struct s_minimap
 
 typedef struct s_game
 {
-	t_mlx_img			**imgs_set;
+	t_img				**imgs_set;
 	t_infomap			*infomap;
 	void				*mlx;
 	int					wdw_x;
@@ -201,10 +201,10 @@ typedef struct s_game
 	void				*wdw;
 	int					col_ceil;
 	int					col_floor;
-	t_mlx_img			*no_texture;
-	t_mlx_img			*so_texture;
-	t_mlx_img			*ea_texture;
-	t_mlx_img			*we_texture;
+	t_img				*no_texture;
+	t_img				*so_texture;
+	t_img				*ea_texture;
+	t_img				*we_texture;
 	bool				*keys;
 	bool				run;
 	struct s_player		*ply;
@@ -248,7 +248,7 @@ void		free_ray_intersections(t_ray *ray);
 void		free_and_nullify(void **to_free);
 void		free_problem_str_arr(char ***split, int i);
 void		free_split(char ***split);
-void		clear_mlx_img_struct(t_mlx_img **mlx_img);
+void		clear_mlx_img_struct(t_img **mlx_img);
 
 /* GAME */
 
@@ -266,10 +266,10 @@ int			update_player_data(t_game *game, t_player *ply);
 /* colors.c */
 void		get_colors(t_game *game);
 /* draw.c */
-void		mlx_pixel_put_to_img(t_mlx_img *mlx_img, int x, int y, int color);
-int			get_color_in_texture(t_mlx_img *mlx_img, int x, int y);
-/* init_mlx_img_struct.c */
-t_mlx_img	*init_mlx_img_struct(void *mlx, int x, int y, int type);
+void		mlx_pixel_put_to_img(t_img *mlx_img, int x, int y, int color);
+int			get_color_in_texture(t_img *mlx_img, int x, int y);
+/* init_img_struct.c */
+t_img	*init_img_struct(void *mlx, int x, int y, int type);
 /* render_frame.c */
 int			render_frame(t_game *game);
 /* render_algo.c */
@@ -295,6 +295,9 @@ void		err_msg_and_free_all(char *spec, t_game *game);
 /* math.c */
 double		ceil_double(double nb);
 double		calc_dist(double x1, double y1, double x2, double y2);
+/* parsing_tools.c */
+void		convert_to_intarr(t_infomap *infomap,
+		char *line, char **color_arr);
 
 /* !!! DEBUG FUNCS : DESTROY BEFORE PUSHING TO VOGSPHERE !!! */
 
@@ -306,5 +309,7 @@ void		print_cub_file(t_infomap *infomap);
 void		print_split(char **split);
 void		put_xpm_img_to_test(t_game *game);
 void		reproduce_texture(t_game *game, int img_index);
+void		print_ptns(t_game *game);
+void		track_the_leaks(t_game *game);
 
 #endif
