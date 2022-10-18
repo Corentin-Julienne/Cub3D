@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 06:56:01 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/18 21:36:50 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	get_char_map_pos(char **map, char c, int ret_x)
 }
 
 /* Initialize the player at the correct position and angle */
-static void	init_player_struct(t_game *game, int right_x, int top_y)
+static void	init_player_struct(t_game *game, int right_x, int top_y, int ang)
 {
 	t_player	*player;
 
@@ -48,7 +48,7 @@ static void	init_player_struct(t_game *game, int right_x, int top_y)
 		err_msg_and_free_all(ERR_MALLOC, game);
 	player->pos_x = (double)(right_x * CUBES_SIZE + CUBES_SIZE / 2);
 	player->pos_y = (double)(top_y * CUBES_SIZE + CUBES_SIZE / 2);
-	player->ang_y = (double)0; // TODO: Change this angle
+	player->ang_y = (double)ang; // TODO: Change this angle
 	player->dist_from_proj = (double)((game->wdw_x / 2)
 			/ tanf((PLY_VIEW_FOV_DEG / 2) * M_PI / 180));
 	game->ply = player;
@@ -59,8 +59,23 @@ void	init_player(t_game *game)
 {
 	int			right_x;
 	int			top_y;
+	int			i;
+	char		chars[4];
 
-	right_x = get_char_map_pos(game->infomap->map, 'N', 1);
-	top_y = get_char_map_pos(game->infomap->map, 'N', 0);
-	init_player_struct(game, right_x, top_y);
+	chars[0] = 'W';
+	chars[1] = 'N';
+	chars[2] = 'E';
+	chars[3] = 'S';
+	i = 0;
+	while (i < 4)
+	{
+		right_x = get_char_map_pos(game->infomap->map, chars[i], 1);
+		top_y = get_char_map_pos(game->infomap->map, chars[i], 0);
+		if (right_x != -1 && top_y != -1)
+		{
+			init_player_struct(game, right_x, top_y, i * 90);
+			return ;
+		}
+		i++;
+	}
 }
