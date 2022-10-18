@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 13:52:21 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/15 14:41:39 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/18 14:32:33 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	main(int argc, char **argv)
 	t_infomap			*infomap;
 	t_game				*game;
 
-	//atexit(leaks_killing); // debug functions, kill after use
 	if (argc != 2)
 		print_err_msg(ERR_NB_ARGS);
 	infomap = (t_infomap *)malloc(sizeof(t_infomap));

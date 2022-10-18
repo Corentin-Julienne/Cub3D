@@ -6,7 +6,7 @@
 /*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 12:48:39 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/13 13:27:52 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:37:19 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,31 @@
 of north, south, east and west walls. In case of error in format or 
 duplicated param it triggers a relevant error message. Otherwise,
 it store the differents paths in map for forther usage */
+
+static int	store_card_points(t_infomap *infomap, char *path, char *cpy)
+{
+	if (!ft_strncmp("NO ", cpy, 3) && !infomap->no_text)
+	{
+		infomap->no_text = path;
+		return (0);
+	}
+	else if (!ft_strncmp("SO ", cpy, 3) && !infomap->so_text)
+	{
+		infomap->so_text = path;
+		return (0);
+	}
+	else if (!ft_strncmp("EA ", cpy, 3) && !infomap->ea_text)
+	{
+		infomap->ea_text = path;
+		return (0);
+	}
+	else if (!ft_strncmp("WE ", cpy, 3) && !infomap->we_text)
+	{
+		infomap->we_text = path;
+		return (0);
+	}
+	return (1);
+}
 
 static void	parse_card_points(t_infomap *infomap, char *line)
 {
@@ -30,71 +55,15 @@ static void	parse_card_points(t_infomap *infomap, char *line)
 	if (!path)
 		err_msg_and_free_map(ERR_MALLOC, infomap);
 	if (ft_strchr(path, ' ') || ft_strchr(path, '	'))
+	{
+		free(path);
 		err_msg_and_free_map(ERR_PARAM_FORMAT, infomap);
-	if (!ft_strncmp("NO ", cpy, 3) && !infomap->no_text)
-		infomap->no_text = path;
-	else if (!ft_strncmp("SO ", cpy, 3) && !infomap->so_text)
-		infomap->so_text = path;
-	else if (!ft_strncmp("EA ", cpy, 3) && !infomap->ea_text)
-		infomap->ea_text = path;
-	else if (!ft_strncmp("WE ", cpy, 3) && !infomap->we_text)
-		infomap->we_text = path;
-	else
-		err_msg_and_free_map(ERR_DUP_PARAM, infomap);
-}
-
-/* store_intarr_to_struct store the int* containing RGB info
-for ceiling or floor to the relevant map category.
-If information is duplicated, triggers an error msg */
-
-static void	store_intarr_to_struct(t_infomap *infomap, char *line,
-				int *colors, char **color_arr)
-{
-	if (!ft_strncmp("C ", line, 2) && infomap->ceil_col == NULL)
-		infomap->ceil_col = colors;
-	else if (!ft_strncmp("F ", line, 2) && infomap->floor_col == NULL)
-		infomap->floor_col = colors;
-	else
+	}
+	if (store_card_points(infomap, path, cpy) == 1)
 	{
-		free_split(&color_arr);
-		free(colors);
+		free(path);
 		err_msg_and_free_map(ERR_DUP_PARAM, infomap);
 	}
-	free_split(&color_arr);
-}
-
-/* convert_to_intarr convert a char** to an int[3] which
-contains colors for ceiling or floor in a RGB format
-trigger an err msg if the format is out of range 0 - 255 */
-
-static void	convert_to_intarr(t_infomap *infomap, char *line,
-				char **color_arr)
-{
-	int		*colors;
-	int		i;
-
-	colors = (int *)malloc(sizeof(int) * 3);
-	if (!colors)
-		err_msg_and_free_map(ERR_MALLOC, infomap);
-	i = 0;
-	while (i < 3)
-	{
-		if (ft_strlen(color_arr[i]) > 3)
-		{
-			free_split(&color_arr);
-			free(colors);
-			err_msg_and_free_map(ERR_COLOR_RANGE, infomap);
-		}
-		colors[i] = ft_atoi(color_arr[i]);
-		if (colors[i] > 255 || colors[i] < 0)
-		{
-			free_split(&color_arr);
-			free(colors);
-			err_msg_and_free_map(ERR_COLOR_RANGE, infomap);
-		}
-		i++;
-	}
-	store_intarr_to_struct(infomap, line, colors, color_arr);
 }
 
 /* parse_up_and_down retrieve info for colors of ceiling and floor 

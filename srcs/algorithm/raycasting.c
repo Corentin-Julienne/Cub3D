@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:46:28 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 06:49:07 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/18 11:12:20 by cjulienn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
 /* Transform the position we got into a map position depending on the angle */
-void	calc_map(t_ray *ray, double x, double y, double is_vert)
+static void	calc_map(t_ray *ray, double x, double y, double is_vert)
 {
 	int	pos_x;
 	int	pos_y;
@@ -25,16 +25,13 @@ void	calc_map(t_ray *ray, double x, double y, double is_vert)
 	else if (!is_vert && ray->ang > 0 && ray->ang < 180)
 		pos_y--;
 	if (pos_x < 0 || pos_x > ray->size_x || pos_y < 0 || pos_y > ray->size_y)
-	{
-		printf("The ray has been out of the map, unexpected problem, abort!\n");
-		exit(0); // TODO: Change this
-	}
+		free_ray_when_problem(ray, ERR_RAY);
 	ray->cur_map_x = pos_x;
 	ray->cur_map_y = pos_y;
 }
 
 /* Initialize the ray structure correctly before doing anything */
-void	init_raycast(t_game *game, t_ray *ray, double ray_ang, int *i)
+static void	init_raycast(t_game *game, t_ray *ray, double ray_ang, int *i)
 {
 	*i = 0;
 	ray->map = game->infomap->map;
@@ -49,11 +46,12 @@ void	init_raycast(t_game *game, t_ray *ray, double ray_ang, int *i)
 	if (ray->ang < 0)
 		ray->ang += 360;
 	ray->rad = (ray_ang * M_PI) / 180;
+	ray->game = game;
 }
 
 /* Get the wall orientation depending on the player position, the ray
 final position and the ray angle */
-void	calc_wall_orientation(t_ray *ray, t_raysult *res, int i)
+static void	calc_wall_orientation(t_ray *ray, t_raysult *res, int i)
 {
 	if (ray->order[i][2] == 0)
 	{
