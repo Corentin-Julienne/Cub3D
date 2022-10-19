@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:33:09 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/18 22:16:32 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/19 13:02:35 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,5 @@ void	init_player(t_game *game)
 		}
 		i++;
 	}
+	return (err_msg_and_free_all(ERR_PARAM_NB, game));
 }
