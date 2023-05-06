@@ -27,5 +27,3 @@ To destroy the executable and obj files, use ```make fclean```. To only destroy 
 ## ✅ Validation
 
 The project has been validated with a final mark of 100/100. 
-
-[add illustration there]
