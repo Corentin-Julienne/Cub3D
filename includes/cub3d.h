@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:28:01 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/18 21:22:51 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/21 10:09:10 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ and/or uncorrectly formated infos\n"
 # define ERR_MLX			"Mlx init failure\n"
 /* problem with ray calculation */
 # define ERR_RAY  			"The ray has been out of the map\n"
+/* problem with unexistant texture path */
+# define ERR_TXT_PATH		"Texture is not in .xpm format or invalid path\n"
 
 /* MACROS FOR WINDOW SIZE */
 
@@ -104,9 +106,7 @@ and/or uncorrectly formated infos\n"
 
 /* MACROS FOR GAME SETTINGS */
 
-# define WALL_HEIGHT		64
 # define CUBES_SIZE			64
-# define PLY_VIEW_HEIGHT	32
 # define PLY_VIEW_FOV_DEG	60
 
 /* MACROS FOR IMG CREATION */
@@ -217,6 +217,7 @@ void		send_raycast(t_game *game, double ray_ang, t_raysult *res);
 /* intersections.c */
 void		find_vert_inter(t_ray *ray);
 void		find_horiz_inter(t_ray *ray);
+void		calc_wall_orientation(t_ray *ray, t_raysult *res, int i);
 /* filter.c */
 void		create_inter_array(t_ray *ray);
 /* allocationc.c */
@@ -268,11 +269,11 @@ void		get_colors(t_game *game);
 void		mlx_pixel_put_to_img(t_img *mlx_img, int x, int y, int color);
 int			get_color_in_texture(t_img *mlx_img, int x, int y);
 /* init_img_struct.c */
-t_img	*init_img_struct(void *mlx, int x, int y, int type);
+t_img		*init_img_struct(void *mlx, int x, int y, int type);
 /* render_frame.c */
 int			render_frame(t_game *game);
 /* render_algo.c */
-void		render_walls(t_game *game, int img_index, double start_ang);
+void		render_walls(t_game *game, int img_index, double start_ang, int x);
 
 /* PARSING */
 
@@ -295,20 +296,11 @@ void		err_msg_and_free_all(char *spec, t_game *game);
 double		ceil_double(double nb);
 double		calc_dist(double x1, double y1, double x2, double y2);
 /* parsing_tools.c */
+int			is_texture_path_valid(char *path);
 void		convert_to_intarr(t_infomap *infomap,
-		char *line, char **color_arr);
-
-/* !!! DEBUG FUNCS : DESTROY BEFORE PUSHING TO VOGSPHERE !!! */
-
-void		print_infomap_infos(t_infomap *infomap);
-void		print_infos(t_infomap *infomap);
-void		print_oneline(t_infomap *infomap);
-void		leaks_killing(void);
-void		print_cub_file(t_infomap *infomap);
-void		print_split(char **split);
-void		put_xpm_img_to_test(t_game *game);
-void		reproduce_texture(t_game *game, int img_index);
-void		print_ptns(t_game *game);
-void		track_the_leaks(t_game *game);
+				char *line, char **color_arr);
+/* textures.c */
+void		get_texts_north_south(t_game *game, t_infomap *infomap);
+void		get_texts_west_east(t_game *game, t_infomap *infomap);
 
 #endif

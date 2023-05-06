@@ -6,7 +6,7 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:06:08 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/17 06:55:17 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/21 09:34:56 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,31 @@ static int	is_data_updated(t_player *ply, double prev_x,
 	return (1);
 }
 
-/* If this is out of the map, we put the player back to his previous position */
-
-static void	correct_pos(t_game *game, t_player *ply,
-	double prev_pos_x, double prev_pos_y)
+/* Check if there is a wall near the player */
+static int	wall_near_ply(t_game *game, t_player *ply)
 {
-	if (game->infomap->map[(int)ply->pos_y
-			/ CUBES_SIZE][(int)ply->pos_x / CUBES_SIZE] == '1')
+	int		x;
+	int		y;
+
+	if (ply->pos_x <= 64 && ply->pos_y <= 64 && ply->pos_x >= (game->\
+	infomap->size_x - 1) * 64 && ply->pos_y >= (game->infomap->size_y - 1) * 64)
+		return (1);
+	y = 0;
+	while (y < game->infomap->size_y)
 	{
-		ply->pos_x = prev_pos_x;
-		ply->pos_y = prev_pos_y;
+		x = 0;
+		while (x < game->infomap->size_x)
+		{
+			if (game->infomap->map[y][x] == '1' && (ply->pos_x >= ((double)(x * \
+			CUBES_SIZE)) - 5 && ply->pos_y >= ((double)(y * CUBES_SIZE)) - 5 \
+			&& ply->pos_x <= ((double)(x * CUBES_SIZE)) + CUBES_SIZE + 5 && \
+			ply->pos_y <= ((double)(y * CUBES_SIZE)) + CUBES_SIZE + 5))
+				return (1);
+			x++;
+		}
+		y++;
 	}
+	return (0);
 }
 
 /* update pos (x, y ) of the player when WASD key are pressed */
@@ -41,7 +55,7 @@ static void	update_coord(t_game *game, t_player *ply)
 {
 	int	multiplier;
 
-	multiplier = 3 + 3 * game->keys[6];
+	multiplier = 4 + 4 * game->keys[6];
 	if (game->keys[0] == true)
 	{
 		ply->pos_x += cos(ply->ang_y * M_PI / 180) * multiplier;
@@ -82,6 +96,10 @@ int	update_player_data(t_game *game, t_player *ply)
 		ply->ang_y -= 2;
 	if (game->keys[5])
 		ply->ang_y += 2;
-	correct_pos(game, ply, prev_pos_x, prev_pos_y);
+	if (wall_near_ply(game, ply))
+	{
+		ply->pos_x = prev_pos_x;
+		ply->pos_y = prev_pos_y;
+	}
 	return (is_data_updated(ply, prev_pos_x, prev_pos_y, prev_ang));
 }

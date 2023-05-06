@@ -12,6 +12,24 @@
 
 #include "../../includes/cub3d.h"
 
+/* check if the texture is in xpm format and if the path is valid */
+
+int	is_texture_path_valid(char *path)
+{
+	int		valid;
+	int		len;
+
+	valid = open(path, O_RDONLY);
+	if (valid == -1)
+		return (0);
+	else
+		close(valid);
+	len = ft_strlen(path);
+	if (len < 5 || ft_strncmp(path + (len - 4), ".xpm", 4) != 0)
+		return (0);
+	return (1);
+}
+
 /* store_intarr_to_struct store the int* containing RGB info
 for ceiling or floor to the relevant map category.
 If information is duplicated, triggers an error msg */

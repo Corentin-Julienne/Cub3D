@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_frame.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:07:05 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/18 14:25:05 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/21 09:37:13 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	populate_img(t_game *game)
 	game->imgs_set[img_index] = init_img_struct(game->mlx,
 			WDW_WIDTH, WDW_HEIGHT, NEW_IMG);
 	render_landscape(game, img_index);
-	render_walls(game, img_index, 0);
+	render_walls(game, img_index, 0, 0);
 	render_minimap(game->minimap, game, img_index);
 	render_crosshair(game, img_index);
 	if (img_index == 0)
@@ -106,7 +106,7 @@ int	render_frame(t_game *game)
 		game->imgs_set[0] = init_img_struct(game->mlx,
 				WDW_HEIGHT, WDW_HEIGHT, NEW_IMG);
 		render_landscape(game, 0);
-		render_walls(game, 0, 0);
+		render_walls(game, 0, 0, 0);
 		render_minimap(game->minimap, game, 0);
 		render_crosshair(game, 0);
 		mlx_put_image_to_window(game->mlx, game->wdw,

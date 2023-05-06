@@ -6,11 +6,34 @@
 /*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 06:42:04 by mpeharpr          #+#    #+#             */
-/*   Updated: 2022/10/17 06:54:05 by mpeharpr         ###   ########.fr       */
+/*   Updated: 2022/10/21 09:43:21 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+/* Get the wall orientation depending on the player position, the ray
+final position and the ray angle */
+void	calc_wall_orientation(t_ray *ray, t_raysult *res, int i)
+{
+	if (ray->order[i][2] == 0)
+	{
+		res->offset = ray->order[i][0] - ray->cur_map_x * 64;
+		if (ray->order[i][1] - ray->start_y < 0)
+			res->wall_orientation = 'N';
+		else
+			res->wall_orientation = 'S';
+	}
+	else
+	{
+		res->offset = ray->order[i][1] - ray->cur_map_y * 64;
+		if (ray->order[i][0] - ray->start_x < 0)
+			res->wall_orientation = 'W';
+		else
+			res->wall_orientation = 'E';
+	}
+	res->offset = fmod(res->offset, 64);
+}
 
 /* Calculate the actual intersection for vertical lines */
 static void	calc_vert(t_ray *ray, double *dist, double *x, double *y)

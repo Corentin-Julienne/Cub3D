@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:46:28 by cjulienn          #+#    #+#             */
-/*   Updated: 2022/10/18 11:12:20 by cjulienn         ###   ########.fr       */
+/*   Updated: 2022/10/21 10:01:55 by mpeharpr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ static void	calc_map(t_ray *ray, double x, double y, double is_vert)
 		pos_x--;
 	else if (!is_vert && ray->ang > 0 && ray->ang < 180)
 		pos_y--;
-	if (pos_x < 0 || pos_x > ray->size_x || pos_y < 0 || pos_y > ray->size_y)
-		free_ray_when_problem(ray, ERR_RAY);
 	ray->cur_map_x = pos_x;
 	ray->cur_map_y = pos_y;
 }
@@ -49,27 +47,29 @@ static void	init_raycast(t_game *game, t_ray *ray, double ray_ang, int *i)
 	ray->game = game;
 }
 
-/* Get the wall orientation depending on the player position, the ray
-final position and the ray angle */
-static void	calc_wall_orientation(t_ray *ray, t_raysult *res, int i)
+/* Called for every ray to check and break if the ray is invalid */
+static int	is_invalid_ray(t_game *game, t_ray *ray, t_raysult *res)
 {
-	if (ray->order[i][2] == 0)
+	if (ray->cur_map_y >= game->infomap->size_y || ray->cur_map_y < 0 || \
+	ray->cur_map_x >= game->infomap->size_x || ray->cur_map_y < 0)
 	{
-		res->offset = ray->order[i][0] - ray->cur_map_x * 64;
-		if (ray->order[i][1] - ray->start_y < 0)
-			res->wall_orientation = 'N';
-		else
-			res->wall_orientation = 'S';
+		res->dist = -1.0;
+		res->wall_orientation = 'N';
+		res->offset = 0;
+		ray->cur_map_x = 0;
+		ray->cur_map_y = 0;
+		return (1);
 	}
-	else
-	{
-		res->offset = ray->order[i][1] - ray->cur_map_y * 64;
-		if (ray->order[i][0] - ray->start_x < 0)
-			res->wall_orientation = 'W';
-		else
-			res->wall_orientation = 'E';
-	}
-	res->offset = fmod(res->offset, 64);
+	return (0);
+}
+
+/* Norminette bypass to start a raycast */
+static void	start_ray(t_ray *ray)
+{
+	alloc_ray_intersections(ray);
+	find_vert_inter(ray);
+	find_horiz_inter(ray);
+	create_inter_array(ray);
 }
 
 /* Send a ray from the player position to a specific angle of the map
@@ -81,15 +81,14 @@ void	send_raycast(t_game *game, double ray_ang, t_raysult *res)
 	int		i;
 
 	init_raycast(game, &ray, ray_ang, &i);
-	alloc_ray_intersections(&ray);
-	find_vert_inter(&ray);
-	find_horiz_inter(&ray);
-	create_inter_array(&ray);
+	start_ray(&ray);
 	while (i < ray.size_x + ray.size_y)
 	{
 		if (ray.order[i][0] != -1.0 && ray.order[i][1] != -1.0)
 		{
 			calc_map(&ray, ray.order[i][0], ray.order[i][1], ray.order[i][2]);
+			if (is_invalid_ray(game, &ray, res))
+				break ;
 			if (ray.map[ray.cur_map_y][ray.cur_map_x] == '1')
 			{
 				calc_wall_orientation(&ray, res, i);

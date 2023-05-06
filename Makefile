@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpeharpr <mpeharpr@student.42.fr>          +#+  +:+       +#+         #
+#    By: cjulienn <cjulienn@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 16:19:40 by cjulienn          #+#    #+#              #
-#    Updated: 2022/10/14 01:19:02 by mpeharpr         ###   ########.fr        #
+#    Updated: 2023/05/06 20:49:05 by cjulienn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ INCLUDES := -I includes
 
 SRC_DIR := srcs
 OBJ_DIR := objs
-SUB_DIRS := algorithm bonus game free graphics main parsing utils debug # update this when adding new subdir [kill debug]
+SUB_DIRS := algorithm bonus game free graphics main parsing utils
 SOURCEDIRS := $(foreach dir, $(SUB_DIRS), $(addprefix $(SRC_DIR)/, $(dir)))
 
 SRC_FILES := $(foreach dir,$(SOURCEDIRS),$(wildcard $(dir)/*.c))
@@ -69,21 +69,22 @@ VPATH = $(SOURCEDIRS)
 
 all: $(NAME)
 
-$(NAME): $(MINILIBX) $(LIB) $(OBJ_FILES)
+$(NAME): $(OBJ_FILES) $(LIB) $(MINILIBX)
 	@printf "$(YELLOW)Linking Cub3D...\n\n$(END)"
-	$(CC) $(CFLAGS) $(OBJ_FILES) -L$(MINILIBX_DIR) -l$(MINILIBX_LINK) $(COMPILE_MLX_ARGS) -L$(LIB_DIR) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ_FILES) -L$(MINILIBX_DIR) -l$(MINILIBX_LINK) $(COMPILE_MLX_ARGS) $(LIB) -o $(NAME)
 	@printf "\n$(GREEN)Cub3D compiled.\n$(END)$(GREEN)Simply type$(END) $(WHITE)./Cub3D $(END)"
 	@printf "$(GREEN)with a *.cub map as argument to execute the program. \n\n$(END)"
 
 $(OBJ_DIR)/%.o : %.c
 	@$(MKDIR) $(OBJ_DIR)
 	@printf "$(YELLOW)Compiling object:\n$(END)"
-	@$(CC) $(CFLAGS) $(INCLUDES) -Imlx -c -o $@ $<      #line is different on Linux
+	@$(CC) $(CFLAGS) -Imlx $(INCLUDES) -c -o $@ $<
 	@printf "$(GREEN)Object $(UNDERLINE)$(WHITE)$(notdir $@)$(END)$(GREEN) successfully compiled\n\n$(END)"
 
 $(LIB):
 	@printf "$(YELLOW)Compiling libft.a...\n$(END)"
 	@make --no-print-directory $(LIB) -C $(LIB_DIR)
+	@mv $(LIB_DIR)/$(LIB) .
 	@printf "$(GREEN)libft.a compiled\n\n$(END)"
 
 $(MINILIBX):
@@ -102,7 +103,7 @@ clean:
 fclean: clean
 	@printf "$(YELLOW)Removing objects, libft, MiniLibX and Cub3D executable...\n$(END)"
 	$(RM) $(NAME)
-	$(RM) $(LIB_DIR)/$(LIB)
+	$(RM) $(LIB)
 	@rm -f ./libmlx.dylib
 	@printf "$(GREEN)All clean!\n\n$(END)"
 
